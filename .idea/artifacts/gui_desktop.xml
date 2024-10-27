@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="gui-desktop">
+    <output-path>$PROJECT_DIR$/gui/build/libs</output-path>
+    <root id="archive" name="gui-desktop.jar" />
+  </artifact>
+</component>
