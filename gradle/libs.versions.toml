@@ -10,7 +10,7 @@ kotlin = "2.0.21"
 ktlint = "12.0.3"
 mordant = "2.5.0"
 okio = "3.7.0"
-umd-lib = "24.10.0"
+umd-lib = "24.10.1"
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

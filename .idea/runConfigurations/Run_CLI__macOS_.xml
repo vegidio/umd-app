@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run CLI (macOS)" type="KonanRunConfiguration" factoryName="KonanApp" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$/cli" PASS_PARENT_ENVS_2="true">
+    <executable TARGET="macos_arm64" TARGET_NAME="macosArm64" EXECUTABLE_NAME="umd" PROJECT_PREFIX=":cli:" IS_TEST="false">
+      <variant NAME="Debug" GRADLE_TASK=":cli:linkDebugExecutableMacosArm64" FILE="$PROJECT_DIR$/cli/build/bin/macosArm64/debugExecutable/umd.kexe" WORKING_DIR="$PROJECT_DIR$/cli" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+      <variant NAME="Release" GRADLE_TASK=":cli:linkReleaseExecutableMacosArm64" FILE="$PROJECT_DIR$/cli/build/bin/macosArm64/releaseExecutable/umd.kexe" WORKING_DIR="$PROJECT_DIR$/cli" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <variant NAME="Debug" GRADLE_TASK=":cli:linkDebugExecutableMacosArm64" FILE="$PROJECT_DIR$/cli/build/bin/macosArm64/debugExecutable/umd.kexe" WORKING_DIR="$PROJECT_DIR$/cli" PROGRAM_PARAMS="">
+      <envs />
+    </variant>
+    <method v="2">
+      <option name="com.jetbrains.mpp.KonanBuildTask" enabled="true" />
+    </method>
+  </configuration>
+</component>
