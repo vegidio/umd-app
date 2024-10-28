@@ -17,7 +17,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Restore the cache
@@ -55,7 +55,7 @@ jobs:
           zip -j -9 builds/umd_macos_amd64.zip cli/build/bin/macosX64/releaseExecutable/umd
 
       - name: Save artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: binaries
           path: ./builds/
@@ -73,7 +73,7 @@ jobs:
           fetch-depth: 0
 
       - name: Fetch artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: binaries
 
