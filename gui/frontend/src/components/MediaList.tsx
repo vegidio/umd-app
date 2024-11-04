@@ -1,8 +1,11 @@
 import React from 'react'
 import { DataGridPremium, GridColDef, GridRowsProp } from '@mui/x-data-grid-premium'
+import { useAppStore } from '../store'
 import './MediaList.css'
 
 export const MediaList = () => {
+    const media = useAppStore(state => state.media)
+
     const columns: GridColDef[] = [
         { field: 'url', headerName: 'URL', flex: 0.6 },
         { field: 'extension', headerName: 'Extension', flex: 0.1 },
@@ -10,26 +13,9 @@ export const MediaList = () => {
         { field: 'metadata', headerName: 'Metadata', flex: 0.1 }
     ]
 
-    const rows: GridRowsProp = [
-        { id: 1, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 2, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 1, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 2, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 1, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 2, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 1, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 2, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 1, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 2, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' },
-        { id: 3, url: 'Hello', extension: 'mp4', type: 'video', metadata: '...' }
-    ]
+    const rows: GridRowsProp = media.map((m, id) => {
+        return { id, url: m.Url, extension: m.Extension, type: m.Type, metadata: '...' }
+    })
 
     return <DataGridPremium rows={rows} columns={columns} checkboxSelection density="compact" />
 }

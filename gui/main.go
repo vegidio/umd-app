@@ -18,8 +18,8 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "Universal Media Downloader",
-		Width:  800,
-		Height: 600,
+		Width:  960,
+		Height: 720,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

@@ -18,6 +18,6 @@ export function OnQueryCompleted(arg1) {
   return window['go']['main']['App']['OnQueryCompleted'](arg1);
 }
 
-export function QueryMedia(arg1) {
-  return window['go']['main']['App']['QueryMedia'](arg1);
+export function QueryMedia(arg1, arg2) {
+  return window['go']['main']['App']['QueryMedia'](arg1, arg2);
 }

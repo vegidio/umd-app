@@ -1,8 +1,11 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Button, Stack, TextField } from '@mui/material'
+import { QueryMedia } from '../../wailsjs/go/main/App'
+import { useAppStore } from '../store'
 import './SearchBox.css'
 
 export const SearchBox = () => {
+    const store = useAppStore()
     const [url, setUrl] = useState('')
     const [limit, setLimit] = useState(99_999)
 
@@ -20,7 +23,10 @@ export const SearchBox = () => {
         setLimit(value < 1 ? 1 : value)
     }
 
-    const handleQueryClick = () => {}
+    const handleQueryClick = async () => {
+        const media = await QueryMedia(url, limit)
+        store.setMedia(media)
+    }
 
     return (
         <Stack id="search-box" direction="row" spacing="1em">

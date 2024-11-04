@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import { LicenseInfo } from '@mui/x-license'
 import App from './App'
+import Events from './Events'
 
 const container = document.getElementById('root')
 const root = createRoot(container!)
@@ -25,6 +26,7 @@ LicenseInfo.setLicenseKey(licenseKey)
 root.render(
     <React.StrictMode>
         <ThemeProvider theme={lightTheme}>
+            <Events />
             <CssBaseline />
             <App />
         </ThemeProvider>

@@ -7,7 +7,7 @@ import (
 
 var umdObj *umd.Umd
 
-func (a *App) QueryMedia(url string) []model.Media {
+func (a *App) QueryMedia(url string, limit int) []model.Media {
 	umdObj, _ = umd.New(url, nil, func(event model.Event) {
 		switch e := event.(type) {
 		case model.OnExtractorFound:
@@ -21,6 +21,6 @@ func (a *App) QueryMedia(url string) []model.Media {
 		}
 	})
 
-	resp := umdObj.QueryMedia(100, []string{"mp4"})
+	resp := umdObj.QueryMedia(limit, []string{"mp4"})
 	return resp.Media
 }

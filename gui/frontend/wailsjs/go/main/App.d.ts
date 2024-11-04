@@ -10,4 +10,4 @@ export function OnMediaQueried(arg1:number):Promise<void>;
 
 export function OnQueryCompleted(arg1:number):Promise<void>;
 
-export function QueryMedia(arg1:string):Promise<Array<model.Media>>;
+export function QueryMedia(arg1:string,arg2:number):Promise<Array<model.Media>>;

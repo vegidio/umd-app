@@ -3,7 +3,7 @@ module gui
 go 1.23.2
 
 require (
-	github.com/vegidio/umd-lib v0.0.0-20241103173500-03647cf523a5
+	github.com/vegidio/umd-lib v0.0.0-20241104222141-18f8d80989a3
 	github.com/wailsapp/wails/v2 v2.9.2
 )
 
