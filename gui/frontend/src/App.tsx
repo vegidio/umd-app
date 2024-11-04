@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack } from '@mui/material'
-import { InfoBar, MediaList, SearchBox } from './components'
+import { DownloadRow, FilterRow, InfoRow, MediaList, SearchBox } from './components'
 import './App.css'
 
 const App = () => {
@@ -8,9 +8,13 @@ const App = () => {
         <Stack id="app" spacing="1em">
             <SearchBox />
 
-            <InfoBar />
+            <InfoRow />
 
             <MediaList />
+
+            <FilterRow />
+
+            <DownloadRow />
         </Stack>
     )
 }
