@@ -1,3 +1,3 @@
-export * from './InfoBar';
-export * from './MediaList';
-export * from './SearchBox';
+export * from './InfoBar'
+export * from './MediaList'
+export * from './SearchBox'
