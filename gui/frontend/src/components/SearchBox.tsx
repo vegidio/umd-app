@@ -24,6 +24,7 @@ export const SearchBox = () => {
     }
 
     const handleQueryClick = async () => {
+        store.clear()
         const media = await QueryMedia(url, limit)
         store.setMedia(media)
     }
@@ -35,6 +36,7 @@ export const SearchBox = () => {
                 label="Enter a URL"
                 value={url}
                 size="small"
+                autoComplete="off"
                 onChange={handleUrlChange}
                 sx={{ flex: 0.7 }}
             />

@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Button, LinearProgress, Stack, Typography } from '@mui/material'
 import './DownloadRow.css'
+import { useAppStore } from '../store'
 
 export const DownloadRow = () => {
     const [progress, setProgress] = useState(50)
+
+    const selectedMedia = useAppStore(state => state.selectedMedia)
 
     const handleDownloadClick = () => {}
 
@@ -16,7 +19,12 @@ export const DownloadRow = () => {
                 </Typography>
             </Stack>
 
-            <Button id="query" variant="contained" onClick={handleDownloadClick} sx={{ flex: 0.15 }}>
+            <Button
+                id="query"
+                variant="contained"
+                disabled={selectedMedia.length === 0}
+                onClick={handleDownloadClick}
+                sx={{ flex: 0.15 }}>
                 Download
             </Button>
         </Stack>

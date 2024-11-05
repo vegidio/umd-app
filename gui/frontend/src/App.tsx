@@ -1,21 +1,25 @@
 import React from 'react'
 import { Stack } from '@mui/material'
-import { DownloadRow, FilterRow, InfoRow, MediaList, SearchBox } from './components'
+import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components'
 import './App.css'
 
 const App = () => {
     return (
-        <Stack id="app" spacing="1em">
-            <SearchBox />
+        <>
+            <Stack id="app" spacing="1em">
+                <SearchBox />
 
-            <InfoRow />
+                <InfoRow />
 
-            <MediaList />
+                <MediaList />
 
-            <FilterRow />
+                <FilterRow />
 
-            <DownloadRow />
-        </Stack>
+                <DownloadRow />
+            </Stack>
+
+            <Loading />
+        </>
     )
 }
 
