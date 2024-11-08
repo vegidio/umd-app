@@ -1,4 +1,5 @@
 export * from './DownloadRow'
+export * from './ErrorMessage'
 export * from './FilterRow'
 export * from './InfoRow'
 export * from './Loading'

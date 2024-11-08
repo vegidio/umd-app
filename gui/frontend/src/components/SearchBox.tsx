@@ -25,8 +25,14 @@ export const SearchBox = () => {
 
     const handleQueryClick = async () => {
         store.clear()
-        const media = await QueryMedia(url, limit)
-        store.setMedia(media)
+
+        try {
+            const media = await QueryMedia(url, limit)
+            store.setMedia(media)
+        } catch (e) {
+            store.showError('Error querying the media from this URL')
+            store.setIsLoading(false)
+        }
     }
 
     return (

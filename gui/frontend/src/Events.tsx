@@ -12,8 +12,8 @@ const Events = () => {
             store.setExtractorName(name)
         })
 
-        const unbindOnExtractorTypeFound = EventsOn('OnExtractorTypeFound', (_: string, name: string) =>
-            store.setExtractorType(name)
+        const unbindOnExtractorTypeFound = EventsOn('OnExtractorTypeFound', (eType: string, name: string) =>
+            store.setExtractorType(eType, name)
         )
 
         const unbindOnMediaQueried = EventsOn('OnMediaQueried', (amount: number) => {

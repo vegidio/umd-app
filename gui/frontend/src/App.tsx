@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack } from '@mui/material'
-import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components'
+import { DownloadRow, ErrorMessage, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components'
 import './App.css'
 
 const App = () => {
@@ -19,6 +19,8 @@ const App = () => {
             </Stack>
 
             <Loading />
+
+            <ErrorMessage />
         </>
     )
 }

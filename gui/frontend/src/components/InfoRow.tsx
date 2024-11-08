@@ -18,7 +18,11 @@ export const InfoRow = () => {
             </Typography>
 
             <Typography variant="body2" sx={{ flex: 0.5 }}>
-                Source type: <strong>{store.extractorType || '-'}</strong>
+                Source type:{' '}
+                <strong>
+                    {store.extractorType || '-'}
+                    {store.extractorTypeName && ' (' + store.extractorTypeName + ')'}
+                </strong>
             </Typography>
         </Stack>
     )
