@@ -1,20 +1,13 @@
-import React, { ChangeEvent, useState } from 'react'
-import { Box, Checkbox, FormControlLabel, Stack, TextField } from '@mui/material'
-import {
-    Bookmark,
-    BookmarkBorder,
-    Favorite,
-    FavoriteBorder,
-    Image,
-    ImageOutlined,
-    Slideshow,
-    SlideshowOutlined,
-    SmartDisplay,
-    SmartDisplayOutlined
-} from '@mui/icons-material'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import { Checkbox, FormControlLabel, Stack, TextField } from '@mui/material'
+import { Image, ImageOutlined, SmartDisplay, SmartDisplayOutlined } from '@mui/icons-material'
+import { useAppStore } from '../store'
+import { model } from '../../wailsjs/go/models'
+import Media = model.Media
 import './FilterRow.css'
 
 export const FilterRow = () => {
+    const store = useAppStore()
     const [filter, setFilter] = useState('')
     const [directory, setDirectory] = useState('')
     const [checkboxImage, setCheckboxImage] = useState(true)
@@ -28,13 +21,33 @@ export const FilterRow = () => {
         setDirectory(e.target.value)
     }
 
-    const handleImageClick = () => {
-        setCheckboxImage(!checkboxImage)
+    const selectUnselect = (isOn: boolean, mType: number) => {
+        if (isOn) {
+            const selected = store.media.filter(media => media.Type === mType)
+
+            const mergedSelected = [
+                ...[...store.selectedMedia, ...selected]
+                    .reduce((map, obj) => {
+                        // In case of duplicates, objects from 'selected' persist over 'store.selectedMedia'
+                        return map.set(obj.Url, obj)
+                    }, new Map<string, Media>())
+                    .values()
+            ]
+
+            store.setSelectedMedia(mergedSelected)
+        } else {
+            const selected = store.selectedMedia.filter(media => media.Type !== mType)
+            store.setSelectedMedia(selected)
+        }
     }
 
-    const handleVideoClick = () => {
-        setCheckboxVideo(!checkboxVideo)
-    }
+    useEffect(() => {
+        const numImages = store.selectedMedia.filter(media => media.Type === 0).length
+        setCheckboxImage(numImages > 0)
+
+        const numVideos = store.selectedMedia.filter(media => media.Type === 1).length
+        setCheckboxVideo(numVideos > 0)
+    }, [store.selectedMedia])
 
     return (
         <Stack spacing="0.5em">
@@ -52,7 +65,7 @@ export const FilterRow = () => {
                     control={
                         <Checkbox
                             checked={checkboxImage}
-                            onClick={handleImageClick}
+                            onClick={() => selectUnselect(!checkboxImage, 0)}
                             icon={<ImageOutlined />}
                             checkedIcon={<Image />}
                         />
@@ -64,7 +77,7 @@ export const FilterRow = () => {
                     control={
                         <Checkbox
                             checked={checkboxVideo}
-                            onClick={handleVideoClick}
+                            onClick={() => selectUnselect(!checkboxVideo, 1)}
                             icon={<SmartDisplayOutlined />}
                             checkedIcon={<SmartDisplay />}
                         />

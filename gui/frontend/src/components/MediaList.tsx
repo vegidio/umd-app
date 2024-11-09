@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react'
+import React, { FC, ReactElement, useEffect, useState } from 'react'
 import {
     DataGridPremium,
     GridColDef,
@@ -19,6 +19,7 @@ const customLocaleText: Partial<GridLocaleText> = {
 
 export const MediaList = () => {
     const store = useAppStore()
+    const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([])
 
     const columns: GridColDef[] = [
         { field: 'url', headerName: 'URL', flex: 0.65 },
@@ -36,6 +37,11 @@ export const MediaList = () => {
         store.setSelectedMedia(selectedMedia)
     }
 
+    useEffect(() => {
+        const selectedIds = store.selectedMedia.map(media => store.media.indexOf(media))
+        setRowSelectionModel(selectedIds)
+    }, [store.selectedMedia, store.media])
+
     return (
         <DataGridPremium
             rows={rows}
@@ -43,6 +49,7 @@ export const MediaList = () => {
             checkboxSelection
             density="compact"
             localeText={customLocaleText}
+            rowSelectionModel={rowSelectionModel}
             onRowSelectionModelChange={handleSelectionChange}
         />
     )
