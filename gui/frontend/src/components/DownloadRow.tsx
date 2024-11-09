@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { Button, LinearProgress, Stack, Typography } from '@mui/material'
-import './DownloadRow.css'
+import { StartDownload } from '../../wailsjs/go/main/App'
 import { useAppStore } from '../store'
+import './DownloadRow.css'
 
 export const DownloadRow = () => {
+    const store = useAppStore()
+
     const [progress, setProgress] = useState(50)
 
-    const selectedMedia = useAppStore(state => state.selectedMedia)
-
-    const handleDownloadClick = () => {}
+    const handleDownloadClick = async () => {
+        await StartDownload(store.selectedMedia, '/Users/vegidio/Desktop', 5)
+    }
 
     return (
         <Stack direction="row" spacing="1em">
@@ -22,7 +25,7 @@ export const DownloadRow = () => {
             <Button
                 id="query"
                 variant="contained"
-                disabled={selectedMedia.length === 0}
+                disabled={store.selectedMedia.length === 0}
                 onClick={handleDownloadClick}
                 sx={{ flex: 0.15 }}>
                 Download

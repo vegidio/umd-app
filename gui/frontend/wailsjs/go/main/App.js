@@ -21,3 +21,7 @@ export function OnQueryCompleted(arg1) {
 export function QueryMedia(arg1, arg2) {
   return window['go']['main']['App']['QueryMedia'](arg1, arg2);
 }
+
+export function StartDownload(arg1, arg2, arg3) {
+  return window['go']['main']['App']['StartDownload'](arg1, arg2, arg3);
+}
