@@ -8,8 +8,8 @@ import './FilterRow.css'
 
 export const FilterRow = () => {
     const store = useAppStore()
+
     const [filter, setFilter] = useState('')
-    const [directory, setDirectory] = useState('')
     const [checkboxImage, setCheckboxImage] = useState(true)
     const [checkboxVideo, setCheckboxVideo] = useState(true)
 
@@ -18,7 +18,7 @@ export const FilterRow = () => {
     }
 
     const handleDirectoryChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setDirectory(e.target.value)
+        store.setDirectory(e.target.value)
     }
 
     const selectUnselect = (isOn: boolean, mType: number) => {
@@ -91,7 +91,7 @@ export const FilterRow = () => {
                     fullWidth
                     id="directory"
                     label="Save directory"
-                    value={directory}
+                    value={store.directory}
                     size="small"
                     onChange={handleDirectoryChange}
                 />

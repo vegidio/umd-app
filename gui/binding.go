@@ -58,7 +58,11 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 			sem <- struct{}{} // acquire a semaphore token
 
 			filePath := createFilePath(directory, media, index)
-			downloads = append(downloads, downloadMedia(media, filePath, fetchObj))
+			newDownload := downloadMedia(media, filePath, fetchObj)
+			downloads = append(downloads, newDownload)
+
+			// Send status update to the UI
+			a.OnMediaDownloaded(newDownload)
 
 			<-sem
 		}(i, m)
@@ -67,7 +71,6 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	wg.Wait()
 	close(sem)
 
-	fmt.Printf("Downloads: %v\n", downloads)
 	return downloads
 }
 

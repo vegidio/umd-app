@@ -1,13 +1,13 @@
 {
-  "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "gui",
-  "outputfilename": "gui",
-  "frontend:install": "npm install",
-  "frontend:build": "npm run build",
-  "frontend:dev:watcher": "npm run dev",
-  "frontend:dev:serverUrl": "auto",
-  "author": {
-    "name": "Vinicius Egidio",
-    "email": "me@vinicius.io"
-  }
+    "$schema": "https://wails.io/schemas/config.v2.json",
+    "name": "UMD",
+    "outputfilename": "umd",
+    "frontend:install": "pnpm install",
+    "frontend:build": "pnpm run build",
+    "frontend:dev:watcher": "pnpm run dev",
+    "frontend:dev:serverUrl": "auto",
+    "author": {
+        "name": "Vinicius Egidio",
+        "email": "me@vinicius.io"
+    }
 }

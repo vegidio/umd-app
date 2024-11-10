@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { EventsOn } from '../wailsjs/runtime'
+import { main } from '../wailsjs/go/models'
 import { useAppStore } from './store'
+import Download = main.Download
 
 const Events = () => {
     const store = useAppStore()
@@ -24,11 +26,16 @@ const Events = () => {
             store.setIsLoading(false)
         })
 
+        const unbindOnMediaDownloaded = EventsOn('OnMediaDownloaded', (download: Download) => {
+            store.addDownloadList(download)
+        })
+
         return () => {
             unbindOnExtractorFound()
             unbindOnExtractorTypeFound()
             unbindOnMediaQueried()
             unbindOnQueryCompleted()
+            unbindOnMediaDownloaded()
         }
     })
 

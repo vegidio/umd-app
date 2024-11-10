@@ -30,7 +30,7 @@ export const SearchBox = () => {
             const media = await QueryMedia(url, limit)
             store.setMedia(media)
         } catch (e) {
-            store.showError('Error querying the media from this URL')
+            store.showMessage('Error querying the media from this URL', 'error')
             store.setIsLoading(false)
         }
     }
