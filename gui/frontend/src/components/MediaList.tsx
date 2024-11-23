@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react'
+import React, { FC, ReactElement, useState } from 'react'
 import {
     DataGridPremium,
     GridColDef,
@@ -23,6 +23,8 @@ import {
 } from '@mui/material'
 import './MediaList.css'
 import { BrowserOpenURL } from '../../wailsjs/runtime'
+import { model } from '../../wailsjs/go/models'
+import Media = model.Media
 
 const customLocaleText: Partial<GridLocaleText> = {
     footerRowSelected: count => `${count} media selected`,
@@ -32,7 +34,6 @@ const customLocaleText: Partial<GridLocaleText> = {
 
 export const MediaList = () => {
     const store = useAppStore()
-    const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([])
 
     const columns: GridColDef[] = [
         { field: 'url', headerName: 'URL', flex: 0.65, renderCell: params => <LinkCell url={params.value} /> },
@@ -56,10 +57,9 @@ export const MediaList = () => {
         store.setSelectedMedia(selectedMedia)
     }
 
-    useEffect(() => {
-        const selectedIds = store.selectedMedia.map(media => store.media.indexOf(media))
-        setRowSelectionModel(selectedIds)
-    }, [store.selectedMedia, store.media])
+    const handleSelectionModel = (selectedMedia: Media[]): number[] => {
+        return store.selectedMedia.map(media => store.media.indexOf(media))
+    }
 
     return (
         <DataGridPremium
@@ -69,7 +69,7 @@ export const MediaList = () => {
             disableRowSelectionOnClick
             density="compact"
             localeText={customLocaleText}
-            rowSelectionModel={rowSelectionModel}
+            rowSelectionModel={handleSelectionModel(store.selectedMedia)}
             onRowSelectionModelChange={handleSelectionChange}
         />
     )

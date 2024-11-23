@@ -46,7 +46,7 @@ func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) 
 }
 
 func (a *App) StartDownload(media []umd.Media, directory string, parallel int) []Download {
-	var wg sync.WaitGroup // wait group to wait for all goroutines to complete
+	var wg sync.WaitGroup
 	sem := make(chan struct{}, parallel)
 
 	fetchObj := umdObj.GetFetch()
@@ -56,7 +56,11 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 		wg.Add(1)
 
 		go func(index int, media umd.Media) {
-			defer wg.Done()
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+
 			sem <- struct{}{} // acquire a semaphore token
 
 			filePath := createFilePath(directory, media, index)
@@ -65,8 +69,6 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 
 			// Send status update to the UI
 			a.OnMediaDownloaded(newDownload)
-
-			<-sem
 		}(i, m)
 	}
 

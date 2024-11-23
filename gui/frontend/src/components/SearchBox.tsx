@@ -36,12 +36,14 @@ export const SearchBox = () => {
 
     const handleQueryClick = async () => {
         store.clear()
+        store.setIsQuerying(true)
 
         try {
             const media = await QueryMedia(url, limit, checkboxDeep)
             store.setMedia(media)
         } catch (e) {
             store.showMessage('Error querying the media from this URL', 'error')
+        } finally {
             store.setIsQuerying(false)
         }
     }
