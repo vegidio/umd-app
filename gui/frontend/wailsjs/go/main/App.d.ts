@@ -3,6 +3,8 @@
 import {main} from '../models';
 import {model} from '../models';
 
+export function GetHomeDirectory():Promise<string>;
+
 export function OnExtractorFound(arg1:string):Promise<void>;
 
 export function OnExtractorTypeFound(arg1:string,arg2:string):Promise<void>;
@@ -13,6 +15,8 @@ export function OnMediaQueried(arg1:number):Promise<void>;
 
 export function OnQueryCompleted(arg1:number):Promise<void>;
 
-export function QueryMedia(arg1:string,arg2:number):Promise<Array<model.Media>>;
+export function OpenDirectory(arg1:string):Promise<string>;
+
+export function QueryMedia(arg1:string,arg2:number,arg3:boolean):Promise<Array<model.Media>>;
 
 export function StartDownload(arg1:Array<model.Media>,arg2:string,arg3:number):Promise<Array<main.Download>>;

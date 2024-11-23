@@ -29,6 +29,7 @@ export namespace model {
 	    Url: string;
 	    Extension: string;
 	    Type: number;
+	    Extractor: number;
 	    Metadata: {[key: string]: any};
 	
 	    static createFrom(source: any = {}) {
@@ -40,6 +41,7 @@ export namespace model {
 	        this.Url = source["Url"];
 	        this.Extension = source["Extension"];
 	        this.Type = source["Type"];
+	        this.Extractor = source["Extractor"];
 	        this.Metadata = source["Metadata"];
 	    }
 	}

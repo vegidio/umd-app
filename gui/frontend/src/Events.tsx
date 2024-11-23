@@ -10,7 +10,7 @@ const Events = () => {
     useEffect(() => {
         const unbindOnExtractorFound = EventsOn('OnExtractorFound', (name: string) => {
             store.clear()
-            store.setIsLoading(true)
+            store.setIsQuerying(true)
             store.setExtractorName(name)
         })
 
@@ -23,7 +23,7 @@ const Events = () => {
         })
 
         const unbindOnQueryCompleted = EventsOn('OnQueryCompleted', (_: number) => {
-            store.setIsLoading(false)
+            store.setIsQuerying(false)
         })
 
         const unbindOnMediaDownloaded = EventsOn('OnMediaDownloaded', (download: Download) => {

@@ -1,10 +1,19 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { Checkbox, FormControlLabel, Stack, TextField } from '@mui/material'
-import { Image, ImageOutlined, SmartDisplay, SmartDisplayOutlined } from '@mui/icons-material'
-import { useAppStore } from '../store'
+import { Button, Checkbox, FormControlLabel, InputAdornment, Stack, TextField } from '@mui/material'
+import {
+    Checklist,
+    Folder,
+    FolderOpen,
+    Image,
+    ImageOutlined,
+    SmartDisplay,
+    SmartDisplayOutlined
+} from '@mui/icons-material'
 import { model } from '../../wailsjs/go/models'
-import Media = model.Media
+import { OpenDirectory } from '../../wailsjs/go/main/App'
+import { useAppStore } from '../store'
 import './FilterRow.css'
+import Media = model.Media
 
 export const FilterRow = () => {
     const store = useAppStore()
@@ -19,6 +28,11 @@ export const FilterRow = () => {
 
     const handleDirectoryChange = (e: ChangeEvent<HTMLInputElement>) => {
         store.setDirectory(e.target.value)
+    }
+
+    const handleDirectoryClick = async () => {
+        const newDir = await OpenDirectory(store.directory)
+        store.setDirectory(newDir)
     }
 
     const selectUnselect = (isOn: boolean, mType: number) => {
@@ -57,8 +71,19 @@ export const FilterRow = () => {
                     id="filter"
                     label="Filter by filename"
                     value={filter}
+                    disabled={store.isDownloading}
                     size="small"
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Checklist />
+                                </InputAdornment>
+                            )
+                        }
+                    }}
                     onChange={handleFilterChange}
+                    sx={{ flex: 0.85 }}
                 />
 
                 <FormControlLabel
@@ -70,7 +95,9 @@ export const FilterRow = () => {
                             checkedIcon={<Image />}
                         />
                     }
+                    disabled={store.isDownloading}
                     label="Images"
+                    sx={{ flex: 0.075 }}
                 />
 
                 <FormControlLabel
@@ -82,7 +109,9 @@ export const FilterRow = () => {
                             checkedIcon={<SmartDisplay />}
                         />
                     }
+                    disabled={store.isDownloading}
                     label="Videos"
+                    sx={{ flex: 0.075 }}
                 />
             </Stack>
 
@@ -93,8 +122,28 @@ export const FilterRow = () => {
                     label="Save directory"
                     value={store.directory}
                     size="small"
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <FolderOpen />
+                                </InputAdornment>
+                            )
+                        }
+                    }}
+                    disabled={store.isDownloading}
                     onChange={handleDirectoryChange}
+                    sx={{ flex: 0.85 }}
                 />
+
+                <Button
+                    variant="outlined"
+                    startIcon={<Folder />}
+                    disabled={store.isDownloading}
+                    onClick={handleDirectoryClick}
+                    sx={{ flex: 0.15 }}>
+                    Browse
+                </Button>
             </Stack>
         </Stack>
     )

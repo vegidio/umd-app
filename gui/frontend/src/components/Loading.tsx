@@ -7,7 +7,7 @@ export const Loading = () => {
     const store = useAppStore()
 
     return (
-        <Backdrop open={store.isLoading}>
+        <Backdrop open={store.isQuerying}>
             <Stack id="loading-box" spacing="1em">
                 <CircularProgressWithLabel value={store.amountQuery} />
 

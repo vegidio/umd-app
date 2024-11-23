@@ -5,7 +5,8 @@ import Media = model.Media
 import Download = main.Download
 
 type AppStore = {
-    isLoading: boolean
+    isQuerying: boolean
+    isDownloading: boolean
     message: string
     messageSeverity: 'error' | 'warning' | 'info' | 'success'
     extractorName: string
@@ -13,17 +14,20 @@ type AppStore = {
     extractorTypeName: string
     amountQuery: number
     directory: string
+    progress: number
     media: Media[]
     selectedMedia: Media[]
     downloadedMedia: Download[]
 
     clear: () => void
-    setIsLoading: (loading: boolean) => void
+    setIsQuerying: (querying: boolean) => void
+    setIsDownloading: (downloading: boolean) => void
     showMessage: (message: string, severity: 'error' | 'warning' | 'info' | 'success') => void
     addAmountQuery: (amount: number) => void
     setExtractorName: (name: string) => void
     setExtractorType: (eType: string, name: string) => void
     setDirectory: (directory: string) => void
+    setProgress: (percent: number) => void
     setMedia: (media: Media[]) => void
     setSelectedMedia: (media: Media[]) => void
     clearDownloads: () => void
@@ -32,14 +36,16 @@ type AppStore = {
 
 export const useAppStore = create(
     immer<AppStore>((set, get) => ({
-        isLoading: false,
+        isQuerying: false,
+        isDownloading: false,
         message: '',
         messageSeverity: 'success',
         extractorName: '',
         extractorType: '',
         extractorTypeName: '',
         amountQuery: 0,
-        directory: '/Users/vegidio/Desktop',
+        directory: '.',
+        progress: 0,
         media: [],
         selectedMedia: [],
         downloadedMedia: [],
@@ -50,15 +56,22 @@ export const useAppStore = create(
                 state.extractorType = ''
                 state.extractorTypeName = ''
                 state.amountQuery = 0
+                state.progress = 0
                 state.media = []
                 state.selectedMedia = []
                 state.downloadedMedia = []
             })
         },
 
-        setIsLoading: (loading: boolean) => {
+        setIsQuerying: (querying: boolean) => {
             set(state => {
-                state.isLoading = loading
+                state.isQuerying = querying
+            })
+        },
+
+        setIsDownloading: (downloading: boolean) => {
+            set(state => {
+                state.isDownloading = downloading
             })
         },
 
@@ -92,6 +105,12 @@ export const useAppStore = create(
         setDirectory: (directory: string) => {
             set(state => {
                 state.directory = directory
+            })
+        },
+
+        setProgress: (percent: number) => {
+            set(state => {
+                state.progress = percent
             })
         },
 

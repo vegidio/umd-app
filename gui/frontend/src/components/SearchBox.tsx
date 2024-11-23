@@ -1,5 +1,15 @@
 import React, { ChangeEvent, useState } from 'react'
-import { Button, Stack, TextField } from '@mui/material'
+import {
+    Button,
+    Checkbox,
+    FormControlLabel,
+    InputAdornment,
+    Stack,
+    TextField,
+    Tooltip,
+    Typography
+} from '@mui/material'
+import { Public, Search } from '@mui/icons-material'
 import { QueryMedia } from '../../wailsjs/go/main/App'
 import { useAppStore } from '../store'
 import './SearchBox.css'
@@ -8,6 +18,7 @@ export const SearchBox = () => {
     const store = useAppStore()
     const [url, setUrl] = useState('')
     const [limit, setLimit] = useState(99_999)
+    const [checkboxDeep, setCheckboxDeep] = useState(true)
 
     const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value)
@@ -27,11 +38,11 @@ export const SearchBox = () => {
         store.clear()
 
         try {
-            const media = await QueryMedia(url, limit)
+            const media = await QueryMedia(url, limit, checkboxDeep)
             store.setMedia(media)
         } catch (e) {
             store.showMessage('Error querying the media from this URL', 'error')
-            store.setIsLoading(false)
+            store.setIsQuerying(false)
         }
     }
 
@@ -42,27 +53,47 @@ export const SearchBox = () => {
                 label="Enter a URL"
                 value={url}
                 size="small"
+                disabled={store.isDownloading}
                 autoComplete="off"
+                slotProps={{
+                    input: {
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <Public />
+                            </InputAdornment>
+                        )
+                    }
+                }}
                 onChange={handleUrlChange}
-                sx={{ flex: 0.7 }}
+                sx={{ flex: 0.68 }}
             />
+
+            <Tooltip title={'Check to do a deep query'} sx={{ flex: 0.1 }}>
+                <FormControlLabel
+                    control={<Checkbox size="small" checked={checkboxDeep} disabled={store.isDownloading} />}
+                    label={<Typography variant="caption">Deep</Typography>}
+                    onClick={() => setCheckboxDeep(!checkboxDeep)}
+                />
+            </Tooltip>
 
             <TextField
                 id="limit"
                 label="Limit results"
                 type="number"
                 value={limit}
+                disabled={store.isDownloading}
                 size="small"
                 onChange={handleLimitChange}
-                sx={{ flex: 0.15 }}
+                sx={{ flex: 0.12 }}
             />
 
             <Button
                 id="query"
                 variant="outlined"
-                disabled={url.trim() === ''}
+                startIcon={<Search />}
+                disabled={url.trim() === '' || store.isDownloading}
                 onClick={handleQueryClick}
-                sx={{ flex: 0.15 }}>
+                sx={{ flex: 0.12 }}>
                 Query
             </Button>
         </Stack>

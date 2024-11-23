@@ -65,7 +65,7 @@ export const MediaList = () => {
         <DataGridPremium
             rows={rows}
             columns={columns}
-            checkboxSelection
+            checkboxSelection={!store.isDownloading}
             disableRowSelectionOnClick
             density="compact"
             localeText={customLocaleText}
@@ -140,7 +140,7 @@ const MetadataCell: FC<{ metadata: [string: string] }> = ({ metadata }) => {
                                 <TableCell>
                                     <strong>{key}</strong>
                                 </TableCell>
-                                <TableCell>{value.toLowerCase()}</TableCell>
+                                <TableCell>{value}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

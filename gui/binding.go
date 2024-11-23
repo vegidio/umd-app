@@ -7,6 +7,8 @@ import (
 	"github.com/vegidio/umd-lib"
 	"github.com/vegidio/umd-lib/event"
 	"github.com/vegidio/umd-lib/fetch"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"os/user"
 	"path/filepath"
 	"sync"
 	"time"
@@ -15,7 +17,7 @@ import (
 var umdObj *umd.Umd
 var fs = afero.NewOsFs()
 
-func (a *App) QueryMedia(url string, limit int) ([]umd.Media, error) {
+func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) {
 	var err error
 
 	umdObj, err = umd.New(url, nil, func(ev event.Event) {
@@ -35,7 +37,7 @@ func (a *App) QueryMedia(url string, limit int) ([]umd.Media, error) {
 		return make([]umd.Media, 0), err
 	}
 
-	resp, err := umdObj.QueryMedia(limit, make([]string, 0))
+	resp, err := umdObj.QueryMedia(limit, make([]string, 0), deep)
 	if err != nil {
 		return make([]umd.Media, 0), err
 	}
@@ -72,6 +74,35 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	close(sem)
 
 	return downloads
+}
+
+func (a *App) GetHomeDirectory() string {
+	currentUser, err := user.Current()
+	if err != nil {
+		fmt.Println("Error getting current user:", err)
+		return "."
+	}
+
+	return currentUser.HomeDir
+}
+
+func (a *App) OpenDirectory(currentDir string) string {
+	exists, _ := afero.DirExists(fs, currentDir)
+	if !exists {
+		currentDir = "."
+	}
+
+	directory, _ := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{
+		DefaultDirectory:     currentDir,
+		Title:                "Select a directory to save the media",
+		CanCreateDirectories: true,
+	})
+
+	if directory == "" {
+		return currentDir
+	}
+
+	return directory
 }
 
 // region - Private functions
