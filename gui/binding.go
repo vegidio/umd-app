@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha256"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 	"github.com/vegidio/umd-lib"
 	"github.com/vegidio/umd-lib/event"
@@ -81,7 +82,7 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 func (a *App) GetHomeDirectory() string {
 	currentUser, err := user.Current()
 	if err != nil {
-		fmt.Println("Error getting current user:", err)
+		log.Error("Error getting current user:", err)
 		return "."
 	}
 

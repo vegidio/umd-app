@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -12,6 +13,13 @@ import (
 var assets embed.FS
 
 func main() {
+	// Setup logging
+	log.SetLevel(log.DebugLevel)
+	log.SetFormatter(&log.TextFormatter{
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05.000",
+	})
+
 	// Create an instance of the app structure
 	app := NewApp()
 
@@ -31,6 +39,6 @@ func main() {
 	})
 
 	if err != nil {
-		println("Error:", err.Error())
+		log.Error("Error:", err)
 	}
 }

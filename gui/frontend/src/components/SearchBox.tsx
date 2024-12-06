@@ -35,7 +35,6 @@ export const SearchBox = () => {
     }
 
     const handleQueryClick = async () => {
-        store.clear()
         store.setIsQuerying(true)
 
         try {
@@ -57,6 +56,7 @@ export const SearchBox = () => {
                 size="small"
                 disabled={store.isDownloading}
                 autoComplete="off"
+                autoCapitalize="off"
                 slotProps={{
                     input: {
                         startAdornment: (
