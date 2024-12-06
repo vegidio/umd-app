@@ -18,13 +18,19 @@ There are 2 ways to use this app: using the GUI or the CLI.
 
 The GUI is the easiest way to use the app, with an intuitive interface that allows you to download media files with just a few clicks. The CLI is more advanced and allows you to download media files in a more automated way.
 
-Both versions are available for Windows, macOS, and Linux.
+Both versions are available for Windows, macOS, and Linux. Download the correct version that matches your computer architecture and operating system from the [latest release](https://github.com/vegidio/umd-app/releases) and follow the instructions below:
 
 ### GUI
 
 <p align="center">
 <img src="assets/gui-screenshot.avif" width="80%" alt="UMD - GUI"/>
 </p>
+
+1. `Enter a URL` of the website where the media is hosted and then click on the `Query` button. If the URL belongs to a website supported by **UMD**, it will query the website and show the media files in the list below.
+    - Mark the checkbox `Deep` if you want to perform a deep search. This will expand the search in the unknown URLs in an attempt to find more media files.
+    - You can limit the number of files that will be queried by entering a number in the `Limit` field.
+2. Select the media files that you want to download by clicking on the checkbox next to the file name, or click on the checkboxes to automatically select all images and/or videos.
+3. Click on the button `Browse` to select the directory where you want the files to be saved and then click on the `Download` button to start the download.
 
 ### CLI
 
