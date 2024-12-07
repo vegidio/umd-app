@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/afero v1.11.0
-	github.com/vegidio/umd-lib v0.0.0-20241206101547-c993f19061e5
+	github.com/vegidio/umd-lib v0.0.0-20241207220356-817b680aad4c
 	github.com/wailsapp/wails/v2 v2.9.2
 )
 

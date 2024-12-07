@@ -1,0 +1,15 @@
+{
+    "plugins": {
+        "@release-it/conventional-changelog": {
+            "preset": "angular",
+            "infile": "CHANGELOG.md"
+        }
+    },
+    "git": {
+        "requireCleanWorkingDir": false,
+        "commit": false,
+        "tag": false,
+        "push": false
+    },
+    "increment": false
+}

@@ -48,64 +48,18 @@ Where:
 
 For the full list of parameters, type `umd --help` in the terminal.
 
-### Docker
+## 💣 Troubleshooting
 
-Install [Docker](https://docs.docker.com/get-docker/) in your computer, then run the command below:
+### "App Is Damaged..." (Unidentified Developer)
 
-```
-$ docker run --rm -t \
-    -e UMD_URL=https://www.reddit.com/user/atomicbrunette18 \
-    -v "/path/in/your/computer:/tmp/umd" \
-    ghcr.io/vegidio/umd
-```
+For a couple of years now, Apple has decided to enforce developers to participate in their "Developer Program" so they can receive the allusive title _identified developer_ 😛
 
-Where:
+Translating to non-BS language, this means that if you're not a registered developer with Apple (i.e. paying them), I can't freely distribute software that I create for macOS because they won't and the users will see a message saying that the app is damaged and can't be opened.
 
--   `-e UMD_URL`: (mandatory): the URL of the website where the media is hosted.
--   `-e UMD_LIMIT` (optional): the maximum number of files to download; default is no limit.
+To fix this, open the terminal and run the command below, making sure to update `/Applications/UMD.app` to point to the correct path where you've installed the app:
 
-#### Volume
-
-For those that are not familiar with Docker, the `-v` (volume) parameter defines where the media will be saved, and it's divided in two parts, separated by the colon sign `:`. You just need to worry about the first part, on the left side of the colon sign (**don't change anything on the right side**) and update it according to a path in your computer where you want the media to be downloaded.
-
-For example, if you want to download the media in the directory `/Downloads/UMD` then the volume parameter should look like this `-v "/Downloads/UMD:/tmp/umd"`.
-
-## 💡 Features
-
-### Remove duplicates
-
-This application will automatically delete all files that are identical.
-
-### File filtering
-
-You can filter the files that you want to download based on their extension, separated by comma. To do that you must:
-
--   **CLI tool:** add the parameter `--extensions`; for example: `--extensions jpg,jpeg`.
-
--   **Docker:** add the environment variable `-e UMD_EXTENSIONS`; for example: `-e UMD_EXTENSIONS=jpg,jpeg`.
-
-### Convert images/videos (coming soon...)
-
-You can convert the media downloaded to better formats (AVIF for images and AV1 for videos); this will make the files smaller but preserving the same quality. To do that you must:
-
--   **CLI tool:** add the parameters `--convert-images` and/or `--convert-videos`, depending on what you need.
-
--   **Docker:** add the environment variables `-e UMD_CONVERT_IMAGES=true` and/or `-e UMD_CONVERT_VIDEOS=true` when you run the container.
-
-## 🛠️ Build
-
-In the project's root folder run in the CLI:
-
-Gradle:
-
-```
-$ ./gradlew assemble
-```
-
-Docker:
-
-```
-$ docker build -t ghcr.io/vegidio/umd . --build-arg="VERSION=24.5.0"
+```bash
+xattr -d com.apple.quarantine /Applications/UMD.app
 ```
 
 ## 📈 Telemetry

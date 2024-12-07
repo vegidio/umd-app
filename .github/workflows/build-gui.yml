@@ -28,6 +28,8 @@ jobs:
 
   build-linux-windows:
     runs-on: ubuntu-latest
+    env:
+      VITE_MUI_LICENSE: ${{ secrets.VITE_MUI_LICENSE }}
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
@@ -74,6 +76,8 @@ jobs:
 
   build-macos:
     runs-on: macos-latest
+    env:
+      VITE_MUI_LICENSE: ${{ secrets.VITE_MUI_LICENSE }}
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
@@ -122,22 +126,30 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Fetch artifact
         uses: actions/download-artifact@v4
+        with:
+          path: binaries
+          merge-multiple: true
 
-      - name: Creating the ChangeLog
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Create the changelog
         run: |
-          echo "Changes in this release:" > changelog.md
-          git log $(git describe --tags --abbrev=0 \
-            $(git describe --tags --abbrev=0)^)^..$(git describe --tags --abbrev=0) \
-            --pretty=format:"- %s" >> changelog.md
+          pnpm install -g release-it @release-it/conventional-changelog
+          release-it --ci
 
-      - uses: ncipollo/release-action@v1
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
           name: ${{ needs.version.outputs.VERSION }}
           tag: ${{ needs.version.outputs.VERSION }}
-          bodyFile: changelog.md
+          bodyFile: CHANGELOG.md
           replacesArtifacts: true
-          artifacts: "*.zip"
+          artifacts: binaries/*.zip
