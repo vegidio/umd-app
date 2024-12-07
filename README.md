@@ -54,12 +54,12 @@ For the full list of parameters, type `umd --help` in the terminal.
 
 For a couple of years now, Apple has decided to enforce developers to participate in their "Developer Program" so they can receive the allusive title _identified developer_ 😛
 
-Translating to non-BS language, this means that if you're not a registered developer with Apple (i.e. paying them), I can't freely distribute software that I create for macOS because they won't and the users will see a message saying that the app is damaged and can't be opened.
+Translating to non-BS language, this means that if you're not a registered developer with Apple (i.e. paying them), you can't freely distribute software for macOS because they won't work and the users will see a message saying that the app is damaged and can't be opened.
 
 To fix this, open the terminal and run the command below, making sure to update `/Applications/UMD.app` to point to the correct path where you've installed the app:
 
 ```bash
-xattr -d com.apple.quarantine /Applications/UMD.app
+$ xattr -d com.apple.quarantine /Applications/UMD.app
 ```
 
 ## 📈 Telemetry
