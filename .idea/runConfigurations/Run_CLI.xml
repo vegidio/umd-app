@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run CLI" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="umd-app" />
+    <working_directory value="$PROJECT_DIR$/cli" />
+    <parameters value="-d ~/Desktop/test https://www.reddit.com/user/atomicbrunette18/" />
+    <kind value="PACKAGE" />
+    <package value="cli" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/cli/main.go" />
+    <method v="2" />
+  </configuration>
+</component>
