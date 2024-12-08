@@ -52,15 +52,21 @@ For the full list of parameters, type `umd --help` in the terminal.
 
 ### "App Is Damaged..." (Unidentified Developer)
 
-For a couple of years now, Apple has decided to enforce developers to participate in their "Developer Program" so they can receive the allusive title _identified developer_ 😛
+For a couple of years now, Apple has required developers to join their "Developer Program" to gain the pretentious status of an _identified developer_ 😛.
 
-Translating to non-BS language, this means that if you're not a registered developer with Apple (i.e. paying them), you can't freely distribute software for macOS because they won't work and the users will see a message saying that the app is damaged and can't be opened.
+Translating to non-BS language, this means that if you’re not registered with Apple (i.e., paying the fee), you can’t freely distribute macOS software. Apps from unregistered developers will display a message saying the app is damaged and can’t be opened.
 
-To fix this, open the terminal and run the command below, making sure to update `/Applications/UMD.app` to point to the correct path where you've installed the app:
+To bypass this, open the Terminal and run the command below, replacing `/Applications/UMD.app` with the correct path to where you’ve installed the app:
 
 ```bash
 $ xattr -d com.apple.quarantine /Applications/UMD.app
 ```
+
+### Query/Download is taking too long
+
+Some websites, like Coomer, use techniques to block tools from scraping their content. **UMD**, however, includes countermeasures to bypass these restrictions. This process can make queries and downloads take longer than usual.
+
+Unfortunately, there’s no way to speed up this process, so please be patient and allow the app to complete its work.
 
 ## 📈 Telemetry
 
