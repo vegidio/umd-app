@@ -1,0 +1,32 @@
+version: '3'
+
+vars:
+  os: "darwin"
+  arch: "arm64"
+
+tasks:
+  clean:
+    desc: Clean the build directory
+    cmds:
+      - rm -rf {{.ROOT_DIR}}/build/*
+
+  # CLI build tasks
+  cli:
+    desc: Build the CLI version of the app
+    dir: cli
+    vars:
+      file: "{{if eq .os `windows`}}umd-dl.exe{{else}}umd-dl{{end}}"
+    env:
+      CGO_ENABLED: 0
+    cmds:
+      - GOOS={{.os}} GOARCH={{.arch}} go build -o {{.ROOT_DIR}}/build/{{.file}}
+
+  # GUI build tasks
+  gui:
+    desc: Build the GUI version of the app
+    dir: gui
+    vars:
+      file: "{{if eq .os `darwin`}}UMD.app{{else}}{{if eq .os `windows`}}umd.exe{{else}}umd{{end}}{{end}}"
+    cmds:
+      - wails build -platform {{.os}}/{{.arch}}
+      - mv build/bin/{{.file}} {{.ROOT_DIR}}/build/{{.file}}
