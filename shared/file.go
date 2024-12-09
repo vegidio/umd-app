@@ -54,13 +54,20 @@ func DownloadAll(
 }
 
 func CreateFilePath(directory string, media umd.Media, index int) string {
+	var t time.Time
+	var err error
+
 	n := media.Metadata["name"].(string)
 
-	// This array of Media is coming from the JS code, so the values in the Metadata map are strings
-	timeStr := media.Metadata["created"].(string)
-	t, err := time.Parse(time.RFC3339, timeStr)
-	if err != nil {
-		t = time.Now()
+	// If array of Media is coming from the JS code, the values in the Metadata map are strings
+	timeStr, ok := media.Metadata["created"].(string)
+	if ok {
+		t, err = time.Parse(time.RFC3339, timeStr)
+		if err != nil {
+			t = time.Now()
+		}
+	} else {
+		t = media.Metadata["created"].(time.Time)
 	}
 
 	// Go uses a specific layout to represent the time format

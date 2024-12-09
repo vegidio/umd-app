@@ -7,6 +7,7 @@ require (
 	github.com/samber/lo v1.47.0
 	github.com/urfave/cli/v2 v2.27.5
 	github.com/vegidio/shared v0.0.0-00010101000000-000000000000
+	github.com/vegidio/umd-lib v0.0.0-20241207220356-817b680aad4c
 )
 
 require (
@@ -25,7 +26,7 @@ require (
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
-	github.com/vegidio/umd-lib v0.0.0-20241207220356-817b680aad4c // indirect
+	github.com/spf13/afero v1.11.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
 	github.com/ysmood/fetchup v0.2.4 // indirect
