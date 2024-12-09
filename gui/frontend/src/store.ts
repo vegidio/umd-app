@@ -1,8 +1,8 @@
-import { main, model } from '../wailsjs/go/models'
 import { create } from 'zustand/react'
 import { immer } from 'zustand/middleware/immer'
+import { model, shared } from '../wailsjs/go/models'
 import Media = model.Media
-import Download = main.Download
+import Download = shared.Download
 
 type AppStore = {
     isQuerying: boolean
