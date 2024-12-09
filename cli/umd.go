@@ -1,21 +1,26 @@
 package main
 
 import (
+    "cli/internal/spinner"
+    "context"
     "fmt"
     "github.com/pterm/pterm"
     "github.com/vegidio/umd-lib"
     "github.com/vegidio/umd-lib/event"
+    "strings"
+    "time"
 )
 
-func startJob(
+func startQuery(
     url string,
     directory string,
     parallel int,
     limit int,
     extensions []string,
 ) error {
-    spinner, _ := pterm.DefaultSpinner.Start("Some informational action...")
-    spinner.Stop()
+    msg := ""
+    queryCount := 0
+    var stopSpinner context.CancelFunc
 
     u, err := umd.New(url, nil, func(ev event.Event) {
         switch e := ev.(type) {
@@ -24,8 +29,16 @@ func startJob(
 
         case event.OnExtractorTypeFound:
             pterm.Println("; extractor type:", pterm.FgLightYellow.Sprintf("%s", e.Type))
-            pterm.Println("📝 Collecting", pterm.Bold.Sprintf("%d", limit), "media from",
-                pterm.Bold.Sprintf("%s", e.Name))
+            msg = pterm.Sprintf("📝 Querying %s %s for media files...", strings.ToLower(e.Type),
+                pterm.Bold.Sprintf(e.Name))
+            stopSpinner = spinner.CreateSpinner(msg, queryCount)
+
+        case event.OnMediaQueried:
+            queryCount += e.Amount
+            spinner.UpdateSpinner(msg, queryCount)
+
+        case event.OnQueryCompleted:
+            stopSpinner()
         }
     })
 
@@ -37,8 +50,10 @@ func startJob(
     if err != nil {
         return err
     }
+    
+    time.Sleep(250 * time.Millisecond)
 
-    fmt.Printf("Found %v media files\n", resp.Media)
+    fmt.Printf("Found %d media files\n", len(resp.Media))
 
     pterm.Println("\n🌟 Done!")
     return nil
