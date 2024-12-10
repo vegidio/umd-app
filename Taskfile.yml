@@ -1,9 +1,5 @@
 version: '3'
 
-vars:
-  os: "{{OS}}"
-  arch: "{{ARCH}}"
-
 tasks:
   clean:
     desc: Clean the build directory
@@ -14,6 +10,8 @@ tasks:
   cli:
     desc: Build the CLI version of the app
     dir: cli
+    requires:
+      vars: [ os, arch ]
     vars:
       file: "{{if eq .os `windows`}}umd-dl.exe{{else}}umd-dl{{end}}"
     env:
@@ -21,23 +19,33 @@ tasks:
       GOOS: "{{.os}}"
       GOARCH: "{{.arch}}"
     cmds:
+      - echo {{.os}}/{{.arch}}
       - go build -o {{.ROOT_DIR}}/build/{{.file}}
+      - "{{if .isPackage}}7z a -tzip -mx=9 {{.ROOT_DIR}}/build/umd-cli_{{.os}}_{{.arch}}.zip {{.ROOT_DIR}}/build/{{.file}}{{end}}"
 
   # GUI build tasks
   gui:
     desc: Build the GUI version of the app
     dir: gui
+    requires:
+      vars: [ os, arch ]
     vars:
       file: "{{if eq .os `darwin`}}UMD.app{{else}}{{if eq .os `windows`}}umd.exe{{else}}umd{{end}}{{end}}"
     cmds:
       - wails build -platform {{.os}}/{{.arch}}
+      - rm -rf {{.ROOT_DIR}}/build/{{.file}}
       - mv build/bin/{{.file}} {{.ROOT_DIR}}/build/{{.file}}
+      - "{{if .isPackage}}7z a -tzip -mx=9 {{.ROOT_DIR}}/build/umd-gui_{{.os}}_{{.arch}}.zip {{.ROOT_DIR}}/build/{{.file}}{{end}}"
 
   package:
     desc: Build and pack in .zip files
-    vars:
-      oses: darwin linux windows
-      archs: amd64 arm64
+    requires:
+      vars: [ oses, archs ]
     cmds:
-      - for: { var: oses }
-        cmd: echo "Bunda {{.ITEM}}"
+      - |
+        for os in {{.oses}}; do
+          for arch in {{.archs}}; do
+            task cli os=$os arch=$arch isPackage=true
+            task gui os=$os arch=$arch isPackage=true
+          done
+        done
