@@ -19,7 +19,6 @@ tasks:
       GOOS: "{{.os}}"
       GOARCH: "{{.arch}}"
     cmds:
-      - echo {{.os}}/{{.arch}}
       - go build -o {{.ROOT_DIR}}/build/{{.file}}
       - "{{if .isPackage}}7z a -tzip -mx=9 {{.ROOT_DIR}}/build/umd-cli_{{.os}}_{{.arch}}.zip {{.ROOT_DIR}}/build/{{.file}}{{end}}"
 

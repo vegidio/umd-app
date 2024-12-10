@@ -34,19 +34,23 @@ Both versions are available for Windows, macOS, and Linux. Download the correct 
 
 ### CLI
 
-Download the [latest version](https://github.com/vegidio/umd-app/releases) of **UMD** that matches your computer architecture and operating system. Extract the .zip file somewhere and then run the command below in the terminal:
+<p align="center">
+<img src="assets/cli-screenshot.avif" width="80%" alt="UMD - CLI"/>
+</p>
 
-```
-$ umd <url> -d /Downloads/UMD
+Run the command below in the terminal:
+
+```bash
+$ umd-dl -d ~/Downloads/UMD <url>
 ```
 
 Where:
 
--   `<url>` (mandatory): the URL of the website where the media is hosted.
--   `-d` (optional): the directory where you want the files to be saved; default is the current directory.
--   `--limit` (optional): the maximum number of files to download; default is no limit.
+- `-d` (optional): the directory where you want the files to be saved; default is the current directory.
+- `-l` (optional): the maximum number of files to download; default is no limit.
+- `<url>` (mandatory): the URL of the website where the media is hosted (**Attention:** it's important that the URL is the last parameter).
 
-For the full list of parameters, type `umd --help` in the terminal.
+For the full list of parameters, type `umd-dl --help` in the terminal.
 
 ## 💣 Troubleshooting
 
@@ -54,12 +58,12 @@ For the full list of parameters, type `umd --help` in the terminal.
 
 For a couple of years now, Apple has required developers to join their "Developer Program" to gain the pretentious status of an _identified developer_ 😛.
 
-Translating to non-BS language, this means that if you’re not registered with Apple (i.e., paying the fee), you can’t freely distribute macOS software. Apps from unregistered developers will display a message saying the app is damaged and can’t be opened.
+Translating to non-BS language, this means that if you’re not registered with Apple (i.e., paying the fee), you can’t freely distribute macOS software. Apps from unidentified developers will display a message saying the app is damaged and can’t be opened.
 
-To bypass this, open the Terminal and run the command below, replacing `/Applications/UMD.app` with the correct path to where you’ve installed the app:
+To bypass this, open the Terminal and run the command below, replacing `<path-to-app>` with the correct path to where you’ve installed the app:
 
 ```bash
-$ xattr -d com.apple.quarantine /Applications/UMD.app
+$ xattr -d com.apple.quarantine <path-to-app>
 ```
 
 ### Query/Download is taking too long

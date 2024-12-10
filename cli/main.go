@@ -19,8 +19,8 @@ func main() {
 
 	app := &cli.App{
 		Name:            "umd-dl",
-		Usage:           "a CLI tool to easily download media files hosted on popular websites",
-		UsageText:       "umd-dl -d [directory] [other options] [url]",
+		Usage:           "a CLI tool to easily download media hosted on popular websites",
+		UsageText:       "umd-dl [options] [url]",
 		Version:         "<version>",
 		HideHelpCommand: true,
 		Flags: []cli.Flag{
