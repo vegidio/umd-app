@@ -3,12 +3,17 @@ package main
 import (
 	"fmt"
 	"github.com/samber/lo"
+	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+	"io"
 	"os"
 	"strings"
 )
 
 func main() {
+	// Disable logging
+	log.SetOutput(io.Discard)
+
 	var url string
 	var directory string
 	var parallel int
