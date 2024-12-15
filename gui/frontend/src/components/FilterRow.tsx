@@ -115,7 +115,7 @@ export const FilterRow = () => {
                 />
             </Stack>
 
-            <Stack direction="row" spacing="1em">
+            <Stack direction="row" spacing="1em" style={{ marginTop: '0.75em' }}>
                 <TextField
                     fullWidth
                     id="directory"
