@@ -52,6 +52,12 @@ Where:
 
 For the full list of parameters, type `umd-dl --help` in the terminal.
 
+## 💡 Features
+
+### Remove duplicates
+
+This application will automatically delete all files that are identical.
+
 ## 💣 Troubleshooting
 
 ### "App Is Damaged..." (Unidentified Developer)
@@ -71,6 +77,41 @@ $ xattr -d com.apple.quarantine <path-to-app>
 Some websites, like Coomer, use techniques to block tools from scraping their content. **UMD**, however, includes countermeasures to bypass these restrictions. This process can make queries and downloads take longer than usual.
 
 Unfortunately, there’s no way to speed up this process, so please be patient and allow the app to complete its work.
+
+## 🛠️ Build
+
+### Dependencies
+
+In order to build this project you will need the following dependencies installed in your computer:
+
+- [Golang](https://go.dev/doc/install)
+- [Task](https://taskfile.dev/installation/)
+
+If you want to build the GUI you will also need:
+
+- [Node.js](https://nodejs.org/en/download/)
+- [PNPM](https://pnpm.io/installation)
+- [Wails 2+](https://wails.io/docs/gettingstarted/installation)
+
+### Compiling
+
+With all the dependencies installed, in the project's root folder run the command:
+
+```bash
+$ task <interface> os=<operating-system> arch=<architecture>
+```
+
+Where:
+
+- `<interface>`: can be `cli` or `gui`.
+- `<operating-system>`: can be `windows`, `darwin` (macOS), or `linux`.
+- `<architecture>`: can be `amd64` or `arm64`.
+
+For example, if I wanted to build a GUI version of the app for Windows, on architecture AMD64, I would run the command:
+
+```bash
+$ task gui os=windows arch=amd64
+```
 
 ## 📈 Telemetry
 

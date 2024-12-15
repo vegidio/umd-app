@@ -25,6 +25,8 @@ github.com/vegidio/umd-lib v0.0.0-20241214231352-e4fc00993465 h1:clmj+RDR1gc1Uo2
 github.com/vegidio/umd-lib v0.0.0-20241214231352-e4fc00993465/go.mod h1:Tm5jfiJI9BN3EI+aOvLFFrdcFErW+W1ju2DgAUfZ8EQ=
 github.com/vegidio/umd-lib v0.0.0-20241215081441-37d0fadba062 h1:VDvtjLblWdFSFuI6NRmdg3EMY8fFbPCaRGrcBn/P/k8=
 github.com/vegidio/umd-lib v0.0.0-20241215081441-37d0fadba062/go.mod h1:Tm5jfiJI9BN3EI+aOvLFFrdcFErW+W1ju2DgAUfZ8EQ=
+github.com/vegidio/umd-lib v0.0.0-20241216032736-87709c239426 h1:X/6Kcjnc2q6tSK7ciuWRWl2kJ0Dic4YLjrUvyhjjxpM=
+github.com/vegidio/umd-lib v0.0.0-20241216032736-87709c239426/go.mod h1:Tm5jfiJI9BN3EI+aOvLFFrdcFErW+W1ju2DgAUfZ8EQ=
 github.com/ysmood/fetchup v0.2.4 h1:2kfWr/UrdiHg4KYRrxL2Jcrqx4DZYD+OtWu7WPBZl5o=
 github.com/ysmood/fetchup v0.2.4/go.mod h1:hbysoq65PXL0NQeNzUczNYIKpwpkwFL4LXMDEvIQq9A=
 github.com/ysmood/goob v0.4.0 h1:HsxXhyLBeGzWXnqVKtmT9qM7EuVs/XOgkX7T6r1o1AQ=

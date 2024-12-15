@@ -6,7 +6,7 @@ toolchain go1.23.4
 
 require (
 	github.com/spf13/afero v1.11.0
-	github.com/vegidio/umd-lib v0.0.0-20241215081441-37d0fadba062
+	github.com/vegidio/umd-lib v0.0.0-20241216032736-87709c239426
 )
 
 require (
