@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { Stack } from '@mui/material'
-import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, Message, SearchBox } from './components'
+import { SnackbarProvider } from 'notistack'
+import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components'
 import { GetHomeDirectory } from '../wailsjs/go/main/App'
-import './App.css'
 import { useAppStore } from './store'
+import './App.css'
 
 const App = () => {
     const store = useAppStore()
@@ -18,7 +19,7 @@ const App = () => {
     }, [])
 
     return (
-        <>
+        <SnackbarProvider maxSnack={3}>
             <Stack id="app" spacing="1em">
                 <SearchBox />
 
@@ -32,9 +33,7 @@ const App = () => {
             </Stack>
 
             <Loading />
-
-            <Message />
-        </>
+        </SnackbarProvider>
     )
 }
 

@@ -9,6 +9,7 @@ import {
     Tooltip,
     Typography
 } from '@mui/material'
+import { enqueueSnackbar } from 'notistack'
 import { Public, Search } from '@mui/icons-material'
 import { QueryMedia } from '../../wailsjs/go/main/App'
 import { useAppStore } from '../store'
@@ -41,7 +42,7 @@ export const SearchBox = () => {
             const media = await QueryMedia(url, limit, checkboxDeep)
             store.setMedia(media)
         } catch (e) {
-            store.showMessage('Error querying the media from this URL', 'error')
+            enqueueSnackbar('Error querying the media from this URL', { variant: 'error' })
         } finally {
             store.setIsQuerying(false)
         }

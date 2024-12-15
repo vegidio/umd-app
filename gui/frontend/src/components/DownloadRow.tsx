@@ -4,6 +4,7 @@ import { CloudDownload } from '@mui/icons-material'
 import { StartDownload } from '../../wailsjs/go/main/App'
 import { useAppStore } from '../store'
 import './DownloadRow.css'
+import { enqueueSnackbar } from 'notistack'
 
 export const DownloadRow = () => {
     const store = useAppStore()
@@ -15,7 +16,7 @@ export const DownloadRow = () => {
 
         await StartDownload(store.selectedMedia, store.directory, 5)
 
-        store.showMessage('Download completed', 'success')
+        enqueueSnackbar('Download completed', { variant: 'success' })
         store.setIsDownloading(false)
     }
 

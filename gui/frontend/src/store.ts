@@ -7,8 +7,6 @@ import Download = shared.Download
 type AppStore = {
     isQuerying: boolean
     isDownloading: boolean
-    message: string
-    messageSeverity: 'error' | 'warning' | 'info' | 'success'
     extractorName: string
     extractorType: string
     extractorTypeName: string
@@ -22,7 +20,6 @@ type AppStore = {
     clear: () => void
     setIsQuerying: (querying: boolean) => void
     setIsDownloading: (downloading: boolean) => void
-    showMessage: (message: string, severity: 'error' | 'warning' | 'info' | 'success') => void
     addAmountQuery: (amount: number) => void
     setExtractorName: (name: string) => void
     setExtractorType: (eType: string, name: string) => void
@@ -38,8 +35,6 @@ export const useAppStore = create(
     immer<AppStore>((set, get) => ({
         isQuerying: false,
         isDownloading: false,
-        message: '',
-        messageSeverity: 'success',
         extractorName: '',
         extractorType: '',
         extractorTypeName: '',
@@ -72,14 +67,6 @@ export const useAppStore = create(
         setIsDownloading: (downloading: boolean) => {
             set(state => {
                 state.isDownloading = downloading
-            })
-        },
-
-        showMessage: (message: string, severity: 'error' | 'warning' | 'info' | 'success') => {
-            const currentTime = new Date().toISOString()
-            set(state => {
-                state.message = currentTime + message
-                state.messageSeverity = severity
             })
         },
 
