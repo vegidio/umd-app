@@ -24,7 +24,7 @@ func CreateSpinner(text string, number int) context.CancelFunc {
 
 func StartSpinner(ctx context.Context) {
 	counter := 0
-	ticker := time.NewTicker(200 * time.Millisecond)
+	ticker := time.NewTicker(100 * time.Millisecond)
 	defer ticker.Stop()
 
 	for {

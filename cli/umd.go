@@ -8,6 +8,7 @@ import (
 	"github.com/vegidio/umd-lib"
 	"github.com/vegidio/umd-lib/event"
 	"math"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -53,7 +54,20 @@ func startQuery(
 		return err
 	}
 
-	startDownload(resp.Media, directory, parallel)
+	downloads := startDownload(resp.Media, directory, parallel)
+
+	isFirstDuplicate := true
+	_, remaining := shared.RemoveDuplicates(downloads, func(download shared.Download) {
+		if isFirstDuplicate {
+			pterm.Println("\n🚮 Removing duplicated downloads...")
+			isFirstDuplicate = false
+		}
+
+		fileName := filepath.Base(download.FilePath)
+		pterm.Printf("["+pterm.LightRed("D")+"] Deleting file %s\n", pterm.Bold.Sprintf(fileName))
+	})
+
+	shared.CreateReport(directory, remaining)
 
 	pterm.Println("\n🌟 Done!")
 	return nil

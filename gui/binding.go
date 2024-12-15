@@ -8,6 +8,7 @@ import (
 	"github.com/vegidio/umd-lib/event"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os/user"
+	"path/filepath"
 )
 
 var umdObj *umd.Umd
@@ -41,9 +42,14 @@ func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) 
 }
 
 func (a *App) StartDownload(media []umd.Media, directory string, parallel int) []shared.Download {
-	return shared.DownloadAll(media, directory, parallel, func(download shared.Download) {
+	downloads := shared.DownloadAll(media, directory, parallel, func(download shared.Download) {
 		a.OnMediaDownloaded(download)
 	})
+
+	_, remaining := shared.RemoveDuplicates(downloads, nil)
+	shared.CreateReport(directory, remaining)
+
+	return downloads
 }
 
 func (a *App) GetHomeDirectory() string {
@@ -53,7 +59,8 @@ func (a *App) GetHomeDirectory() string {
 		return "."
 	}
 
-	return currentUser.HomeDir
+	initialDir := filepath.Join(currentUser.HomeDir, "UMD")
+	return initialDir
 }
 
 func (a *App) OpenDirectory(currentDir string) string {

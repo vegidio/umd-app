@@ -62,7 +62,7 @@ func main() {
 				Destination: &limit,
 				Category:    "Optional:",
 				EnvVars:     []string{"UMD_LIMIT"},
-				DefaultText: "all files",
+				DefaultText: "99.999",
 				Action: func(context *cli.Context, i int) error {
 					if i < 1 {
 						return fmt.Errorf("the max number of downloads; should be at least 1")
