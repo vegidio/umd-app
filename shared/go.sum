@@ -21,8 +21,10 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
-github.com/vegidio/umd-lib v0.0.0-20241207220356-817b680aad4c h1:Bm0BX7VeZQ/UbZtrZy01dWFMoySJsQU+GPZNRQNoctU=
-github.com/vegidio/umd-lib v0.0.0-20241207220356-817b680aad4c/go.mod h1:Tm5jfiJI9BN3EI+aOvLFFrdcFErW+W1ju2DgAUfZ8EQ=
+github.com/vegidio/umd-lib v0.0.0-20241214231352-e4fc00993465 h1:clmj+RDR1gc1Uo2yZN5E52vFTXohQkGM8u0yWe9ww/w=
+github.com/vegidio/umd-lib v0.0.0-20241214231352-e4fc00993465/go.mod h1:Tm5jfiJI9BN3EI+aOvLFFrdcFErW+W1ju2DgAUfZ8EQ=
+github.com/vegidio/umd-lib v0.0.0-20241215081441-37d0fadba062 h1:VDvtjLblWdFSFuI6NRmdg3EMY8fFbPCaRGrcBn/P/k8=
+github.com/vegidio/umd-lib v0.0.0-20241215081441-37d0fadba062/go.mod h1:Tm5jfiJI9BN3EI+aOvLFFrdcFErW+W1ju2DgAUfZ8EQ=
 github.com/ysmood/fetchup v0.2.4 h1:2kfWr/UrdiHg4KYRrxL2Jcrqx4DZYD+OtWu7WPBZl5o=
 github.com/ysmood/fetchup v0.2.4/go.mod h1:hbysoq65PXL0NQeNzUczNYIKpwpkwFL4LXMDEvIQq9A=
 github.com/ysmood/goob v0.4.0 h1:HsxXhyLBeGzWXnqVKtmT9qM7EuVs/XOgkX7T6r1o1AQ=
