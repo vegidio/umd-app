@@ -25,10 +25,10 @@ func DownloadAll(
 	fetchObj := fetch.New(nil, 10)
 	downloads := make([]Download, 0)
 
-	for i, m := range media {
+	for _, m := range media {
 		wg.Add(1)
 
-		go func(index int, media umd.Media) {
+		go func(media umd.Media) {
 			defer func() {
 				<-sem
 				wg.Done()
@@ -36,7 +36,7 @@ func DownloadAll(
 
 			sem <- struct{}{} // acquire a semaphore token
 
-			filePath := CreateFilePath(directory, media, index)
+			filePath := CreateFilePath(directory, media)
 			newDownload := DownloadMedia(media, filePath, fetchObj)
 			downloads = append(downloads, newDownload)
 
@@ -44,7 +44,7 @@ func DownloadAll(
 			if onMediaDownload != nil {
 				onMediaDownload(newDownload)
 			}
-		}(i, m)
+		}(m)
 	}
 
 	wg.Wait()
@@ -53,11 +53,12 @@ func DownloadAll(
 	return downloads
 }
 
-func CreateFilePath(directory string, media umd.Media, index int) string {
+func CreateFilePath(directory string, media umd.Media) string {
 	var t time.Time
 	var err error
 
 	n := media.Metadata["name"].(string)
+	suffix := CreateHashSuffix(media.Url)
 
 	// If array of Media is coming from the JS code, the values in the Metadata map are strings
 	timeStr, ok := media.Metadata["created"].(string)
@@ -70,16 +71,14 @@ func CreateFilePath(directory string, media umd.Media, index int) string {
 		t = media.Metadata["created"].(time.Time)
 	}
 
-	// Go uses a specific layout to represent the time format
-	// It is based on the time: Mon Jan 2 15:04:05 MST 2006
-	formattedTime := t.Format("20060102-150405")
+	timestamp := CreateTimestamp(t.Unix())
 
 	ext := media.Extension
 	if ext == "" {
 		ext = "unknown"
 	}
 
-	fileName := fmt.Sprintf("%s-%s-%d.%s", formattedTime, n, index+1, ext)
+	fileName := fmt.Sprintf("%s-%s-%s.%s", n, timestamp, suffix, ext)
 	return filepath.Join(directory, fileName)
 }
 
