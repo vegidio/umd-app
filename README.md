@@ -47,7 +47,7 @@ $ umd-dl -d ~/Downloads/UMD <url>
 Where:
 
 - `-d` (optional): the directory where you want the files to be saved; default is the current directory.
-- `-l` (optional): the maximum number of files to download; default is no limit.
+- `-l` (optional): the maximum number of files to download; default is 99.999 files.
 - `<url>` (mandatory): the URL of the website where the media is hosted (**Attention:** it's important that the URL is the last parameter).
 
 For the full list of parameters, type `umd-dl --help` in the terminal.
