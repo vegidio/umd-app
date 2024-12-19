@@ -3,15 +3,13 @@ package shared
 import (
 	"crypto/sha256"
 	"fmt"
-	"github.com/spf13/afero"
+	"github.com/cavaliergopher/grab/v3"
+	"github.com/samber/lo"
 	"github.com/vegidio/umd-lib"
 	"github.com/vegidio/umd-lib/fetch"
 	"path/filepath"
-	"sync"
 	"time"
 )
-
-var fs = afero.NewOsFs()
 
 func DownloadAll(
 	media []umd.Media,
@@ -19,36 +17,33 @@ func DownloadAll(
 	parallel int,
 	onMediaDownload func(download Download),
 ) []Download {
-	var wg sync.WaitGroup
-	sem := make(chan struct{}, parallel)
-
-	fetchObj := fetch.New(nil, 10)
 	downloads := make([]Download, 0)
 
-	for _, m := range media {
-		wg.Add(1)
+	requests := lo.Map(media, func(m umd.Media, _ int) *grab.Request {
+		filePath := CreateFilePath(directory, m)
+		r, _ := grab.NewRequest(filePath, m.Url)
+		return r
+	})
 
-		go func(media umd.Media) {
-			defer func() {
-				<-sem
-				wg.Done()
-			}()
+	f := fetch.New(nil, 10)
+	f.DownloadFiles(requests, parallel, func(response *grab.Response) {
+		file, _ := response.Bytes()
+		hash := fmt.Sprintf("%x", sha256.Sum256(file))
 
-			sem <- struct{}{} // acquire a semaphore token
+		download := Download{
+			Url:       response.Request.URL().String(),
+			FilePath:  response.Filename,
+			Error:     response.Err(),
+			IsSuccess: response.Err() == nil,
+			Hash:      hash,
+		}
 
-			filePath := CreateFilePath(directory, media)
-			newDownload := DownloadMedia(media, filePath, fetchObj)
-			downloads = append(downloads, newDownload)
+		if onMediaDownload != nil {
+			onMediaDownload(download)
+		}
 
-			// Send status update to the UI
-			if onMediaDownload != nil {
-				onMediaDownload(newDownload)
-			}
-		}(m)
-	}
-
-	wg.Wait()
-	close(sem)
+		downloads = append(downloads, download)
+	})
 
 	return downloads
 }
@@ -80,18 +75,4 @@ func CreateFilePath(directory string, media umd.Media) string {
 
 	fileName := fmt.Sprintf("%s-%s-%s.%s", n, timestamp, suffix, ext)
 	return filepath.Join(directory, fileName)
-}
-
-func DownloadMedia(media umd.Media, filePath string, fetchObj fetch.Fetch) Download {
-	_, err := fetchObj.DownloadFile(media.Url, filePath)
-	file, _ := afero.ReadFile(fs, filePath)
-	hash := sha256.Sum256(file)
-
-	return Download{
-		Url:       media.Url,
-		FilePath:  filePath,
-		Error:     err,
-		IsSuccess: err == nil,
-		Hash:      fmt.Sprintf("%x", hash),
-	}
 }
