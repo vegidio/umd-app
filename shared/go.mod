@@ -9,7 +9,7 @@ require (
 	github.com/go-resty/resty/v2 v2.16.2
 	github.com/samber/lo v1.47.0
 	github.com/spf13/afero v1.11.0
-	github.com/vegidio/umd-lib v0.0.0-20241219100532-14e26682876a
+	github.com/vegidio/umd-lib v0.0.0-20241219154936-e165552cc079
 )
 
 require (

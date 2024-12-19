@@ -82,8 +82,8 @@ github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsT
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 github.com/urfave/cli/v2 v2.27.5 h1:WoHEJLdsXr6dDWoJgMq/CboDmyY/8HMMH1fTECbih+w=
 github.com/urfave/cli/v2 v2.27.5/go.mod h1:3Sevf16NykTbInEnD0yKkjDAeZDS0A6bzhBH5hrMvTQ=
-github.com/vegidio/umd-lib v0.0.0-20241219100532-14e26682876a h1:c+3pOqgG8PZbLXutfmYqP4IkIOoH+RAXWSQVAtesxEo=
-github.com/vegidio/umd-lib v0.0.0-20241219100532-14e26682876a/go.mod h1:FL/zCnREdxKrt+4GUmFFJ6pgjthtjXODWG6lEu7HnJI=
+github.com/vegidio/umd-lib v0.0.0-20241219154936-e165552cc079 h1:w4El80VkKRZu9ydpyXIGDqhMfx0M8oyikfgzT/nh3IY=
+github.com/vegidio/umd-lib v0.0.0-20241219154936-e165552cc079/go.mod h1:FL/zCnREdxKrt+4GUmFFJ6pgjthtjXODWG6lEu7HnJI=
 github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778/go.mod h1:2MuV+tbUrU1zIOPMxZ5EncGwgmMJsa+9ucAQZXxsObs=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e h1:JVG44RsyaB9T2KIHavMF/ppJZNG9ZpyihvCd0w101no=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e/go.mod h1:RbqR21r5mrJuqunuUZ/Dhy/avygyECGrLceyNeo4LiM=
