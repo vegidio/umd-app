@@ -15,7 +15,9 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.10.0 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
+	github.com/denisbrodbeck/machineid v1.0.1 // indirect
 	github.com/go-rod/rod v0.116.2 // indirect
+	github.com/mixpanel/mixpanel-go v1.2.1 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/ysmood/fetchup v0.2.4 // indirect
 	github.com/ysmood/goob v0.4.0 // indirect

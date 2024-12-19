@@ -3,6 +3,7 @@ module cli
 go 1.23.4
 
 require (
+	github.com/google/uuid v1.4.0
 	github.com/pterm/pterm v0.12.80
 	github.com/samber/lo v1.47.0
 	github.com/sirupsen/logrus v1.9.3
@@ -20,11 +21,13 @@ require (
 	github.com/cavaliergopher/grab/v3 v3.0.1 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
+	github.com/denisbrodbeck/machineid v1.0.1 // indirect
 	github.com/go-resty/resty/v2 v2.16.2 // indirect
 	github.com/go-rod/rod v0.116.2 // indirect
 	github.com/gookit/color v1.5.4 // indirect
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
+	github.com/mixpanel/mixpanel-go v1.2.1 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect

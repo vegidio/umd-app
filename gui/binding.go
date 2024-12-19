@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/google/uuid"
+	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 	"github.com/vegidio/shared"
@@ -13,15 +15,26 @@ import (
 
 var umdObj *umd.Umd
 var name string
+var mp *shared.MixPanel
 
 func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) {
 	var err error
 
+	mp = shared.NewMixPanel(uuid.New().String())
+	fields := make(map[string]any)
+	fields["interface"] = "gui"
+	fields["limit"] = limit
+
 	umdObj, err = umd.New(url, nil, func(ev event.Event) {
 		switch e := ev.(type) {
 		case event.OnExtractorFound:
+			fields["extractor"] = e.Name
 			a.OnExtractorFound(e.Name)
 		case event.OnExtractorTypeFound:
+			fields["source"] = e.Type
+			fields["name"] = e.Name
+			mp.Track("Start Download", fields)
+
 			name = e.Name
 			a.OnExtractorTypeFound(e.Type, e.Name)
 		case event.OnMediaQueried:
@@ -44,14 +57,24 @@ func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) 
 }
 
 func (a *App) StartDownload(media []umd.Media, directory string, parallel int) []shared.Download {
+	fields := make(map[string]any)
+	fields["parallel"] = parallel
+	fields["mediaFound"] = len(media)
+
 	fullDir := filepath.Join(directory, name)
 	downloads := shared.DownloadAll(media, fullDir, parallel, func(download shared.Download) {
 		a.OnMediaDownloaded(download)
 	})
 
+	successes := lo.CountBy(downloads, func(d shared.Download) bool { return d.IsSuccess })
+	failures := lo.CountBy(downloads, func(d shared.Download) bool { return !d.IsSuccess })
+	fields["numSuccesses"] = successes
+	fields["numFailures"] = failures
+
 	_, remaining := shared.RemoveDuplicates(downloads, nil)
 	shared.CreateReport(fullDir, remaining)
 
+	mp.Track("End Download", fields)
 	return downloads
 }
 
