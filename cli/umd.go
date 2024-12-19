@@ -22,6 +22,7 @@ func startQuery(
 ) error {
 	msg := ""
 	queryCount := 0
+	name := ""
 	var stopSpinner context.CancelFunc
 
 	u, err := umd.New(url, nil, func(ev event.Event) {
@@ -31,6 +32,7 @@ func startQuery(
 
 		case event.OnExtractorTypeFound:
 			pterm.Println("; extractor type:", pterm.FgLightYellow.Sprintf("%s", e.Type))
+			name = e.Name
 			msg = pterm.Sprintf("📝 Querying %s %s for media files...", strings.ToLower(e.Type),
 				pterm.Bold.Sprintf(e.Name))
 			stopSpinner = spinner.CreateSpinner(msg, queryCount)
@@ -54,7 +56,8 @@ func startQuery(
 		return err
 	}
 
-	downloads := startDownload(resp.Media, directory, parallel)
+	fullDir := filepath.Join(directory, name)
+	downloads := startDownload(resp.Media, fullDir, parallel)
 
 	isFirstDuplicate := true
 	_, remaining := shared.RemoveDuplicates(downloads, func(download shared.Download) {
@@ -67,7 +70,7 @@ func startQuery(
 		pterm.Printf("["+pterm.LightRed("D")+"] Deleting file %s\n", pterm.Bold.Sprintf(fileName))
 	})
 
-	shared.CreateReport(directory, remaining)
+	shared.CreateReport(fullDir, remaining)
 
 	pterm.Println("\n🌟 Done!")
 	return nil
