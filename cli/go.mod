@@ -9,7 +9,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/urfave/cli/v2 v2.27.5
 	github.com/vegidio/shared v0.0.0-00010101000000-000000000000
-	github.com/vegidio/umd-lib v0.0.0-20241219154936-e165552cc079
+	github.com/vegidio/umd-lib v0.0.0-20241220121920-52096f944424
 )
 
 require (
@@ -17,7 +17,7 @@ require (
 	atomicgo.dev/keyboard v0.2.9 // indirect
 	atomicgo.dev/schedule v0.1.0 // indirect
 	github.com/PuerkitoBio/goquery v1.10.0 // indirect
-	github.com/andybalholm/cascadia v1.3.2 // indirect
+	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/cavaliergopher/grab/v3 v3.0.1 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
