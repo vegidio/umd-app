@@ -90,6 +90,6 @@ func CreateTimestamp(num int64) string {
 }
 
 func CreateHashSuffix(str string) string {
-    hash := sha1.Sum([]byte(str))
-    return fmt.Sprintf("%x", hash)[:4]
+	hash := sha1.Sum([]byte(str))
+	return fmt.Sprintf("%x", hash)[:4]
 }
