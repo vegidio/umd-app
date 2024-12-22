@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/afero"
 	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 var fs = afero.NewOsFs()
@@ -56,7 +57,37 @@ func CreateReport(directory string, downloads []Download) {
 		fileContent += "---\n"
 	}
 
+	if len(failedDownloads) > 0 {
+		fileContent += createManualDownloadCommand(failedDownloads)
+	}
+
 	_, _ = file.WriteString(fileContent)
+}
+
+func createManualDownloadCommand(downloads []Download) string {
+	fileContent := "\n## Retry Failed Downloads\n\n"
+	fileContent += "You can retry the failed downloads by using either [aria2](https://aria2.github.io) (recommended) or [wget](https://www.gnu.org/software/wget):\n\n"
+	fileContent += "### Aria2\n\n"
+	fileContent += "```bash\n"
+
+	downloadList := lo.Reduce(downloads, func(acc string, d Download, _ int) string {
+		return acc + fmt.Sprintf(" %s", d.Url)
+	}, "$ aria2c --file-allocation=none --auto-file-renaming=false --always-resume=true --conditional-get=true -c -s 1 -x 5 -j 5 -m 10 -Z")
+
+	line := ""
+	for _, part := range strings.Split(downloadList, " ") {
+		if (len(line) + len(part)) >= 118 {
+			fileContent += line + " \\\n"
+			line = "   "
+		}
+
+		line += " " + part
+	}
+
+	fileContent += line + "\n"
+	fileContent += "```\n"
+
+	return fileContent
 }
 
 func RemoveDuplicates(downloads []Download, onDuplicateDeleted func(download Download)) (int, []Download) {

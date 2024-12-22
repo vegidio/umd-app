@@ -5,6 +5,7 @@ import (
 	"github.com/denisbrodbeck/machineid"
 	"github.com/mixpanel/mixpanel-go"
 	"runtime"
+	"strings"
 )
 
 type MixPanel struct {
@@ -22,7 +23,7 @@ func NewMixPanel(distinctId string) *MixPanel {
 func (m *MixPanel) Track(event string, fields map[string]any) {
 	// Set the computer information
 	id, _ := machineid.ID()
-	fields["machineId"] = id
+	fields["machineId"] = strings.ToLower(id)
 	fields["os"] = runtime.GOOS
 	fields["arch"] = runtime.GOARCH
 
