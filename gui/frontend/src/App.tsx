@@ -11,7 +11,8 @@ const App = () => {
 
     useEffect(() => {
         const getHomeDirectory = async () => {
-            const dir = await GetHomeDirectory()
+            let dir = localStorage.getItem('lastDirectory')
+            if (!dir) dir = await GetHomeDirectory()
             store.setDirectory(dir)
         }
 

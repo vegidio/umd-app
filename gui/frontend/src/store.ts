@@ -90,6 +90,8 @@ export const useAppStore = create(
         },
 
         setDirectory: (directory: string) => {
+            localStorage.setItem('lastDirectory', directory)
+
             set(state => {
                 state.directory = directory
             })
