@@ -1,5 +1,7 @@
 github.com/PuerkitoBio/goquery v1.10.0 h1:6fiXdLuUvYs2OJSvNRqlNPoBm6YABE226xrbavY5Wv4=
 github.com/PuerkitoBio/goquery v1.10.0/go.mod h1:TjZZl68Q3eGHNBA8CWaxAN7rOU1EbDz3CWuolcO5Yu4=
+github.com/PuerkitoBio/goquery v1.10.1 h1:Y8JGYUkXWTGRB6Ars3+j3kN0xg1YqqlwvdTV8WTFQcU=
+github.com/PuerkitoBio/goquery v1.10.1/go.mod h1:IYiHrOMps66ag56LEH7QYDDupKXyo5A8qrjIx3ZtujY=
 github.com/andybalholm/cascadia v1.3.2 h1:3Xi6Dw5lHF15JtdcmAHD3i1+T8plmv7BQ/nsViSLyss=
 github.com/andybalholm/cascadia v1.3.2/go.mod h1:7gtRlve5FxPPgIgX36uWBX58OdBsSS6lUvCFb+h7KvU=
 github.com/andybalholm/cascadia v1.3.3 h1:AG2YHrzJIm4BZ19iwJ/DAua6Btl3IwJX+VI4kktS1LM=
@@ -40,6 +42,8 @@ github.com/vegidio/umd-lib v0.0.0-20241220121920-52096f944424 h1:bzJUUbK8mk3gURX
 github.com/vegidio/umd-lib v0.0.0-20241220121920-52096f944424/go.mod h1:FL/zCnREdxKrt+4GUmFFJ6pgjthtjXODWG6lEu7HnJI=
 github.com/vegidio/umd-lib v0.0.0-20241224003918-03009332159f h1:8FocIek3sgD6sq36NfwziVSGngqLrvmk/qjTKlQQQkU=
 github.com/vegidio/umd-lib v0.0.0-20241224003918-03009332159f/go.mod h1:FL/zCnREdxKrt+4GUmFFJ6pgjthtjXODWG6lEu7HnJI=
+github.com/vegidio/umd-lib v0.0.0-20241227100748-d1ef7a46d987 h1:nMw99heCHVTEQ++8GboW+4Efqeu2/nXUjNb2ucBUQUw=
+github.com/vegidio/umd-lib v0.0.0-20241227100748-d1ef7a46d987/go.mod h1:A7FwmrHmWVdCp1cxKMW5FmYD+gnoB8kLjwOARUezjyE=
 github.com/ysmood/fetchup v0.2.4 h1:2kfWr/UrdiHg4KYRrxL2Jcrqx4DZYD+OtWu7WPBZl5o=
 github.com/ysmood/fetchup v0.2.4/go.mod h1:hbysoq65PXL0NQeNzUczNYIKpwpkwFL4LXMDEvIQq9A=
 github.com/ysmood/goob v0.4.0 h1:HsxXhyLBeGzWXnqVKtmT9qM7EuVs/XOgkX7T6r1o1AQ=

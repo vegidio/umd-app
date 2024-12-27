@@ -9,11 +9,11 @@ require (
 	github.com/go-resty/resty/v2 v2.16.2
 	github.com/samber/lo v1.47.0
 	github.com/spf13/afero v1.11.0
-	github.com/vegidio/umd-lib v0.0.0-20241224003918-03009332159f
+	github.com/vegidio/umd-lib v0.0.0-20241227100748-d1ef7a46d987
 )
 
 require (
-	github.com/PuerkitoBio/goquery v1.10.0 // indirect
+	github.com/PuerkitoBio/goquery v1.10.1 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/denisbrodbeck/machineid v1.0.1 // indirect
 	github.com/go-rod/rod v0.116.2 // indirect
