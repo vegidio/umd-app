@@ -1,5 +1,3 @@
-github.com/PuerkitoBio/goquery v1.10.0 h1:6fiXdLuUvYs2OJSvNRqlNPoBm6YABE226xrbavY5Wv4=
-github.com/PuerkitoBio/goquery v1.10.0/go.mod h1:TjZZl68Q3eGHNBA8CWaxAN7rOU1EbDz3CWuolcO5Yu4=
 github.com/PuerkitoBio/goquery v1.10.1 h1:Y8JGYUkXWTGRB6Ars3+j3kN0xg1YqqlwvdTV8WTFQcU=
 github.com/PuerkitoBio/goquery v1.10.1/go.mod h1:IYiHrOMps66ag56LEH7QYDDupKXyo5A8qrjIx3ZtujY=
 github.com/andybalholm/cascadia v1.3.3 h1:AG2YHrzJIm4BZ19iwJ/DAua6Btl3IwJX+VI4kktS1LM=
@@ -80,10 +78,8 @@ github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyC
 github.com/valyala/fasttemplate v1.2.1/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
 github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQD0Loo=
 github.com/valyala/fasttemplate v1.2.2/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
-github.com/vegidio/umd-lib v0.0.0-20241224003918-03009332159f h1:8FocIek3sgD6sq36NfwziVSGngqLrvmk/qjTKlQQQkU=
-github.com/vegidio/umd-lib v0.0.0-20241224003918-03009332159f/go.mod h1:FL/zCnREdxKrt+4GUmFFJ6pgjthtjXODWG6lEu7HnJI=
-github.com/vegidio/umd-lib v0.0.0-20241227100748-d1ef7a46d987 h1:nMw99heCHVTEQ++8GboW+4Efqeu2/nXUjNb2ucBUQUw=
-github.com/vegidio/umd-lib v0.0.0-20241227100748-d1ef7a46d987/go.mod h1:A7FwmrHmWVdCp1cxKMW5FmYD+gnoB8kLjwOARUezjyE=
+github.com/vegidio/umd-lib v0.0.0-20241227101830-cf20f64699ee h1:fg4BMGTTYS9rE96IXHzVz3/Yxkoif21UcV3tH9E4tng=
+github.com/vegidio/umd-lib v0.0.0-20241227101830-cf20f64699ee/go.mod h1:A7FwmrHmWVdCp1cxKMW5FmYD+gnoB8kLjwOARUezjyE=
 github.com/wailsapp/go-webview2 v1.0.16 h1:wffnvnkkLvhRex/aOrA3R7FP7rkvOqL/bir1br7BekU=
 github.com/wailsapp/go-webview2 v1.0.16/go.mod h1:Uk2BePfCRzttBBjFrBmqKGJd41P6QIHeV9kTgIeOZNo=
 github.com/wailsapp/mimetype v1.4.1 h1:pQN9ycO7uo4vsUUuPeHEYoUkLVkaRntMnHJxVwYhwHs=

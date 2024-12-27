@@ -8,6 +8,7 @@
 It supports the following sites:
 <br/><br/>
 <a href="https://coomer.su" target="_blank"><img src="https://img.shields.io/badge/Coomer-1392F4?&style=for-the-badge&logo=onlyfans&logoColor=white"/></a>
+<a href="https://kemono.su" target="_blank"><img src="https://img.shields.io/badge/Kemono-E6712F?&style=for-the-badge&logo=keystone&logoColor=white"/></a>
 <a href="https://www.reddit.com" target="_blank"><img src="https://img.shields.io/badge/Reddit-FF4500?&style=for-the-badge&logo=reddit&logoColor=white"/></a>
 <a href="https://www.redgifs.com" target="_blank"><img src="https://img.shields.io/badge/RedGifs-764ABC?&style=for-the-badge&logo=codeigniter&logoColor=white"/></a>
 </p>
@@ -72,9 +73,9 @@ To bypass this, open the Terminal and run the command below, replacing `<path-to
 $ xattr -d com.apple.quarantine <path-to-app>
 ```
 
-### Query/Download is taking too long
+### Download is taking too long
 
-Some websites, like Coomer, use techniques to block tools from scraping their content. **UMD**, however, includes countermeasures to bypass these restrictions. This process can make queries and downloads take longer than usual.
+Some websites, like Coomer/Kemono, use techniques to block tools from scraping their content. **UMD**, however, includes countermeasures to bypass these restrictions. This process can make the downloads take longer than usual.
 
 Unfortunately, there’s no way to speed up this process, so please be patient and allow the app to complete its work.
 
