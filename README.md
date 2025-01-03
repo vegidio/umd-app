@@ -19,7 +19,7 @@ There are 2 ways to use this app: using the GUI or the CLI.
 
 The GUI is the easiest way to use the app, with an intuitive interface that allows you to download media files with just a few clicks. The CLI is more advanced and allows you to download media files in a more automated way.
 
-Both versions are available for Windows, macOS, and Linux. Download the correct version that matches your computer architecture and operating system from the [latest release](https://github.com/vegidio/umd-app/releases) and follow the instructions below:
+Both versions are available for Windows, macOS, and Linux. Download the [latest release](https://github.com/vegidio/umd-app/releases) that matches your computer architecture and operating system and follow the instructions below:
 
 ### GUI
 
@@ -118,7 +118,7 @@ $ task gui os=windows arch=amd64
 
 This app collects information about the data that you're downloading to help me track bugs and improve the general stability of the software.
 
-**No identifiable information about you or your computer is tracked.** But if you still want to stop the telemetry, you can do that by adding the flag `--no-telemetry` in the CLI tool or the environment variable `-e UMD_TELEMETRY=false` when you run the Docker container.
+**No identifiable information about you or your computer is tracked.** But if you still want to stop the telemetry, you can do that by adding the flag `--no-telemetry` in the CLI tool.
 
 ## 📝 License
 
