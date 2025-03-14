@@ -19,8 +19,9 @@ tasks:
       GOOS: "{{.os}}"
       GOARCH: "{{.arch}}"
     cmds:
-      - go build -o {{.ROOT_DIR}}/build/{{.file}}
-      - "{{if .isPackage}}7z a -tzip -mx=9 {{.ROOT_DIR}}/build/umd-cli_{{.os}}_{{.arch}}.zip {{.ROOT_DIR}}/build/{{.file}}{{end}}"
+      - |
+        go build -o "{{.ROOT_DIR}}/build/{{.file}}"
+        {{if .isPackage}}7z a -tzip -mx=9 "{{.ROOT_DIR}}/build/umd-cli_{{.os}}_{{.arch}}.zip" "{{.ROOT_DIR}}/build/{{.file}}"{{end}}
 
   # GUI build tasks
   gui:
@@ -31,10 +32,12 @@ tasks:
     vars:
       file: "{{if eq .os `darwin`}}UMD.app{{else}}{{if eq .os `windows`}}umd.exe{{else}}umd{{end}}{{end}}"
     cmds:
-      - wails build -platform {{.os}}/{{.arch}}
-      - rm -rf {{.ROOT_DIR}}/build/{{.file}}
-      - mv build/bin/{{.file}} {{.ROOT_DIR}}/build/{{.file}}
-      - "{{if .isPackage}}7z a -tzip -mx=9 {{.ROOT_DIR}}/build/umd-gui_{{.os}}_{{.arch}}.zip {{.ROOT_DIR}}/build/{{.file}}{{end}}"
+      - |
+        wails build -platform {{.os}}/{{.arch}} {{if eq .os `linux`}}-tags "webkit2_41"{{end}}
+        rm -rf "{{.ROOT_DIR}}/build/{{.file}}"
+        mkdir -p "{{.ROOT_DIR}}/build"
+        mv "build/bin/{{.file}}" "{{.ROOT_DIR}}/build/{{.file}}"
+        {{if .isPackage}}7z a -tzip -mx=9 "{{.ROOT_DIR}}/build/umd-gui_{{.os}}_{{.arch}}.zip" "{{.ROOT_DIR}}/build/{{.file}}"{{end}}
 
   package:
     desc: Build and pack in .zip files
@@ -44,7 +47,7 @@ tasks:
       - |
         for os in {{.oses}}; do
           for arch in {{.archs}}; do
-            task cli os=$os arch=$arch isPackage=true
             task gui os=$os arch=$arch isPackage=true
+            task cli os=$os arch=$arch isPackage=true
           done
         done

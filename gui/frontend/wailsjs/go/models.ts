@@ -5,7 +5,7 @@ export namespace model {
 	    Extension: string;
 	    Type: number;
 	    Extractor: number;
-	    Metadata: {[key: string]: any};
+	    Metadata: Record<string, any>;
 	
 	    static createFrom(source: any = {}) {
 	        return new Media(source);
