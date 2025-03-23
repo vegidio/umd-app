@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+const Version = "<version>"
+
 type MixPanel struct {
 	distinctId string
 	client     *mixpanel.ApiClient
@@ -26,6 +28,7 @@ func (m *MixPanel) Track(event string, fields map[string]any) {
 	fields["machineId"] = strings.ToLower(id)
 	fields["os"] = runtime.GOOS
 	fields["arch"] = runtime.GOARCH
+	fields["version"] = Version
 
 	newEvent := m.client.NewEvent(event, m.distinctId, fields)
 	m.client.Track(context.Background(), []*mixpanel.Event{newEvent})

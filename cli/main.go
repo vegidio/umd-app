@@ -5,6 +5,7 @@ import (
 	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+	"github.com/vegidio/shared"
 	"io"
 	"os"
 	"strings"
@@ -26,7 +27,7 @@ func main() {
 		Name:            "umd-dl",
 		Usage:           "a CLI tool to easily download media hosted on popular websites",
 		UsageText:       "umd-dl [options] [url]",
-		Version:         "<version>",
+		Version:         shared.Version,
 		HideHelpCommand: true,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
