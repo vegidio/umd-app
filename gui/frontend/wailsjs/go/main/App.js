@@ -6,6 +6,10 @@ export function GetHomeDirectory() {
   return window['go']['main']['App']['GetHomeDirectory']();
 }
 
+export function IsOutdated() {
+  return window['go']['main']['App']['IsOutdated']();
+}
+
 export function OnExtractorFound(arg1) {
   return window['go']['main']['App']['OnExtractorFound'](arg1);
 }

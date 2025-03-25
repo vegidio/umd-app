@@ -1,5 +1,5 @@
-import { create } from 'zustand/react'
 import { immer } from 'zustand/middleware/immer'
+import { create } from 'zustand/react'
 import { model, shared } from '../wailsjs/go/models'
 import Media = model.Media
 import Download = shared.Download

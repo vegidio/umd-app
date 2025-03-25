@@ -1,23 +1,47 @@
+import { Button, Stack } from '@mui/material'
+import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 import React, { useEffect } from 'react'
-import { Stack } from '@mui/material'
-import { SnackbarProvider } from 'notistack'
+import { GetHomeDirectory, IsOutdated } from '../wailsjs/go/main/App'
 import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components'
-import { GetHomeDirectory } from '../wailsjs/go/main/App'
 import { useAppStore } from './store'
 import './App.css'
+import DownloadIcon from '@mui/icons-material/Download'
+import { BrowserOpenURL } from '../wailsjs/runtime'
+
+const action = () => (
+    <Button
+        variant="outlined"
+        color="inherit"
+        size="small"
+        endIcon={<DownloadIcon />}
+        onClick={() => BrowserOpenURL('https://github.com/vegidio/umd-app/releases')}>
+        Download
+    </Button>
+)
 
 const App = () => {
-    const store = useAppStore()
+    const setDirectory = useAppStore(s => s.setDirectory)
 
     useEffect(() => {
         const getHomeDirectory = async () => {
             let dir = localStorage.getItem('lastDirectory')
             if (!dir) dir = await GetHomeDirectory()
-            store.setDirectory(dir)
+            setDirectory(dir)
         }
 
-        getHomeDirectory()
-    }, [])
+        const checkVersion = async () => {
+            const isOutdated = await IsOutdated()
+            if (isOutdated)
+                enqueueSnackbar('A new version of UMD is available. Please update', {
+                    variant: 'warning',
+                    autoHideDuration: 10_000,
+                    preventDuplicate: true,
+                    action
+                })
+        }
+
+        Promise.all([checkVersion(), getHomeDirectory()])
+    }, [setDirectory])
 
     return (
         <SnackbarProvider maxSnack={3}>

@@ -1,11 +1,12 @@
+import { CssBaseline, ThemeProvider, createTheme, useMediaQuery } from '@mui/material'
+import { LicenseInfo } from '@mui/x-license'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material'
-import { LicenseInfo } from '@mui/x-license'
 import App from './App'
 import Events from './Events'
 
 const container = document.getElementById('root')
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
 const root = createRoot(container!)
 
 const lightTheme = createTheme({

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/pterm/pterm"
 	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
@@ -102,6 +103,12 @@ func main() {
 			fullDir, err := expandPath(directory)
 			if err != nil {
 				return fmt.Errorf("directory path %s is invalid", directory)
+			}
+
+			isOutdated := shared.IsOutdated(shared.Version, "vegidio/umd-app")
+			if isOutdated {
+				pterm.FgLightYellow.Print("\n🌟 A new version of UMD is available. Please update at: " +
+					"https://github.com/vegidio/umd-app/releases\n")
 			}
 
 			err = startQuery(

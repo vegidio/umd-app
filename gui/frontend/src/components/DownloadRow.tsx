@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Button, LinearProgress, Stack, Typography } from '@mui/material'
 import { CloudDownload } from '@mui/icons-material'
+import { Button, LinearProgress, Stack, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { StartDownload } from '../../wailsjs/go/main/App'
 import { useAppStore } from '../store'
 import './DownloadRow.css'
@@ -22,7 +22,7 @@ export const DownloadRow = () => {
 
     useEffect(() => {
         const percentage = (store.downloadedMedia.length * 100) / store.selectedMedia.length
-        store.setProgress(isNaN(percentage) ? 0 : percentage)
+        store.setProgress(Number.isNaN(percentage) ? 0 : percentage)
     }, [store.downloadedMedia])
 
     return (

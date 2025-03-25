@@ -5,6 +5,8 @@ import {model} from '../models';
 
 export function GetHomeDirectory():Promise<string>;
 
+export function IsOutdated():Promise<boolean>;
+
 export function OnExtractorFound(arg1:string):Promise<void>;
 
 export function OnExtractorTypeFound(arg1:string,arg2:string):Promise<void>;

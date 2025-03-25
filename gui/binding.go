@@ -78,6 +78,10 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	return downloads
 }
 
+func (a *App) IsOutdated() bool {
+	return shared.IsOutdated(shared.Version, "vegidio/umd-app")
+}
+
 func (a *App) GetHomeDirectory() string {
 	currentUser, err := user.Current()
 	if err != nil {

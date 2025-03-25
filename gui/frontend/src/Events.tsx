@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
+import { shared } from '../wailsjs/go/models'
 import { EventsOn } from '../wailsjs/runtime'
 import { useAppStore } from './store'
-import { shared } from '../wailsjs/go/models'
 import Download = shared.Download
 
 const Events = () => {
