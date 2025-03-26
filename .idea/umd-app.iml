@@ -4,6 +4,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/gui/build" />
       <excludeFolder url="file://$MODULE_DIR$/gui/frontend/dist" />
     </content>
     <orderEntry type="inheritedJdk" />

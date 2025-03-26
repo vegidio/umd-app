@@ -11,10 +11,12 @@ require (
 	github.com/mixpanel/mixpanel-go v1.2.1
 	github.com/samber/lo v1.49.1
 	github.com/spf13/afero v1.12.0
-	github.com/vegidio/umd-lib v0.0.0-20250323130929-bdf28bbd38d4
+	github.com/vegidio/umd-lib v0.0.0-20250326081302-583db93277ee
 )
 
 require (
+	github.com/PuerkitoBio/goquery v1.10.2 // indirect
+	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/go-rod/rod v0.116.2 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/ysmood/fetchup v0.3.0 // indirect

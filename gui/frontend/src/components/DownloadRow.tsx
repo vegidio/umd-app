@@ -23,7 +23,7 @@ export const DownloadRow = () => {
     useEffect(() => {
         const percentage = (store.downloadedMedia.length * 100) / store.selectedMedia.length
         store.setProgress(Number.isNaN(percentage) ? 0 : percentage)
-    }, [store.downloadedMedia])
+    }, [store.downloadedMedia, store.selectedMedia, store.setProgress])
 
     return (
         <Stack direction="row" spacing="1em">

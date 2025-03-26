@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
@@ -52,6 +53,8 @@ func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) 
 	if err != nil {
 		return make([]umd.Media, 0), err
 	}
+
+	fmt.Println(resp.Media)
 
 	return resp.Media, nil
 }

@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material'
 import { useAppStore } from '../store'
 import './Loading.css'
@@ -23,7 +22,7 @@ type CircularProgressProps = {
     value: number
 }
 
-const CircularProgressWithLabel: FC<CircularProgressProps> = ({ value }) => {
+const CircularProgressWithLabel = ({ value }: CircularProgressProps) => {
     return (
         <Box id="circular-progress">
             <CircularProgress color="primary" size="5em" />

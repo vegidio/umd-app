@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import { Public, Search } from '@mui/icons-material'
 import {
     Button,
     Checkbox,
@@ -10,7 +10,7 @@ import {
     Typography
 } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
-import { Public, Search } from '@mui/icons-material'
+import { type ChangeEvent, useState } from 'react'
 import { QueryMedia } from '../../wailsjs/go/main/App'
 import { useAppStore } from '../store'
 import './SearchBox.css'
@@ -31,7 +31,7 @@ export const SearchBox = () => {
             return
         }
 
-        const value = parseInt(e.target.value)
+        const value = Number.parseInt(e.target.value)
         setLimit(value < 1 ? 1 : value)
     }
 

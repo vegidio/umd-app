@@ -21,7 +21,7 @@ export const InfoRow = () => {
                 Source type:{' '}
                 <strong>
                     {store.extractorType || '-'}
-                    {store.extractorTypeName && ' (' + store.extractorTypeName + ')'}
+                    {store.extractorTypeName && ` (${store.extractorTypeName})`}
                 </strong>
             </Typography>
         </Stack>

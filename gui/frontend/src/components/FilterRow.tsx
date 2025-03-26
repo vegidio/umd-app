@@ -1,5 +1,3 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import { Button, Checkbox, FormControlLabel, InputAdornment, Stack, TextField } from '@mui/material'
 import {
     Checklist,
     Folder,
@@ -7,43 +5,45 @@ import {
     Image,
     ImageOutlined,
     SmartDisplay,
-    SmartDisplayOutlined
-} from '@mui/icons-material'
-import { OpenDirectory } from '../../wailsjs/go/main/App'
-import { useAppStore } from '../store'
-import './FilterRow.css'
+    SmartDisplayOutlined,
+} from '@mui/icons-material';
+import { Button, Checkbox, FormControlLabel, InputAdornment, Stack, TextField } from '@mui/material';
+import React, { type ChangeEvent, useEffect, useState } from 'react';
+import { OpenDirectory } from '../../wailsjs/go/main/App';
+import { useAppStore } from '../store';
+import './FilterRow.css';
 
 export const FilterRow = () => {
-    const store = useAppStore()
+    const store = useAppStore();
 
-    const [filter, setFilter] = useState('')
-    const [checkboxImage, setCheckboxImage] = useState(false)
-    const [checkboxVideo, setCheckboxVideo] = useState(false)
+    const [filter, setFilter] = useState('');
+    const [checkboxImage, setCheckboxImage] = useState(false);
+    const [checkboxVideo, setCheckboxVideo] = useState(false);
 
     const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFilter(e.target.value)
-    }
+        setFilter(e.target.value);
+    };
 
     const handleDirectoryChange = (e: ChangeEvent<HTMLInputElement>) => {
-        store.setDirectory(e.target.value)
-    }
+        store.setDirectory(e.target.value);
+    };
 
     const handleDirectoryClick = async () => {
-        const newDir = await OpenDirectory(store.directory)
-        store.setDirectory(newDir)
-    }
+        const newDir = await OpenDirectory(store.directory);
+        store.setDirectory(newDir);
+    };
 
     useEffect(() => {
-        const selected = store.media.filter(media => {
+        const selected = store.media.filter((media) => {
             return (
                 (filter.length > 0 && media.Url.toLowerCase().includes(filter.toLowerCase())) ||
                 (checkboxImage && media.Type === 0) ||
                 (checkboxVideo && media.Type === 1)
-            )
-        })
+            );
+        });
 
-        store.setSelectedMedia(selected)
-    }, [checkboxImage, checkboxVideo, filter])
+        store.setSelectedMedia(selected);
+    }, [checkboxImage, checkboxVideo, filter, store.setSelectedMedia, store.media]);
 
     return (
         <Stack spacing="0.5em">
@@ -63,8 +63,8 @@ export const FilterRow = () => {
                                 <InputAdornment position="start">
                                     <Checklist />
                                 </InputAdornment>
-                            )
-                        }
+                            ),
+                        },
                     }}
                     onChange={handleFilterChange}
                     sx={{ flex: 0.85 }}
@@ -112,8 +112,8 @@ export const FilterRow = () => {
                                 <InputAdornment position="start">
                                     <FolderOpen />
                                 </InputAdornment>
-                            )
-                        }
+                            ),
+                        },
                     }}
                     disabled={store.isDownloading}
                     onChange={handleDirectoryChange}
@@ -125,10 +125,11 @@ export const FilterRow = () => {
                     startIcon={<Folder />}
                     disabled={store.isDownloading}
                     onClick={handleDirectoryClick}
-                    sx={{ flex: 0.15 }}>
+                    sx={{ flex: 0.15 }}
+                >
                     Browse
                 </Button>
             </Stack>
         </Stack>
-    )
-}
+    );
+};

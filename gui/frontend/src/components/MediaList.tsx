@@ -1,12 +1,3 @@
-import React, { FC, ReactElement, useState } from 'react'
-import {
-    DataGridPremium,
-    GridColDef,
-    GridLocaleText,
-    GridRowSelectionModel,
-    GridRowsProp
-} from '@mui/x-data-grid-premium'
-import { useAppStore } from '../store'
 import { ErrorTwoTone, ImageTwoTone, ListAlt, SmartDisplayTwoTone } from '@mui/icons-material'
 import {
     Box,
@@ -21,9 +12,18 @@ import {
     Tooltip,
     Typography
 } from '@mui/material'
+import {
+    DataGridPremium,
+    type GridColDef,
+    type GridLocaleText,
+    type GridRowSelectionModel,
+    type GridRowsProp
+} from '@mui/x-data-grid-premium'
+import { type ReactElement, useState } from 'react'
+import { useAppStore } from '../store'
 import './MediaList.css'
-import { BrowserOpenURL } from '../../wailsjs/runtime'
 import { model } from '../../wailsjs/go/models'
+import { BrowserOpenURL } from '../../wailsjs/runtime'
 import Media = model.Media
 
 const customLocaleText: Partial<GridLocaleText> = {
@@ -75,7 +75,7 @@ export const MediaList = () => {
     )
 }
 
-const LinkCell: FC<{ url: string }> = ({ url }) => {
+const LinkCell = ({ url }: { url: string }) => {
     const handleClick = () => BrowserOpenURL(url)
 
     return (
@@ -85,7 +85,7 @@ const LinkCell: FC<{ url: string }> = ({ url }) => {
     )
 }
 
-const TypeCell: FC<{ type: number }> = ({ type }) => {
+const TypeCell = ({ type }: { type: number }) => {
     let icon: ReactElement
     let label: ReactElement
 
@@ -111,7 +111,7 @@ const TypeCell: FC<{ type: number }> = ({ type }) => {
     )
 }
 
-const MetadataCell: FC<{ metadata: [string: string] }> = ({ metadata }) => {
+const MetadataCell = ({ metadata }: { metadata: [string: string] }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
     const handlePopoverOpen = (e: React.MouseEvent<HTMLElement>) => {
