@@ -11,7 +11,7 @@ require (
 	github.com/mixpanel/mixpanel-go v1.2.1
 	github.com/samber/lo v1.49.1
 	github.com/spf13/afero v1.12.0
-	github.com/vegidio/umd-lib v0.0.0-20250327182904-7bcde7c7c4ba
+	github.com/vegidio/umd-lib v0.0.0-20250328175820-917e504a18dc
 )
 
 require (
@@ -24,7 +24,7 @@ require (
 	github.com/ysmood/got v0.40.0 // indirect
 	github.com/ysmood/gson v0.7.3 // indirect
 	github.com/ysmood/leakless v0.9.0 // indirect
-	golang.org/x/net v0.37.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 )
