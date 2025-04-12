@@ -8,12 +8,12 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/afero v1.12.0
 	github.com/vegidio/shared v0.0.0-00010101000000-000000000000
-	github.com/vegidio/umd-lib v0.0.0-20250411144742-fd278ae98010
+	github.com/vegidio/umd-lib v0.0.0-20250412111411-c769e561df61
 	github.com/wailsapp/wails/v2 v2.10.1
 )
 
 require (
-	github.com/PuerkitoBio/goquery v1.10.2 // indirect
+	github.com/PuerkitoBio/goquery v1.10.3 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/bep/debounce v1.2.1 // indirect
 	github.com/cavaliergopher/grab/v3 v3.0.1 // indirect
