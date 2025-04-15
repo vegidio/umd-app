@@ -5,6 +5,7 @@ import Media = model.Media
 import Download = shared.Download
 
 type AppStore = {
+    isCached: boolean
     isQuerying: boolean
     isDownloading: boolean
     extractorName: string
@@ -18,6 +19,7 @@ type AppStore = {
     downloadedMedia: Download[]
 
     clear: () => void
+    setIsCached: (cached: boolean) => void
     setIsQuerying: (querying: boolean) => void
     setIsDownloading: (downloading: boolean) => void
     addAmountQuery: (amount: number) => void
@@ -33,6 +35,7 @@ type AppStore = {
 
 export const useAppStore = create(
     immer<AppStore>((set, get) => ({
+        isCached: false,
         isQuerying: false,
         isDownloading: false,
         extractorName: '',
@@ -47,6 +50,7 @@ export const useAppStore = create(
 
         clear: () => {
             set(state => {
+                state.isCached = false
                 state.extractorName = ''
                 state.extractorType = ''
                 state.extractorTypeName = ''
@@ -55,6 +59,12 @@ export const useAppStore = create(
                 state.media = []
                 state.selectedMedia = []
                 state.downloadedMedia = []
+            })
+        },
+
+        setIsCached: (cached: boolean) => {
+            set(state => {
+                state.isCached = cached
             })
         },
 

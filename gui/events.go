@@ -17,8 +17,8 @@ func (a *App) OnMediaQueried(amount int) {
 	runtime.EventsEmit(a.ctx, "OnMediaQueried", amount)
 }
 
-func (a *App) OnQueryCompleted(total int) {
-	runtime.EventsEmit(a.ctx, "OnQueryCompleted", total)
+func (a *App) OnQueryCompleted(total int, isCached bool) {
+	runtime.EventsEmit(a.ctx, "OnQueryCompleted", total, isCached)
 }
 
 func (a *App) OnMediaDownloaded(download shared.Download) {

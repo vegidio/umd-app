@@ -21,8 +21,8 @@ const Events = () => {
             store.addAmountQuery(amount)
         })
 
-        const unbindOnQueryCompleted = EventsOn('OnQueryCompleted', (_: number) => {
-            // Empty
+        const unbindOnQueryCompleted = EventsOn('OnQueryCompleted', (_: number, isCached: boolean) => {
+            store.setIsCached(isCached)
         })
 
         const unbindOnMediaDownloaded = EventsOn('OnMediaDownloaded', (download: Download) => {

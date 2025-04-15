@@ -1,4 +1,4 @@
-import { Public, Search } from '@mui/icons-material'
+import { Public, Search } from '@mui/icons-material';
 import {
     Button,
     Checkbox,
@@ -7,46 +7,46 @@ import {
     Stack,
     TextField,
     Tooltip,
-    Typography
-} from '@mui/material'
-import { enqueueSnackbar } from 'notistack'
-import { type ChangeEvent, useState } from 'react'
-import { QueryMedia } from '../../wailsjs/go/main/App'
-import { useAppStore } from '../store'
-import './SearchBox.css'
+    Typography,
+} from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
+import { type ChangeEvent, useState } from 'react';
+import { QueryMedia } from '../../wailsjs/go/main/App';
+import { useAppStore } from '../store';
+import './SearchBox.css';
 
 export const SearchBox = () => {
-    const store = useAppStore()
-    const [url, setUrl] = useState('')
-    const [limit, setLimit] = useState(99_999)
-    const [checkboxDeep, setCheckboxDeep] = useState(true)
+    const store = useAppStore();
+    const [url, setUrl] = useState('');
+    const [limit, setLimit] = useState(99_999);
+    const [checkboxDeep, setCheckboxDeep] = useState(true);
 
     const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setUrl(e.target.value)
-    }
+        setUrl(e.target.value);
+    };
 
     const handleLimitChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.value === '') {
-            setLimit(1)
-            return
+            setLimit(1);
+            return;
         }
 
-        const value = Number.parseInt(e.target.value)
-        setLimit(value < 1 ? 1 : value)
-    }
+        const value = Number.parseInt(e.target.value);
+        setLimit(value < 1 ? 1 : value);
+    };
 
     const handleQueryClick = async () => {
-        store.setIsQuerying(true)
+        store.setIsQuerying(true);
 
         try {
-            const media = await QueryMedia(url, limit, checkboxDeep)
-            store.setMedia(media)
+            const media = await QueryMedia(url, store.directory, limit, checkboxDeep, false);
+            store.setMedia(media);
         } catch (e) {
-            enqueueSnackbar('Error querying the media from this URL', { variant: 'error' })
+            enqueueSnackbar('Error querying the media from this URL', { variant: 'error' });
         } finally {
-            store.setIsQuerying(false)
+            store.setIsQuerying(false);
         }
-    }
+    };
 
     return (
         <Stack id="search-box" direction="row" spacing="1em">
@@ -64,8 +64,8 @@ export const SearchBox = () => {
                             <InputAdornment position="start">
                                 <Public />
                             </InputAdornment>
-                        )
-                    }
+                        ),
+                    },
                 }}
                 onChange={handleUrlChange}
                 sx={{ flex: 0.68 }}
@@ -96,9 +96,10 @@ export const SearchBox = () => {
                 startIcon={<Search />}
                 disabled={url.trim() === '' || store.isDownloading}
                 onClick={handleQueryClick}
-                sx={{ flex: 0.12 }}>
+                sx={{ flex: 0.12 }}
+            >
                 Query
             </Button>
         </Stack>
-    )
-}
+    );
+};

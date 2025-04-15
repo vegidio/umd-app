@@ -21,18 +21,20 @@ func startQuery(
 	parallel int,
 	limit int,
 	extensions []string,
+	noCache bool,
 ) error {
 	msg := ""
 	queryCount := 0
-	name := ""
 	mp := shared.NewMixPanel(uuid.New().String())
 	fields := make(map[string]any)
 	var stopSpinner context.CancelFunc
+	var resp *umd.Response
+	var err error
 
 	fields["interface"] = "cli"
 	fields["limit"] = limit
 
-	u, err := umd.New(url, nil, func(ev event.Event) {
+	u := umd.New(nil, func(ev event.Event) {
 		switch e := ev.(type) {
 		case event.OnExtractorFound:
 			fields["extractor"] = e.Name
@@ -42,37 +44,62 @@ func startQuery(
 			pterm.Println("; extractor type:", pterm.FgLightYellow.Sprintf("%s", e.Type))
 			fields["source"] = e.Type
 			fields["name"] = e.Name
-			mp.Track("Start Download", fields)
-
-			name = e.Name
-			msg = pterm.Sprintf("📝 Querying %s %s for media files...", strings.ToLower(e.Type),
-				pterm.Bold.Sprintf(e.Name))
-			stopSpinner = spinner.CreateSpinner(msg, queryCount)
 
 		case event.OnMediaQueried:
 			queryCount += e.Amount
 			spinner.UpdateSpinner(msg, int(math.Min(float64(queryCount), float64(limit))))
-
-		case event.OnQueryCompleted:
-			stopSpinner()
-			time.Sleep(250 * time.Millisecond) // Wait for the spinner to finish
 		}
 	})
 
+	extractor, err := u.FindExtractor(url)
 	if err != nil {
 		return err
 	}
 
-	resp, err := u.QueryMedia(limit, extensions, true)
+	source, err := extractor.GetSourceType()
 	if err != nil {
 		return err
 	}
+
+	fullDir := filepath.Join(directory, source.GetName())
+	cachePath := filepath.Join(fullDir, "_cache.gob")
+
+	// Load any existing cache
+	if !noCache {
+		resp, _ = shared.LoadCache(cachePath)
+
+		if resp != nil {
+			msg = pterm.Sprintf("💾 Using cached results for %s %s...",
+				strings.ToLower(fields["source"].(string)), pterm.Bold.Sprintf(fields["name"].(string)))
+			stopSpinner = spinner.CreateSpinner(msg, len(resp.Media))
+		}
+	}
+
+	fields["cache"] = resp != nil
+	mp.Track("Start Download", fields)
+
+	// nil means that nothing was found in the cache
+	if resp == nil {
+		msg = pterm.Sprintf("📝 Querying %s %s for media files...", strings.ToLower(fields["source"].(string)),
+			pterm.Bold.Sprintf(fields["name"].(string)))
+		stopSpinner = spinner.CreateSpinner(msg, queryCount)
+
+		resp, err = extractor.QueryMedia(limit, extensions, true)
+		if err != nil {
+			return err
+		}
+
+		_ = shared.SaveCache(cachePath, resp)
+	}
+
+	// Wait for the spinner to finish
+	stopSpinner()
+	time.Sleep(250 * time.Millisecond)
 
 	clear(fields)
 	fields["parallel"] = parallel
 	fields["mediaFound"] = len(resp.Media)
 
-	fullDir := filepath.Join(directory, name)
 	downloads := startDownload(resp.Media, fullDir, parallel)
 
 	successes := lo.CountBy(downloads, func(d shared.Download) bool { return d.IsSuccess })

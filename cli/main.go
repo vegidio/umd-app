@@ -20,6 +20,7 @@ func main() {
 	var directory string
 	var parallel int
 	var limit int
+	var noCache bool
 
 	currentPath, _ := os.Getwd()
 	extensions := make([]string, 0)
@@ -94,10 +95,18 @@ func main() {
 					return nil
 				},
 			},
+			&cli.BoolFlag{
+				Name:        "no-cache",
+				Value:       false,
+				Usage:       "ignore the cached media URLs, querying a fresh list of files",
+				Destination: &noCache,
+				Category:    "Optional:",
+				EnvVars:     []string{"UMD_NO_CACHE"},
+			},
 		},
-		Action: func(cCtx *cli.Context) error {
-			if cCtx.NArg() > 0 {
-				url = cCtx.Args().Get(0)
+		Action: func(ctx *cli.Context) error {
+			if ctx.NArg() > 0 {
+				url = ctx.Args().Get(0)
 			}
 
 			fullDir, err := expandPath(directory)
@@ -117,6 +126,7 @@ func main() {
 				parallel,
 				limit,
 				extensions,
+				noCache,
 			)
 
 			return err

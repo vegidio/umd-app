@@ -26,16 +26,16 @@ export function OnMediaQueried(arg1) {
   return window['go']['main']['App']['OnMediaQueried'](arg1);
 }
 
-export function OnQueryCompleted(arg1) {
-  return window['go']['main']['App']['OnQueryCompleted'](arg1);
+export function OnQueryCompleted(arg1, arg2) {
+  return window['go']['main']['App']['OnQueryCompleted'](arg1, arg2);
 }
 
 export function OpenDirectory(arg1) {
   return window['go']['main']['App']['OpenDirectory'](arg1);
 }
 
-export function QueryMedia(arg1, arg2, arg3) {
-  return window['go']['main']['App']['QueryMedia'](arg1, arg2, arg3);
+export function QueryMedia(arg1, arg2, arg3, arg4, arg5) {
+  return window['go']['main']['App']['QueryMedia'](arg1, arg2, arg3, arg4, arg5);
 }
 
 export function StartDownload(arg1, arg2, arg3) {

@@ -15,10 +15,10 @@ export function OnMediaDownloaded(arg1:shared.Download):Promise<void>;
 
 export function OnMediaQueried(arg1:number):Promise<void>;
 
-export function OnQueryCompleted(arg1:number):Promise<void>;
+export function OnQueryCompleted(arg1:number,arg2:boolean):Promise<void>;
 
 export function OpenDirectory(arg1:string):Promise<string>;
 
-export function QueryMedia(arg1:string,arg2:number,arg3:boolean):Promise<Array<model.Media>>;
+export function QueryMedia(arg1:string,arg2:string,arg3:number,arg4:boolean,arg5:boolean):Promise<Array<model.Media>>;
 
 export function StartDownload(arg1:Array<model.Media>,arg2:string,arg3:number):Promise<Array<shared.Download>>;

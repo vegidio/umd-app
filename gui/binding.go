@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
@@ -14,19 +13,18 @@ import (
 	"path/filepath"
 )
 
-var umdObj *umd.Umd
 var name string
 var mp *shared.MixPanel
 
-func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) {
-	var err error
+func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noCache bool) ([]umd.Media, error) {
+	var resp *umd.Response
 
 	mp = shared.NewMixPanel(uuid.New().String())
 	fields := make(map[string]any)
 	fields["interface"] = "gui"
 	fields["limit"] = limit
 
-	umdObj, err = umd.New(url, nil, func(ev event.Event) {
+	umdObj := umd.New(nil, func(ev event.Event) {
 		switch e := ev.(type) {
 		case event.OnExtractorFound:
 			fields["extractor"] = e.Name
@@ -40,21 +38,40 @@ func (a *App) QueryMedia(url string, limit int, deep bool) ([]umd.Media, error) 
 			a.OnExtractorTypeFound(e.Type, e.Name)
 		case event.OnMediaQueried:
 			a.OnMediaQueried(e.Amount)
-		case event.OnQueryCompleted:
-			a.OnQueryCompleted(e.Total)
 		}
 	})
 
+	extractor, err := umdObj.FindExtractor(url)
 	if err != nil {
-		return make([]umd.Media, 0), err
+		return nil, err
 	}
 
-	resp, err := umdObj.QueryMedia(limit, make([]string, 0), deep)
+	source, err := extractor.GetSourceType()
 	if err != nil {
-		return make([]umd.Media, 0), err
+		return nil, err
 	}
 
-	fmt.Println(resp.Media)
+	fullDir := filepath.Join(directory, source.GetName())
+	cachePath := filepath.Join(fullDir, "_cache.gob")
+
+	// Load any existing cache
+	if !noCache {
+		resp, _ = shared.LoadCache(cachePath)
+	}
+
+	fields["cache"] = resp != nil
+
+	// nil means that nothing was found in the cache
+	if resp == nil {
+		resp, err = extractor.QueryMedia(limit, make([]string, 0), deep)
+		if err != nil {
+			return nil, err
+		}
+
+		_ = shared.SaveCache(cachePath, resp)
+	}
+
+	a.OnQueryCompleted(len(resp.Media), fields["cache"].(bool))
 
 	return resp.Media, nil
 }
