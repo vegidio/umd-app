@@ -1,4 +1,4 @@
-import { ErrorTwoTone, ImageTwoTone, ListAlt, SaveOutlined, SmartDisplayTwoTone } from '@mui/icons-material'
+import { ErrorTwoTone, ImageTwoTone, ListAlt, SaveOutlined, SmartDisplayTwoTone } from '@mui/icons-material';
 import {
     Box,
     IconButton,
@@ -15,15 +15,14 @@ import {
 import {
     DataGridPremium,
     type GridColDef,
-    type GridLocaleText,
     type GridRowSelectionModel,
     type GridRowsProp,
 } from '@mui/x-data-grid-premium';
 import { type ReactElement, useState } from 'react';
-import { useAppStore } from '../store';
 import './MediaList.css';
 import { model } from '../../wailsjs/go/models';
 import { BrowserOpenURL } from '../../wailsjs/runtime';
+import { useAppStore } from '../stores/app';
 import Media = model.Media;
 
 export const MediaList = () => {
@@ -78,8 +77,10 @@ const TotalMedia = ({ isCached }: { isCached: boolean }) => {
         <>
             {isCached && (
                 <Stack alignItems="center" direction="row" gap={1} sx={{ color: 'orange' }}>
-                    <SaveOutlined/>
-                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Cached results&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Typography>
+                    <SaveOutlined />
+                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                        Cached results&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </Typography>
                 </Stack>
             )}
 

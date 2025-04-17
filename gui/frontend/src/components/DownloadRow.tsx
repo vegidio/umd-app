@@ -1,29 +1,29 @@
-import { CloudDownload } from '@mui/icons-material'
-import { Button, LinearProgress, Stack, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { StartDownload } from '../../wailsjs/go/main/App'
-import { useAppStore } from '../store'
-import './DownloadRow.css'
-import { enqueueSnackbar } from 'notistack'
+import { CloudDownload } from '@mui/icons-material';
+import { Button, LinearProgress, Stack, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { StartDownload } from '../../wailsjs/go/main/App';
+import './DownloadRow.css';
+import { enqueueSnackbar } from 'notistack';
+import { useAppStore } from '../stores/app';
 
 export const DownloadRow = () => {
-    const store = useAppStore()
+    const store = useAppStore();
 
     const handleDownloadClick = async () => {
-        store.setIsDownloading(true)
-        store.setProgress(0)
-        store.clearDownloads()
+        store.setIsDownloading(true);
+        store.setProgress(0);
+        store.clearDownloads();
 
-        await StartDownload(store.selectedMedia, store.directory, 5)
+        await StartDownload(store.selectedMedia, store.directory, 5);
 
-        enqueueSnackbar('Download completed', { variant: 'success' })
-        store.setIsDownloading(false)
-    }
+        enqueueSnackbar('Download completed', { variant: 'success' });
+        store.setIsDownloading(false);
+    };
 
     useEffect(() => {
-        const percentage = (store.downloadedMedia.length * 100) / store.selectedMedia.length
-        store.setProgress(Number.isNaN(percentage) ? 0 : percentage)
-    }, [store.downloadedMedia, store.selectedMedia, store.setProgress])
+        const percentage = (store.downloadedMedia.length * 100) / store.selectedMedia.length;
+        store.setProgress(Number.isNaN(percentage) ? 0 : percentage);
+    }, [store.downloadedMedia, store.selectedMedia, store.setProgress]);
 
     return (
         <Stack direction="row" spacing="1em">
@@ -41,9 +41,10 @@ export const DownloadRow = () => {
                 startIcon={<CloudDownload />}
                 disabled={store.selectedMedia.length === 0 || store.isDownloading}
                 onClick={handleDownloadClick}
-                sx={{ flex: 0.15 }}>
+                sx={{ flex: 0.15 }}
+            >
                 Download
             </Button>
         </Stack>
-    )
-}
+    );
+};

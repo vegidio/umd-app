@@ -1,10 +1,10 @@
-import { Divider, Stack, Typography, useTheme } from '@mui/material'
-import { useAppStore } from '../store'
-import './InfoRow.css'
+import { Divider, Stack, Typography, useTheme } from '@mui/material';
+import './InfoRow.css';
+import { useAppStore } from '../stores/app';
 
 export const InfoRow = () => {
-    const theme = useTheme()
-    const store = useAppStore()
+    const theme = useTheme();
+    const store = useAppStore();
 
     return (
         <Stack
@@ -12,7 +12,8 @@ export const InfoRow = () => {
             textAlign="center"
             direction="row"
             divider={<Divider orientation="vertical" />}
-            sx={{ borderColor: theme.palette.divider, borderWidth: 1, borderStyle: 'solid' }}>
+            sx={{ borderColor: theme.palette.divider, borderWidth: 1, borderStyle: 'solid' }}
+        >
             <Typography variant="body2" sx={{ flex: 0.5 }}>
                 Site name: <strong>{store.extractorName || '-'}</strong>
             </Typography>
@@ -25,5 +26,5 @@ export const InfoRow = () => {
                 </strong>
             </Typography>
         </Stack>
-    )
-}
+    );
+};

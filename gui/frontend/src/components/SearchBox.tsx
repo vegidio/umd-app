@@ -1,25 +1,21 @@
-import { Public, Search } from '@mui/icons-material';
-import {
-    Button,
-    Checkbox,
-    FormControlLabel,
-    InputAdornment,
-    Stack,
-    TextField,
-    Tooltip,
-    Typography,
-} from '@mui/material';
+import { Public, Search, Settings as SettingsIcon } from '@mui/icons-material';
+import { Button, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { type ChangeEvent, useState } from 'react';
 import { QueryMedia } from '../../wailsjs/go/main/App';
-import { useAppStore } from '../store';
 import './SearchBox.css';
+import { useAppStore } from '../stores/app';
+import { useSettingsStore } from '../stores/settings';
+import { Settings } from './Settings';
 
 export const SearchBox = () => {
-    const store = useAppStore();
+    const appStore = useAppStore();
+    const deep = useSettingsStore((state) => state.deepSearch);
+    const noCache = useSettingsStore((state) => state.ignoreCache);
+
     const [url, setUrl] = useState('');
     const [limit, setLimit] = useState(99_999);
-    const [checkboxDeep, setCheckboxDeep] = useState(true);
+    const [openSettings, setOpenSettings] = useState(false);
 
     const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value);
@@ -36,70 +32,70 @@ export const SearchBox = () => {
     };
 
     const handleQueryClick = async () => {
-        store.setIsQuerying(true);
+        appStore.setIsQuerying(true);
 
         try {
-            const media = await QueryMedia(url, store.directory, limit, checkboxDeep, false);
-            store.setMedia(media);
+            const media = await QueryMedia(url, appStore.directory, limit, deep, noCache);
+            appStore.setMedia(media);
         } catch (e) {
             enqueueSnackbar('Error querying the media from this URL', { variant: 'error' });
         } finally {
-            store.setIsQuerying(false);
+            appStore.setIsQuerying(false);
         }
     };
 
     return (
-        <Stack id="search-box" direction="row" spacing="1em">
-            <TextField
-                id="url"
-                label="Enter a URL"
-                value={url}
-                size="small"
-                disabled={store.isDownloading}
-                autoComplete="off"
-                autoCapitalize="off"
-                slotProps={{
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <Public />
-                            </InputAdornment>
-                        ),
-                    },
-                }}
-                onChange={handleUrlChange}
-                sx={{ flex: 0.68 }}
-            />
-
-            <Tooltip title={'Check to do a deep query'} sx={{ flex: 0.1 }}>
-                <FormControlLabel
-                    control={<Checkbox size="small" checked={checkboxDeep} disabled={store.isDownloading} />}
-                    label={<Typography variant="caption">Deep</Typography>}
-                    onClick={() => setCheckboxDeep(!checkboxDeep)}
+        <>
+            <Stack id="search-box" direction="row" spacing="1em">
+                <TextField
+                    id="url"
+                    label="Enter a URL"
+                    value={url}
+                    size="small"
+                    disabled={appStore.isDownloading}
+                    autoComplete="off"
+                    autoCapitalize="off"
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Public />
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                    onChange={handleUrlChange}
+                    sx={{ flex: 0.72 }}
                 />
-            </Tooltip>
 
-            <TextField
-                id="limit"
-                label="Limit results"
-                type="number"
-                value={limit}
-                disabled={store.isDownloading}
-                size="small"
-                onChange={handleLimitChange}
-                sx={{ flex: 0.12 }}
-            />
+                <TextField
+                    id="limit"
+                    label="Limit results"
+                    type="number"
+                    value={limit}
+                    disabled={appStore.isDownloading}
+                    size="small"
+                    onChange={handleLimitChange}
+                    sx={{ flex: 0.14 }}
+                />
 
-            <Button
-                id="query"
-                variant="outlined"
-                startIcon={<Search />}
-                disabled={url.trim() === '' || store.isDownloading}
-                onClick={handleQueryClick}
-                sx={{ flex: 0.12 }}
-            >
-                Query
-            </Button>
-        </Stack>
+                <Button
+                    id="query"
+                    variant="outlined"
+                    startIcon={<Search />}
+                    disabled={url.trim() === '' || appStore.isDownloading}
+                    onClick={handleQueryClick}
+                    sx={{ flex: 0.14 }}
+                >
+                    Query
+                </Button>
+
+                <IconButton onClick={() => setOpenSettings(true)}>
+                    <SettingsIcon />
+                </IconButton>
+            </Stack>
+
+            {openSettings && <Settings open={true} onClose={() => setOpenSettings(false)} />}
+        </>
     );
 };

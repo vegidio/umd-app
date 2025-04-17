@@ -1,9 +1,9 @@
-import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material'
-import { useAppStore } from '../store'
-import './Loading.css'
+import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
+import './Loading.css';
+import { useAppStore } from '../stores/app';
 
 export const Loading = () => {
-    const store = useAppStore()
+    const store = useAppStore();
 
     return (
         <Backdrop open={store.isQuerying}>
@@ -15,12 +15,12 @@ export const Loading = () => {
                 </Typography>
             </Stack>
         </Backdrop>
-    )
-}
+    );
+};
 
 type CircularProgressProps = {
-    value: number
-}
+    value: number;
+};
 
 const CircularProgressWithLabel = ({ value }: CircularProgressProps) => {
     return (
@@ -28,5 +28,5 @@ const CircularProgressWithLabel = ({ value }: CircularProgressProps) => {
             <CircularProgress color="primary" size="5em" />
             <Typography position="absolute">{value}</Typography>
         </Box>
-    )
-}
+    );
+};

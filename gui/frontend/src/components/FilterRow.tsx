@@ -10,8 +10,8 @@ import {
 import { Button, Checkbox, FormControlLabel, InputAdornment, Stack, TextField } from '@mui/material';
 import React, { type ChangeEvent, useEffect, useState } from 'react';
 import { OpenDirectory } from '../../wailsjs/go/main/App';
-import { useAppStore } from '../store';
 import './FilterRow.css';
+import { useAppStore } from '../stores/app';
 
 export const FilterRow = () => {
     const store = useAppStore();

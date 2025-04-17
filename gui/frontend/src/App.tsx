@@ -1,12 +1,12 @@
-import { Button, Stack } from '@mui/material'
-import { SnackbarProvider, enqueueSnackbar } from 'notistack'
-import React, { useEffect } from 'react'
-import { GetHomeDirectory, IsOutdated } from '../wailsjs/go/main/App'
-import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components'
-import { useAppStore } from './store'
-import './App.css'
-import DownloadIcon from '@mui/icons-material/Download'
-import { BrowserOpenURL } from '../wailsjs/runtime'
+import { Button, Stack } from '@mui/material';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import React, { useEffect } from 'react';
+import { GetHomeDirectory, IsOutdated } from '../wailsjs/go/main/App';
+import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components';
+import './App.css';
+import DownloadIcon from '@mui/icons-material/Download';
+import { BrowserOpenURL } from '../wailsjs/runtime';
+import { useAppStore } from './stores/app';
 
 const action = () => (
     <Button
@@ -14,34 +14,35 @@ const action = () => (
         color="inherit"
         size="small"
         endIcon={<DownloadIcon />}
-        onClick={() => BrowserOpenURL('https://github.com/vegidio/umd-app/releases')}>
+        onClick={() => BrowserOpenURL('https://github.com/vegidio/umd-app/releases')}
+    >
         Download
     </Button>
-)
+);
 
 const App = () => {
-    const setDirectory = useAppStore(s => s.setDirectory)
+    const setDirectory = useAppStore((s) => s.setDirectory);
 
     useEffect(() => {
         const getHomeDirectory = async () => {
-            let dir = localStorage.getItem('lastDirectory')
-            if (!dir) dir = await GetHomeDirectory()
-            setDirectory(dir)
-        }
+            let dir = localStorage.getItem('lastDirectory');
+            if (!dir) dir = await GetHomeDirectory();
+            setDirectory(dir);
+        };
 
         const checkVersion = async () => {
-            const isOutdated = await IsOutdated()
+            const isOutdated = await IsOutdated();
             if (isOutdated)
                 enqueueSnackbar('A new version of UMD is available. Please update', {
                     variant: 'warning',
                     autoHideDuration: 10_000,
                     preventDuplicate: true,
-                    action
-                })
-        }
+                    action,
+                });
+        };
 
-        Promise.all([checkVersion(), getHomeDirectory()])
-    }, [setDirectory])
+        Promise.all([checkVersion(), getHomeDirectory()]);
+    }, [setDirectory]);
 
     return (
         <SnackbarProvider maxSnack={3}>
@@ -59,7 +60,7 @@ const App = () => {
 
             <Loading />
         </SnackbarProvider>
-    )
-}
+    );
+};
 
-export default App
+export default App;
