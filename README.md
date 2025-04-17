@@ -57,6 +57,18 @@ For the full list of parameters, type `umd-dl --help` in the terminal.
 
 ## 💡 Features
 
+### Cached results
+
+When you query the same URL multiple times, the app caches the results to speed up the process, **as long as the files are saved in the same directory.**
+
+You can adjust the app settings to bypass the cache and always fetch fresh results.
+
+### Skip previously downloaded files
+
+When downloading files to the same directory, the app will automatically skip files that have already been downloaded.
+
+This feature helps to avoid duplicate downloads, ensuring only new or previously failed files are downloaded.
+
 ### Remove duplicates
 
 This application will automatically delete all files that are identical.
