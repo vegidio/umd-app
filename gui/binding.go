@@ -32,7 +32,6 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 		case event.OnExtractorTypeFound:
 			fields["source"] = e.Type
 			fields["name"] = e.Name
-			mp.Track("Start Download", fields)
 
 			name = e.Name
 			a.OnExtractorTypeFound(e.Type, e.Name)
@@ -60,6 +59,7 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	}
 
 	fields["cache"] = resp != nil
+	mp.Track("Start Download", fields)
 
 	// nil means that nothing was found in the cache
 	if resp == nil {

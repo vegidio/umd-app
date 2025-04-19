@@ -10,7 +10,7 @@ import {
     FormGroup,
     IconButton,
 } from '@mui/material';
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { useSettingsStore } from '../stores/settings';
 
 type SettingsProps = {
@@ -68,8 +68,8 @@ export const Settings = ({ open, onClose }: SettingsProps) => {
                         }
                         label={
                             <>
-                                <strong>Deep Search:</strong> this will expand the search in the unknown URLs in an
-                                attempt to find more media files.
+                                <strong>Deep Search:</strong> expands the search of unknown URLs, attempting to discover
+                                additional media files.
                             </>
                         }
                     />
@@ -84,8 +84,8 @@ export const Settings = ({ open, onClose }: SettingsProps) => {
                         }
                         label={
                             <>
-                                <strong>Ignore Cache:</strong> this will ignore cached URLs fetched previously and it
-                                will always fetch fresh URLs.
+                                <strong>Ignore Cache:</strong> this option will bypass previously cached URLs and always
+                                fetch new ones.
                             </>
                         }
                     />
