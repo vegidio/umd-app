@@ -15,37 +15,28 @@ func DownloadAll(
 	media []umd.Media,
 	directory string,
 	parallel int,
-	onMediaDownload func(download Download),
-) []Download {
-	downloads := make([]Download, 0)
-
+) <-chan *grab.Response {
 	requests := lo.Map(media, func(m umd.Media, _ int) *grab.Request {
 		filePath := CreateFilePath(directory, m)
 		r, _ := grab.NewRequest(filePath, m.Url)
 		return r
 	})
 
-	f := fetch.New(nil, 10)
-	f.DownloadFiles(requests, parallel, func(response *grab.Response) {
-		file, _ := response.Bytes()
-		hash := fmt.Sprintf("%x", sha256.Sum256(file))
+	f := fetch.New(nil, 0)
+	return f.DownloadFiles(requests, parallel)
+}
 
-		download := Download{
-			Url:       response.Request.URL().String(),
-			FilePath:  response.Filename,
-			Error:     response.Err(),
-			IsSuccess: response.Err() == nil,
-			Hash:      hash,
-		}
+func ResponseToDownload(response *grab.Response) Download {
+	file, _ := response.Bytes()
+	hash := fmt.Sprintf("%x", sha256.Sum256(file))
 
-		if onMediaDownload != nil {
-			onMediaDownload(download)
-		}
-
-		downloads = append(downloads, download)
-	})
-
-	return downloads
+	return Download{
+		Url:       response.Request.URL().String(),
+		FilePath:  response.Filename,
+		Error:     response.Err(),
+		IsSuccess: response.Err() == nil,
+		Hash:      hash,
+	}
 }
 
 func CreateFilePath(directory string, media umd.Media) string {

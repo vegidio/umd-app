@@ -2,11 +2,12 @@
   <configuration default="false" name="Run CLI" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="umd-app" />
     <working_directory value="$PROJECT_DIR$/cli" />
-    <parameters value="-d ~/Desktop/test -l 10 https://www.reddit.com/user/atomicbrunette18/" />
+    <parameters value="-d ~/Desktop/test https://fapello.com/caylinlive-33/" />
     <kind value="PACKAGE" />
     <package value="cli" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$/cli/main.go" />
+    <pty_enabled value="true" />
     <method v="2" />
   </configuration>
 </component>

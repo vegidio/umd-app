@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var fs = afero.NewOsFs()
@@ -123,4 +124,55 @@ func CreateTimestamp(num int64) string {
 func CreateHashSuffix(str string) string {
 	hash := sha1.Sum([]byte(str))
 	return fmt.Sprintf("%x", hash)[:4]
+}
+
+func CalculateETA(total, completed int, elapsed time.Duration) time.Duration {
+	// Validate inputs
+	if total <= 0 || completed <= 0 || elapsed <= 0 {
+		return time.Duration(7 * 24 * time.Hour)
+	}
+
+	// Nothing to do
+	if completed >= total {
+		return 0
+	}
+
+	remaining := total - completed
+	avgPerTask := elapsed / time.Duration(completed)
+	eta := avgPerTask * time.Duration(remaining)
+
+	return eta
+}
+
+type Pair[T any] struct {
+	Index int
+	Value T
+}
+
+func Last5WithIndex[T any](slice []T) []Pair[T] {
+	end := len(slice)
+	start := end - 5
+	if start < 0 {
+		start = 0
+	}
+
+	var out []Pair[T]
+	for i := start; i < end; i++ {
+		out = append(out, Pair[T]{Index: i, Value: slice[i]})
+	}
+
+	return out
+}
+
+func GetMediaType(filePath string) string {
+	lowerExt := strings.TrimPrefix(filepath.Ext(filePath), ".")
+
+	switch lowerExt {
+	case "avif", "gif", "jpg", "jpeg", "png", "webp":
+		return "image"
+	case "gifv", "m4v", "mkv", "mov", "mp4", "webm":
+		return "video"
+	default:
+		return "unknown"
+	}
 }

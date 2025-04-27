@@ -9,9 +9,9 @@ require (
 	github.com/denisbrodbeck/machineid v1.0.1
 	github.com/go-resty/resty/v2 v2.16.5
 	github.com/mixpanel/mixpanel-go v1.2.1
-	github.com/samber/lo v1.49.1
-	github.com/spf13/afero v1.12.0
-	github.com/vegidio/umd-lib v0.0.0-20250419210346-62a5c2594419
+	github.com/samber/lo v1.50.0
+	github.com/spf13/afero v1.14.0
+	github.com/vegidio/umd-lib v0.0.0-20250427183844-f01055cc96bc
 )
 
 require (
