@@ -83,6 +83,8 @@ github.com/vegidio/umd-lib v0.0.0-20250424194811-4d6cf1e7cf16/go.mod h1:sVngJeIK
 github.com/vegidio/umd-lib v0.0.0-20250426112512-9f96feabb561/go.mod h1:sVngJeIKhCdty2VMFUnnyF3ekCUhUYZEt9xcwskUH0g=
 github.com/vegidio/umd-lib v0.0.0-20250426193433-bf7f1826b76f/go.mod h1:sVngJeIKhCdty2VMFUnnyF3ekCUhUYZEt9xcwskUH0g=
 github.com/vegidio/umd-lib v0.0.0-20250427183844-f01055cc96bc/go.mod h1:2CRBaGAXLdOAfsaNynFJLhdcMkMIR9f7yFwO2avQq60=
+github.com/vegidio/umd-lib v0.0.0-20250427213646-3b250a0a4084/go.mod h1:2CRBaGAXLdOAfsaNynFJLhdcMkMIR9f7yFwO2avQq60=
+github.com/vegidio/umd-lib v0.0.0-20250428051754-518a32780156/go.mod h1:2CRBaGAXLdOAfsaNynFJLhdcMkMIR9f7yFwO2avQq60=
 github.com/wailsapp/go-webview2 v1.0.19 h1:7U3QcDj1PrBPaxJNCui2k1SkWml+Q5kvFUFyTImA6NU=
 github.com/wailsapp/go-webview2 v1.0.19/go.mod h1:qJmWAmAmaniuKGZPWwne+uor3AHMB5PFhqiK0Bbj8kc=
 github.com/wailsapp/mimetype v1.4.1 h1:pQN9ycO7uo4vsUUuPeHEYoUkLVkaRntMnHJxVwYhwHs=

@@ -26,10 +26,6 @@ type downloadMsg struct {
 func downloadCmd(ch <-chan *grab.Response) tea.Cmd {
 	return func() tea.Msg {
 		if resp, ok := <-ch; ok {
-			if err := resp.Err(); err != nil {
-				return err
-			}
-
 			return downloadMsg{resp}
 		}
 
@@ -40,7 +36,7 @@ func downloadCmd(ch <-chan *grab.Response) tea.Cmd {
 type progressModel struct {
 	progress      progress.Model
 	result        <-chan *grab.Response
-	downloads     []shared.Download
+	responses     []*grab.Response
 	total         int
 	completed     int
 	startTime     time.Time
@@ -67,9 +63,7 @@ func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case downloadMsg:
 		m.completed++
-
-		download := shared.ResponseToDownload(msgValue.resp)
-		m.downloads = append(m.downloads, download)
+		m.responses = append(m.responses, msgValue.resp)
 
 		var percent float64
 		if m.total > 0 {
@@ -104,6 +98,7 @@ func (m *progressModel) View() string {
 	percent := m.progress.Percent() * 100
 	intPart := int(percent)
 	fracPart := int(percent*10) % 10
+	percentStr := fmt.Sprintf("%3d.%1d%%", intPart, fracPart)
 
 	now := time.Now()
 	if now.Sub(m.lastEtaUpdate) >= time.Second {
@@ -112,34 +107,37 @@ func (m *progressModel) View() string {
 		m.lastEtaUpdate = now
 	}
 
-	return fmt.Sprintf("\nDownloading  [%0*d/%d]  %s  %3d.%1d%%  ETA %v\n%s\n",
-		width, m.completed,
-		m.total,
+	c := bold.Render(fmt.Sprintf("%0*d", width, m.completed))
+	t := bold.Render(fmt.Sprintf("%d", m.total))
+
+	return fmt.Sprintf("\nDownloading   %s%s%s%s%s  %s  %s   %s\n%s\n",
+		gray.Render("["), c, gray.Render("/"), t, gray.Render("]"),
 		m.progress.View(),
-		intPart, fracPart,
-		m.eta.Truncate(time.Second/10),
-		printLastFive(width, m.downloads),
+		green.Render(percentStr),
+		magenta.Render(fmt.Sprintf("ETA %v", m.eta.Truncate(time.Second/10))),
+		printLastFive(width, m.responses),
 	)
 }
 
-func printLastFive(width int, downloads []shared.Download) string {
+func printLastFive(width int, downloads []*grab.Response) string {
 	lastFive := shared.Last5WithIndex(downloads)
 
-	return lo.Reduce(lastFive, func(acc string, p shared.Pair[shared.Download], _ int) string {
-		mType := shared.GetMediaType(p.Value.FilePath)
+	return lo.Reduce(lastFive, func(acc string, p shared.Pair[*grab.Response], _ int) string {
+		mType := shared.GetMediaType(p.Value.Filename)
+		index := fmt.Sprintf("%0*d", width, p.Index+1)
 
 		var prefix string
 		if mType == "video" {
-			prefix = fmt.Sprintf("🎬 [%0*d] Downloading %s", width, p.Index+1, mType)
+			prefix = fmt.Sprintf("🎬 [%s] Downloading %s", blue.Render(index), orange.Render(mType))
 		} else if mType == "image" {
-			prefix = fmt.Sprintf("🏞️ [%0*d] Downloading %s", width, p.Index+1, mType)
+			prefix = fmt.Sprintf("📸 [%s] Downloading %s", blue.Render(index), magenta.Render(mType))
 		} else {
-			prefix = fmt.Sprintf("⁉️ [%0*d] Downloading %s", width, p.Index+1, mType)
+			prefix = fmt.Sprintf("✖️ [%s] Downloading %s", blue.Render(index), gray.Render(mType))
 		}
 
 		return acc + fmt.Sprintf("\n%s %s",
 			prefix,
-			p.Value.Url,
+			cyanUnderline.Render(p.Value.Request.URL().String()),
 		)
 	}, "")
 }
@@ -154,7 +152,7 @@ func initProgressModel(result <-chan *grab.Response, total int) *progressModel {
 	return &progressModel{
 		progress:      p,
 		result:        result,
-		downloads:     make([]shared.Download, 0),
+		responses:     make([]*grab.Response, 0),
 		total:         total,
 		startTime:     time.Now(),
 		lastEtaUpdate: time.Now(),
@@ -162,12 +160,12 @@ func initProgressModel(result <-chan *grab.Response, total int) *progressModel {
 	}
 }
 
-func StartProgress(result <-chan *grab.Response, total int) ([]shared.Download, error) {
+func StartProgress(result <-chan *grab.Response, total int) ([]*grab.Response, error) {
 	model, err := tea.NewProgram(initProgressModel(result, total)).Run()
 	if err != nil {
 		return nil, err
 	}
 
 	m := model.(*progressModel)
-	return m.downloads, nil
+	return m.responses, nil
 }

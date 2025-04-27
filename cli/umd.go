@@ -3,8 +3,8 @@ package main
 import (
 	"cli/internal/charm"
 	"fmt"
+	"github.com/cavaliergopher/grab/v3"
 	"github.com/google/uuid"
-	"github.com/pterm/pterm"
 	"github.com/samber/lo"
 	"github.com/vegidio/shared"
 	"github.com/vegidio/umd-lib"
@@ -76,13 +76,12 @@ func startQuery(
 	fields["mediaFound"] = len(resp.Media)
 
 	result := shared.DownloadAll(resp.Media, fullDir, parallel)
-	downloads, err := charm.StartProgress(result, len(resp.Media))
+	responses, err := charm.StartProgress(result, len(resp.Media))
 	if err != nil {
 		return err
 	}
 
-	return nil
-
+	downloads := lo.Map(responses, func(r *grab.Response, _ int) shared.Download { return shared.ResponseToDownload(r) })
 	successes := lo.CountBy(downloads, func(d shared.Download) bool { return d.IsSuccess })
 	failures := lo.CountBy(downloads, func(d shared.Download) bool { return !d.IsSuccess })
 	fields["numSuccesses"] = successes
@@ -96,12 +95,12 @@ func startQuery(
 		}
 
 		fileName := filepath.Base(download.FilePath)
-		pterm.Printf("["+pterm.LightRed("D")+"] Deleting file %s\n", pterm.Bold.Sprintf(fileName))
+		charm.PrintDeleted(fileName)
 	})
 
 	mp.Track("End Download", fields)
 	shared.CreateReport(fullDir, remaining)
 
-	pterm.Println("\n🌟 Done!")
+	charm.PrintDone("Done!")
 	return nil
 }

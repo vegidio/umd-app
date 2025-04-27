@@ -173,6 +173,6 @@ func GetMediaType(filePath string) string {
 	case "gifv", "m4v", "mkv", "mov", "mp4", "webm":
 		return "video"
 	default:
-		return "unknown"
+		return "unkwn"
 	}
 }
