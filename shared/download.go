@@ -1,9 +1,7 @@
 package shared
 
 import (
-	"crypto/sha256"
 	"fmt"
-	"github.com/cavaliergopher/grab/v3"
 	"github.com/samber/lo"
 	"github.com/vegidio/umd-lib"
 	"github.com/vegidio/umd-lib/fetch"
@@ -15,10 +13,10 @@ func DownloadAll(
 	media []umd.Media,
 	directory string,
 	parallel int,
-) <-chan *grab.Response {
-	requests := lo.Map(media, func(m umd.Media, _ int) *grab.Request {
+) <-chan *fetch.Response {
+	requests := lo.Map(media, func(m umd.Media, _ int) *fetch.Request {
 		filePath := CreateFilePath(directory, m)
-		r, _ := grab.NewRequest(filePath, m.Url)
+		r := &fetch.Request{Url: m.Url, FilePath: filePath}
 		return r
 	})
 
@@ -26,16 +24,13 @@ func DownloadAll(
 	return f.DownloadFiles(requests, parallel)
 }
 
-func ResponseToDownload(response *grab.Response) Download {
-	file, _ := response.Bytes()
-	hash := fmt.Sprintf("%x", sha256.Sum256(file))
-
+func ResponseToDownload(response *fetch.Response) Download {
 	return Download{
-		Url:       response.Request.URL().String(),
-		FilePath:  response.Filename,
-		Error:     response.Err(),
-		IsSuccess: response.Err() == nil,
-		Hash:      hash,
+		Url:       response.Request.Url,
+		FilePath:  response.Request.FilePath,
+		Error:     response.Error(),
+		IsSuccess: response.Error() == nil,
+		Hash:      response.Hash,
 	}
 }
 

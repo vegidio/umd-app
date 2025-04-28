@@ -22,7 +22,7 @@ type AppStore = {
     setIsCached: (cached: boolean) => void;
     setIsQuerying: (querying: boolean) => void;
     setIsDownloading: (downloading: boolean) => void;
-    addAmountQuery: (amount: number) => void;
+    setAmountQuery: (amount: number) => void;
     setExtractorName: (name: string) => void;
     setExtractorType: (eType: string, name: string) => void;
     setDirectory: (directory: string) => void;
@@ -76,9 +76,9 @@ export const useAppStore = create(
                 state.isDownloading = downloading;
             }),
 
-        addAmountQuery: (amount: number) =>
+        setAmountQuery: (amount: number) =>
             set((state) => {
-                state.amountQuery = get().amountQuery + amount;
+                state.amountQuery = amount;
             }),
 
         setExtractorName: (name: string) =>

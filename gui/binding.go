@@ -7,10 +7,10 @@ import (
 	"github.com/spf13/afero"
 	"github.com/vegidio/shared"
 	"github.com/vegidio/umd-lib"
-	"github.com/vegidio/umd-lib/event"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os/user"
 	"path/filepath"
+	"time"
 )
 
 var name string
@@ -24,33 +24,21 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	fields["interface"] = "gui"
 	fields["limit"] = limit
 
-	umdObj := umd.New(nil, func(ev event.Event) {
-		switch e := ev.(type) {
-		case event.OnExtractorFound:
-			fields["extractor"] = e.Name
-			a.OnExtractorFound(e.Name)
-		case event.OnExtractorTypeFound:
-			fields["source"] = e.Type
-			fields["name"] = e.Name
-
-			name = e.Name
-			a.OnExtractorTypeFound(e.Type, e.Name)
-		case event.OnMediaQueried:
-			a.OnMediaQueried(e.Amount)
-		}
-	})
-
-	extractor, err := umdObj.FindExtractor(url)
+	extractor, err := umd.New(nil).FindExtractor(url)
 	if err != nil {
 		return nil, err
 	}
 
-	source, err := extractor.GetSourceType()
+	fields["extractor"] = extractor.Type().String()
+	source, err := extractor.SourceType()
 	if err != nil {
 		return nil, err
 	}
 
-	fullDir := filepath.Join(directory, source.GetName())
+	name = source.Name()
+	fields["source"] = source.Type()
+	fields["name"] = name
+	fullDir := filepath.Join(directory, name)
 	cachePath := filepath.Join(fullDir, "_cache.gob")
 
 	// Load any existing cache
@@ -63,8 +51,8 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 
 	// nil means that nothing was found in the cache
 	if resp == nil {
-		resp, err = extractor.QueryMedia(limit, make([]string, 0), deep)
-		if err != nil {
+		resp = extractor.QueryMedia(limit, make([]string, 0), deep)
+		if err = a.queryTicker(resp); err != nil {
 			return nil, err
 		}
 
@@ -82,9 +70,14 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	fields["mediaFound"] = len(media)
 
 	fullDir := filepath.Join(directory, name)
-	downloads := shared.DownloadAll(media, fullDir, parallel, func(download shared.Download) {
+	downloads := make([]shared.Download, 0)
+
+	for response := range shared.DownloadAll(media, fullDir, parallel) {
+		download := shared.ResponseToDownload(response)
+		downloads = append(downloads, download)
+
 		a.OnMediaDownloaded(download)
-	})
+	}
 
 	successes := lo.CountBy(downloads, func(d shared.Download) bool { return d.IsSuccess })
 	failures := lo.CountBy(downloads, func(d shared.Download) bool { return !d.IsSuccess })
@@ -130,4 +123,19 @@ func (a *App) OpenDirectory(currentDir string) string {
 	}
 
 	return directory
+}
+
+func (a *App) queryTicker(resp *umd.Response) error {
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-resp.Done:
+			return resp.Error()
+
+		case <-ticker.C:
+			a.OnMediaQueried(len(resp.Media))
+		}
+	}
 }

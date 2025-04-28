@@ -18,7 +18,7 @@ func PrintType(name string) {
 func PrintCachedResults(typeName string, name string, resp *umd.Response) {
 	size := strconv.Itoa(len(resp.Media))
 	fmt.Printf("💾 Using cached results for %s %s... %s %s Found\n",
-		strings.ToLower(typeName), bold.Render(name), pink.Render("⢿"), bold.Render(size))
+		strings.ToLower(typeName), bold.Render(name), pink.Render("⣿"), bold.Render(size))
 }
 
 func PrintDeleted(fileName string) {

@@ -2,11 +2,11 @@ package charm
 
 import (
 	"fmt"
-	"github.com/cavaliergopher/grab/v3"
 	"github.com/charmbracelet/bubbles/progress"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/samber/lo"
 	"github.com/vegidio/shared"
+	"github.com/vegidio/umd-lib/fetch"
 	"strconv"
 	"time"
 )
@@ -20,10 +20,10 @@ func tickCmd() tea.Cmd {
 }
 
 type downloadMsg struct {
-	resp *grab.Response
+	resp *fetch.Response
 }
 
-func downloadCmd(ch <-chan *grab.Response) tea.Cmd {
+func downloadCmd(ch <-chan *fetch.Response) tea.Cmd {
 	return func() tea.Msg {
 		if resp, ok := <-ch; ok {
 			return downloadMsg{resp}
@@ -35,8 +35,8 @@ func downloadCmd(ch <-chan *grab.Response) tea.Cmd {
 
 type progressModel struct {
 	progress      progress.Model
-	result        <-chan *grab.Response
-	responses     []*grab.Response
+	result        <-chan *fetch.Response
+	responses     []*fetch.Response
 	total         int
 	completed     int
 	startTime     time.Time
@@ -119,11 +119,11 @@ func (m *progressModel) View() string {
 	)
 }
 
-func printLastFive(width int, downloads []*grab.Response) string {
+func printLastFive(width int, downloads []*fetch.Response) string {
 	lastFive := shared.Last5WithIndex(downloads)
 
-	return lo.Reduce(lastFive, func(acc string, p shared.Pair[*grab.Response], _ int) string {
-		mType := shared.GetMediaType(p.Value.Filename)
+	return lo.Reduce(lastFive, func(acc string, p shared.Pair[*fetch.Response], _ int) string {
+		mType := shared.GetMediaType(p.Value.Request.FilePath)
 		index := fmt.Sprintf("%0*d", width, p.Index+1)
 
 		var prefix string
@@ -137,12 +137,12 @@ func printLastFive(width int, downloads []*grab.Response) string {
 
 		return acc + fmt.Sprintf("\n%s %s",
 			prefix,
-			cyanUnderline.Render(p.Value.Request.URL().String()),
+			cyanUnderline.Render(p.Value.Request.Url),
 		)
 	}, "")
 }
 
-func initProgressModel(result <-chan *grab.Response, total int) *progressModel {
+func initProgressModel(result <-chan *fetch.Response, total int) *progressModel {
 	p := progress.New(
 		progress.WithDefaultGradient(),
 		progress.WithoutPercentage(),
@@ -152,7 +152,7 @@ func initProgressModel(result <-chan *grab.Response, total int) *progressModel {
 	return &progressModel{
 		progress:      p,
 		result:        result,
-		responses:     make([]*grab.Response, 0),
+		responses:     make([]*fetch.Response, 0),
 		total:         total,
 		startTime:     time.Now(),
 		lastEtaUpdate: time.Now(),
@@ -160,7 +160,7 @@ func initProgressModel(result <-chan *grab.Response, total int) *progressModel {
 	}
 }
 
-func StartProgress(result <-chan *grab.Response, total int) ([]*grab.Response, error) {
+func StartProgress(result <-chan *fetch.Response, total int) ([]*fetch.Response, error) {
 	model, err := tea.NewProgram(initProgressModel(result, total)).Run()
 	if err != nil {
 		return nil, err

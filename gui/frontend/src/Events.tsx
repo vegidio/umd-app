@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { shared } from '../wailsjs/go/models';
 import { EventsOn } from '../wailsjs/runtime';
-import Download = shared.Download;
 import { useAppStore } from './stores/app';
+import Download = shared.Download;
 
 const Events = () => {
     const store = useAppStore();
@@ -18,7 +18,7 @@ const Events = () => {
         );
 
         const unbindOnMediaQueried = EventsOn('OnMediaQueried', (amount: number) => {
-            store.addAmountQuery(amount);
+            store.setAmountQuery(amount);
         });
 
         const unbindOnQueryCompleted = EventsOn('OnQueryCompleted', (_: number, isCached: boolean) => {

@@ -3,7 +3,6 @@ module cli
 go 1.23.4
 
 require (
-	github.com/cavaliergopher/grab/v3 v3.0.1
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/charmbracelet/lipgloss v1.1.0
@@ -12,7 +11,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/urfave/cli/v2 v2.27.6
 	github.com/vegidio/shared v0.0.0-00010101000000-000000000000
-	github.com/vegidio/umd-lib v0.0.0-20250428051754-518a32780156
+	github.com/vegidio/umd-lib v0.0.0-20250430204345-a7fbcbacd6d5
 )
 
 require (
@@ -26,9 +25,12 @@ require (
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/denisbrodbeck/machineid v1.0.1 // indirect
+	github.com/dromara/dongle v1.0.1 // indirect
+	github.com/emmansun/gmsm v0.30.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-resty/resty/v2 v2.16.5 // indirect
 	github.com/go-rod/rod v0.116.2 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
@@ -47,6 +49,8 @@ require (
 	github.com/ysmood/got v0.40.0 // indirect
 	github.com/ysmood/gson v0.7.3 // indirect
 	github.com/ysmood/leakless v0.9.0 // indirect
+	github.com/zeebo/blake3 v0.2.4 // indirect
+	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/sync v0.13.0 // indirect
 	golang.org/x/sys v0.32.0 // indirect

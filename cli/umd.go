@@ -3,11 +3,11 @@ package main
 import (
 	"cli/internal/charm"
 	"fmt"
-	"github.com/cavaliergopher/grab/v3"
 	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"github.com/vegidio/shared"
 	"github.com/vegidio/umd-lib"
+	"github.com/vegidio/umd-lib/fetch"
 	"path/filepath"
 )
 
@@ -81,7 +81,7 @@ func startQuery(
 		return err
 	}
 
-	downloads := lo.Map(responses, func(r *grab.Response, _ int) shared.Download { return shared.ResponseToDownload(r) })
+	downloads := lo.Map(responses, func(r *fetch.Response, _ int) shared.Download { return shared.ResponseToDownload(r) })
 	successes := lo.CountBy(downloads, func(d shared.Download) bool { return d.IsSuccess })
 	failures := lo.CountBy(downloads, func(d shared.Download) bool { return !d.IsSuccess })
 	fields["numSuccesses"] = successes
