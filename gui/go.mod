@@ -8,7 +8,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/afero v1.14.0
 	github.com/vegidio/shared v0.0.0-00010101000000-000000000000
-	github.com/vegidio/umd-lib v0.0.0-20250430204345-a7fbcbacd6d5
+	github.com/vegidio/umd-lib v0.0.0-20250502203636-dd69031cdd00
 	github.com/wailsapp/wails/v2 v2.10.1
 )
 

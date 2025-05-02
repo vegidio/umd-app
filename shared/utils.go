@@ -1,11 +1,12 @@
 package shared
 
 import (
-	"crypto/sha1"
 	"fmt"
+	"github.com/dromara/dongle"
 	"github.com/go-resty/resty/v2"
 	"github.com/samber/lo"
 	"github.com/spf13/afero"
+	"github.com/zeebo/blake3"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -122,8 +123,13 @@ func CreateTimestamp(num int64) string {
 }
 
 func CreateHashSuffix(str string) string {
-	hash := sha1.Sum([]byte(str))
-	return fmt.Sprintf("%x", hash)[:4]
+	hash := blake3.Sum256([]byte(str))
+	return dongle.Encode.FromBytes(hash[:]).ByBase62().String()[:4]
+}
+
+func CreateFileHash(bytes []byte) string {
+	hash := blake3.Sum256(bytes)
+	return dongle.Encode.FromBytes(hash[:]).ByBase91().String()
 }
 
 func CalculateETA(total, completed int, elapsed time.Duration) time.Duration {

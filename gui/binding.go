@@ -29,6 +29,8 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 		return nil, err
 	}
 
+	a.OnExtractorFound(extractor.Type().String())
+
 	fields["extractor"] = extractor.Type().String()
 	source, err := extractor.SourceType()
 	if err != nil {
@@ -40,6 +42,8 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	fields["name"] = name
 	fullDir := filepath.Join(directory, name)
 	cachePath := filepath.Join(fullDir, "_cache.gob")
+
+	a.OnExtractorTypeFound(source.Type(), name)
 
 	// Load any existing cache
 	if !noCache {
