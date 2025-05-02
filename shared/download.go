@@ -14,23 +14,26 @@ func DownloadAll(
 	directory string,
 	parallel int,
 ) <-chan *fetch.Response {
+	f := fetch.New(nil, 10)
+
 	requests := lo.Map(media, func(m umd.Media, _ int) *fetch.Request {
 		filePath := CreateFilePath(directory, m)
-		r := &fetch.Request{Url: m.Url, FilePath: filePath}
-		return r
+		request, _ := f.NewRequest(m.Url, filePath)
+		return request
 	})
 
-	f := fetch.New(nil, 0)
 	return f.DownloadFiles(requests, parallel)
 }
 
 func ResponseToDownload(response *fetch.Response) Download {
+	bytes, _ := response.Bytes()
+
 	return Download{
 		Url:       response.Request.Url,
 		FilePath:  response.Request.FilePath,
 		Error:     response.Error(),
 		IsSuccess: response.Error() == nil,
-		Hash:      response.Hash,
+		Hash:      CreateFileHash(bytes),
 	}
 }
 

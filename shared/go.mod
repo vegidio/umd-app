@@ -6,17 +6,18 @@ toolchain go1.23.4
 
 require (
 	github.com/denisbrodbeck/machineid v1.0.1
+	github.com/dromara/dongle v1.0.1
 	github.com/go-resty/resty/v2 v2.16.5
 	github.com/mixpanel/mixpanel-go v1.2.1
 	github.com/samber/lo v1.50.0
 	github.com/spf13/afero v1.14.0
-	github.com/vegidio/umd-lib v0.0.0-20250430204345-a7fbcbacd6d5
+	github.com/vegidio/umd-lib v0.0.0-20250502203636-dd69031cdd00
+	github.com/zeebo/blake3 v0.2.4
 )
 
 require (
 	github.com/PuerkitoBio/goquery v1.10.3 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
-	github.com/dromara/dongle v1.0.1 // indirect
 	github.com/emmansun/gmsm v0.30.1 // indirect
 	github.com/go-rod/rod v0.116.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
@@ -26,7 +27,6 @@ require (
 	github.com/ysmood/got v0.40.0 // indirect
 	github.com/ysmood/gson v0.7.3 // indirect
 	github.com/ysmood/leakless v0.9.0 // indirect
-	github.com/zeebo/blake3 v0.2.4 // indirect
 	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/sys v0.32.0 // indirect
