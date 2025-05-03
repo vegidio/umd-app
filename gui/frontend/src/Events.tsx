@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { shared } from '../wailsjs/go/models';
+import { fetch } from '../wailsjs/go/models';
 import { EventsOn } from '../wailsjs/runtime';
 import { useAppStore } from './stores/app';
-import Download = shared.Download;
+import Response = fetch.Response;
 
 const Events = () => {
     const store = useAppStore();
@@ -25,8 +25,9 @@ const Events = () => {
             store.setIsCached(isCached);
         });
 
-        const unbindOnMediaDownloaded = EventsOn('OnMediaDownloaded', (download: Download) => {
-            store.addDownloadList(download);
+        const unbindOnMediaDownloaded = EventsOn('OnMediaDownloaded', (amount: number, responses: Response[]) => {
+            store.setDownloadedMedia(amount);
+            store.setCurrentDownloads(responses);
         });
 
         return () => {

@@ -2,7 +2,7 @@ import { Button, Stack } from '@mui/material';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import { GetHomeDirectory, IsOutdated } from '../wailsjs/go/main/App';
-import { DownloadRow, FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components';
+import { FilterRow, InfoRow, Loading, MediaList, SearchBox } from './components';
 import './App.css';
 import DownloadIcon from '@mui/icons-material/Download';
 import { BrowserOpenURL } from '../wailsjs/runtime';
@@ -54,8 +54,6 @@ const App = () => {
                 <MediaList />
 
                 <FilterRow />
-
-                <DownloadRow />
             </Stack>
 
             <Loading />

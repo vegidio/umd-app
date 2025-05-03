@@ -37,6 +37,7 @@ export const Settings = ({ open, onClose }: SettingsProps) => {
                     onClose();
                 }
             }}
+            disableEscapeKeyDown
         >
             <DialogTitle sx={{ m: 0, p: 1.5 }} id="customized-dialog-title">
                 Settings

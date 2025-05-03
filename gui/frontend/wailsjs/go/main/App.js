@@ -18,8 +18,8 @@ export function OnExtractorTypeFound(arg1, arg2) {
   return window['go']['main']['App']['OnExtractorTypeFound'](arg1, arg2);
 }
 
-export function OnMediaDownloaded(arg1) {
-  return window['go']['main']['App']['OnMediaDownloaded'](arg1);
+export function OnMediaDownloaded(arg1, arg2) {
+  return window['go']['main']['App']['OnMediaDownloaded'](arg1, arg2);
 }
 
 export function OnMediaQueried(arg1) {

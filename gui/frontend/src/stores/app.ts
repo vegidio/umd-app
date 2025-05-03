@@ -1,13 +1,12 @@
 import { immer } from 'zustand/middleware/immer';
 import { create } from 'zustand/react';
-import { model, shared } from '../../wailsjs/go/models';
+import { fetch, model, shared } from '../../wailsjs/go/models';
 import Media = model.Media;
-import Download = shared.Download;
+import Response = fetch.Response;
 
 type AppStore = {
     isCached: boolean;
     isQuerying: boolean;
-    isDownloading: boolean;
     extractorName: string;
     extractorType: string;
     extractorTypeName: string;
@@ -16,12 +15,12 @@ type AppStore = {
     progress: number;
     media: Media[];
     selectedMedia: Media[];
-    downloadedMedia: Download[];
+    downloadedMedia: number;
+    currentDownloads: Response[];
 
     clear: () => void;
     setIsCached: (cached: boolean) => void;
     setIsQuerying: (querying: boolean) => void;
-    setIsDownloading: (downloading: boolean) => void;
     setAmountQuery: (amount: number) => void;
     setExtractorName: (name: string) => void;
     setExtractorType: (eType: string, name: string) => void;
@@ -30,14 +29,14 @@ type AppStore = {
     setMedia: (media: Media[]) => void;
     setSelectedMedia: (media: Media[]) => void;
     clearDownloads: () => void;
-    addDownloadList: (download: Download) => void;
+    setDownloadedMedia: (amount: number) => void;
+    setCurrentDownloads: (responses: Response[]) => void;
 };
 
 export const useAppStore = create(
     immer<AppStore>((set, get) => ({
         isCached: false,
         isQuerying: false,
-        isDownloading: false,
         extractorName: '',
         extractorType: '',
         extractorTypeName: '',
@@ -46,7 +45,8 @@ export const useAppStore = create(
         progress: 0,
         media: [],
         selectedMedia: [],
-        downloadedMedia: [],
+        downloadedMedia: 0,
+        currentDownloads: [],
 
         clear: () =>
             set((state) => {
@@ -58,7 +58,8 @@ export const useAppStore = create(
                 state.progress = 0;
                 state.media = [];
                 state.selectedMedia = [];
-                state.downloadedMedia = [];
+                state.downloadedMedia = 0;
+                state.currentDownloads = [];
             }),
 
         setIsCached: (cached: boolean) =>
@@ -69,11 +70,6 @@ export const useAppStore = create(
         setIsQuerying: (querying: boolean) =>
             set((state) => {
                 state.isQuerying = querying;
-            }),
-
-        setIsDownloading: (downloading: boolean) =>
-            set((state) => {
-                state.isDownloading = downloading;
             }),
 
         setAmountQuery: (amount: number) =>
@@ -117,12 +113,18 @@ export const useAppStore = create(
 
         clearDownloads: () =>
             set((state) => {
-                state.downloadedMedia = [];
+                state.downloadedMedia = 0;
+                state.currentDownloads = [];
             }),
 
-        addDownloadList: (download: Download) =>
+        setDownloadedMedia: (amount: number) =>
             set((state) => {
-                state.downloadedMedia.push(download);
+                state.downloadedMedia = amount;
+            }),
+
+        setCurrentDownloads: (responses: Response[]) =>
+            set((state) => {
+                state.currentDownloads = responses;
             }),
     })),
 );

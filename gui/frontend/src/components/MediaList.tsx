@@ -58,7 +58,7 @@ export const MediaList = () => {
         <DataGridPremium
             rows={rows}
             columns={columns}
-            checkboxSelection={!store.isDownloading}
+            checkboxSelection={true}
             disableRowSelectionOnClick
             density="compact"
             localeText={{
@@ -99,7 +99,7 @@ const LinkCell = ({ url }: { url: string }) => {
     );
 };
 
-const TypeCell = ({ type }: { type: number }) => {
+export const TypeCell = ({ type }: { type: number }) => {
     let icon: ReactElement;
     let label: ReactElement;
 

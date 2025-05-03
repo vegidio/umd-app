@@ -61,7 +61,7 @@ func startQuery(
 
 	// nil means that nothing was found in the cache
 	if resp == nil {
-		resp = extractor.QueryMedia(limit, extensions, true)
+		resp, _ = extractor.QueryMedia(limit, extensions, true)
 
 		err = charm.StartSpinner(source.Type(), source.Name(), resp)
 		if err != nil {

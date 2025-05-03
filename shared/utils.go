@@ -150,26 +150,6 @@ func CalculateETA(total, completed int, elapsed time.Duration) time.Duration {
 	return eta
 }
 
-type Pair[T any] struct {
-	Index int
-	Value T
-}
-
-func Last5WithIndex[T any](slice []T) []Pair[T] {
-	end := len(slice)
-	start := end - 5
-	if start < 0 {
-		start = 0
-	}
-
-	var out []Pair[T]
-	for i := start; i < end; i++ {
-		out = append(out, Pair[T]{Index: i, Value: slice[i]})
-	}
-
-	return out
-}
-
 func GetMediaType(filePath string) string {
 	lowerExt := strings.TrimPrefix(filepath.Ext(filePath), ".")
 

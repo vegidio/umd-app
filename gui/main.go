@@ -25,7 +25,7 @@ func main() {
 	err := wails.Run(&options.App{
 		Title:  "Universal Media Downloader",
 		Width:  960,
-		Height: 720,
+		Height: 710, // ideally 720
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

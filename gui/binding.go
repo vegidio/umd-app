@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/afero"
 	"github.com/vegidio/shared"
 	"github.com/vegidio/umd-lib"
+	"github.com/vegidio/umd-lib/fetch"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os/user"
 	"path/filepath"
@@ -55,7 +56,7 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 
 	// nil means that nothing was found in the cache
 	if resp == nil {
-		resp = extractor.QueryMedia(limit, make([]string, 0), deep)
+		resp, _ = extractor.QueryMedia(limit, make([]string, 0), deep)
 		if err = a.queryTicker(resp); err != nil {
 			return nil, err
 		}
@@ -74,15 +75,54 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	fields["mediaFound"] = len(media)
 
 	fullDir := filepath.Join(directory, name)
-	downloads := make([]shared.Download, 0)
+	queue := shared.NewQueue(5)
+	responses := make([]*fetch.Response, 0)
 
+	startMonitor := make(chan struct{})
+
+	go func() {
+		<-startMonitor
+
+		for {
+			items := queue.Items()
+			if queue.Incompleted() == 0 {
+				items = lo.Map(items, func(r *fetch.Response, _ int) *fetch.Response {
+					r.Progress = 1
+					return r
+				})
+
+				a.OnMediaDownloaded(len(responses), items)
+				break
+			}
+
+			a.OnMediaDownloaded(len(responses), items)
+			time.Sleep(100 * time.Millisecond)
+		}
+	}()
+
+	opened := false
 	for response := range shared.DownloadAll(media, fullDir, parallel) {
-		download := shared.ResponseToDownload(response)
-		downloads = append(downloads, download)
+		queue.Add(response)
 
-		a.OnMediaDownloaded(download)
+		if !opened {
+			close(startMonitor)
+			opened = true
+		}
+
+		go func(r *fetch.Response) {
+			response.Track(func(_, _ int64, progress float64) {
+				if progress >= 1 {
+					responses = append(responses, response)
+				}
+			})
+		}(response)
 	}
 
+	for len(responses) < len(media) {
+		// waiting for all responses to complete
+	}
+
+	downloads := lo.Map(responses, func(r *fetch.Response, _ int) shared.Download { return shared.ResponseToDownload(r) })
 	successes := lo.CountBy(downloads, func(d shared.Download) bool { return d.IsSuccess })
 	failures := lo.CountBy(downloads, func(d shared.Download) bool { return !d.IsSuccess })
 	fields["numSuccesses"] = successes

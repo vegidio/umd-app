@@ -52,7 +52,6 @@ export const SearchBox = () => {
                     label="Enter a URL"
                     value={url}
                     size="small"
-                    disabled={appStore.isDownloading}
                     autoComplete="off"
                     autoCapitalize="off"
                     slotProps={{
@@ -73,7 +72,6 @@ export const SearchBox = () => {
                     label="Limit results"
                     type="number"
                     value={limit}
-                    disabled={appStore.isDownloading}
                     size="small"
                     onChange={handleLimitChange}
                     sx={{ flex: 0.14 }}
@@ -83,7 +81,7 @@ export const SearchBox = () => {
                     id="query"
                     variant="outlined"
                     startIcon={<Search />}
-                    disabled={url.trim() === '' || appStore.isDownloading}
+                    disabled={url.trim() === ''}
                     onClick={handleQueryClick}
                     sx={{ flex: 0.14 }}
                 >

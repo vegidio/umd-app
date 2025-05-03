@@ -37,6 +37,7 @@ type progressModel struct {
 	progress      progress.Model
 	result        <-chan *fetch.Response
 	responses     []*fetch.Response
+	queue         *shared.Queue
 	total         int
 	completed     int
 	startTime     time.Time
@@ -54,16 +55,10 @@ func (m *progressModel) Init() tea.Cmd {
 func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msgValue := msg.(type) {
 	case tickMsg:
-		if m.progress.Percent() >= 1 && !m.progress.IsAnimating() {
+		if m.progress.Percent() >= 1 && !m.progress.IsAnimating() && m.queue.Incompleted() == 0 {
 			m.eta = time.Duration(0)
 			return m, tea.Quit
 		}
-
-		return m, tickCmd()
-
-	case downloadMsg:
-		m.completed++
-		m.responses = append(m.responses, msgValue.resp)
 
 		var percent float64
 		if m.total > 0 {
@@ -71,11 +66,21 @@ func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 		barCmd := m.progress.SetPercent(percent)
-		return m, tea.Batch(
-			tickCmd(),
-			downloadCmd(m.result),
-			barCmd,
-		)
+		return m, tea.Batch(tickCmd(), barCmd)
+
+	case downloadMsg:
+		m.queue.Add(msgValue.resp)
+
+		go func() {
+			msgValue.resp.Track(func(_, _ int64, progress float64) {
+				if progress >= 1 {
+					m.completed++
+				}
+			})
+		}()
+
+		m.responses = append(m.responses, msgValue.resp)
+		return m, downloadCmd(m.result)
 
 	case progress.FrameMsg:
 		updated, cmd := m.progress.Update(msg)
@@ -110,21 +115,25 @@ func (m *progressModel) View() string {
 	c := bold.Render(fmt.Sprintf("%0*d", width, m.completed))
 	t := bold.Render(fmt.Sprintf("%d", m.total))
 
+	eta := m.eta.Truncate(time.Second)
+	if m.eta < 10*time.Second {
+		eta = m.eta.Truncate(time.Second / 10)
+	}
+
 	return fmt.Sprintf("\nDownloading   %s%s%s%s%s  %s  %s   %s\n%s\n",
 		gray.Render("["), c, gray.Render("/"), t, gray.Render("]"),
 		m.progress.View(),
 		green.Render(percentStr),
-		magenta.Render(fmt.Sprintf("ETA %v", m.eta.Truncate(time.Second/10))),
-		printLastFive(width, m.responses),
+		magenta.Render(fmt.Sprintf("ETA %v", eta)),
+
+		printLastFive(m.queue.Items()),
 	)
 }
 
-func printLastFive(width int, downloads []*fetch.Response) string {
-	lastFive := shared.Last5WithIndex(downloads)
-
-	return lo.Reduce(lastFive, func(acc string, p shared.Pair[*fetch.Response], _ int) string {
-		mType := shared.GetMediaType(p.Value.Request.FilePath)
-		index := fmt.Sprintf("%0*d", width, p.Index+1)
+func printLastFive(downloads []*fetch.Response) string {
+	return lo.Reduce(downloads, func(acc string, r *fetch.Response, _ int) string {
+		mType := shared.GetMediaType(r.Request.FilePath)
+		index := fmt.Sprintf("%3.0f%%", r.Progress*100)
 
 		var prefix string
 		if mType == "video" {
@@ -137,7 +146,7 @@ func printLastFive(width int, downloads []*fetch.Response) string {
 
 		return acc + fmt.Sprintf("\n%s %s",
 			prefix,
-			cyanUnderline.Render(p.Value.Request.Url),
+			cyanUnderline.Render(r.Request.Url),
 		)
 	}, "")
 }
@@ -153,6 +162,7 @@ func initProgressModel(result <-chan *fetch.Response, total int) *progressModel 
 		progress:      p,
 		result:        result,
 		responses:     make([]*fetch.Response, 0),
+		queue:         shared.NewQueue(5),
 		total:         total,
 		startTime:     time.Now(),
 		lastEtaUpdate: time.Now(),

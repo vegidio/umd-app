@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/vegidio/shared"
+	"github.com/vegidio/umd-lib/fetch"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -21,6 +21,6 @@ func (a *App) OnQueryCompleted(total int, isCached bool) {
 	runtime.EventsEmit(a.ctx, "OnQueryCompleted", total, isCached)
 }
 
-func (a *App) OnMediaDownloaded(download shared.Download) {
-	runtime.EventsEmit(a.ctx, "OnMediaDownloaded", download)
+func (a *App) OnMediaDownloaded(amount int, responses []*fetch.Response) {
+	runtime.EventsEmit(a.ctx, "OnMediaDownloaded", amount, responses)
 }
