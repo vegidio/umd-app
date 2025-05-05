@@ -15,6 +15,7 @@ import (
 )
 
 var name string
+var extractorName string
 var mp *shared.MixPanel
 
 func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noCache bool) ([]umd.Media, error) {
@@ -30,9 +31,10 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 		return nil, err
 	}
 
-	a.OnExtractorFound(extractor.Type().String())
+	extractorName = extractor.Type().String()
+	a.OnExtractorFound(extractorName)
+	fields["extractor"] = extractorName
 
-	fields["extractor"] = extractor.Type().String()
 	source, err := extractor.SourceType()
 	if err != nil {
 		return nil, err
@@ -41,7 +43,7 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	name = source.Name()
 	fields["source"] = source.Type()
 	fields["name"] = name
-	fullDir := filepath.Join(directory, name)
+	fullDir := filepath.Join(directory, extractorName, name)
 	cachePath := filepath.Join(fullDir, "_cache.gob")
 
 	a.OnExtractorTypeFound(source.Type(), name)
@@ -74,7 +76,7 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	fields["parallel"] = parallel
 	fields["mediaFound"] = len(media)
 
-	fullDir := filepath.Join(directory, name)
+	fullDir := filepath.Join(directory, extractorName, name)
 	queue := shared.NewQueue(5)
 	responses := make([]*fetch.Response, 0)
 

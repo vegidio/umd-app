@@ -44,7 +44,7 @@ func startQuery(
 	fields["name"] = source.Name()
 	charm.PrintType(source.Type())
 
-	fullDir := filepath.Join(directory, source.Name())
+	fullDir := filepath.Join(directory, extractor.Type().String(), source.Name())
 	cachePath := filepath.Join(fullDir, "_cache.gob")
 
 	// Load any existing cache
