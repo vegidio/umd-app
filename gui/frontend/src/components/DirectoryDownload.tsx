@@ -10,11 +10,10 @@ import {
 import { Button, Checkbox, FormControlLabel, InputAdornment, Stack, TextField } from '@mui/material';
 import React, { type ChangeEvent, useEffect, useState } from 'react';
 import { OpenDirectory } from '../../wailsjs/go/main/App';
-import './FilterRow.css';
 import { useAppStore } from '../stores/app';
-import { Download } from './Download';
+import { DialogDownload } from './DialogDownload';
 
-export const FilterRow = () => {
+export const DirectoryDownload = () => {
     const store = useAppStore();
 
     const [filter, setFilter] = useState('');
@@ -136,7 +135,7 @@ export const FilterRow = () => {
                 </Stack>
             </Stack>
 
-            {startDownload && <Download open={true} onClose={() => setStartDownload(false)} />}
+            {startDownload && <DialogDownload open={true} onClose={() => setStartDownload(false)} />}
         </>
     );
 };

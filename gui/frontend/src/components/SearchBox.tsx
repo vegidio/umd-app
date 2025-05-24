@@ -3,10 +3,9 @@ import { Button, IconButton, InputAdornment, Stack, TextField } from '@mui/mater
 import { enqueueSnackbar } from 'notistack';
 import { type ChangeEvent, useState } from 'react';
 import { QueryMedia } from '../../wailsjs/go/main/App';
-import './SearchBox.css';
 import { useAppStore } from '../stores/app';
 import { useSettingsStore } from '../stores/settings';
-import { Settings } from './Settings';
+import { DialogSettings } from './DialogSettings';
 
 export const SearchBox = () => {
     const appStore = useAppStore();
@@ -93,7 +92,7 @@ export const SearchBox = () => {
                 </IconButton>
             </Stack>
 
-            {openSettings && <Settings open={true} onClose={() => setOpenSettings(false)} />}
+            {openSettings && <DialogSettings open={true} onClose={() => setOpenSettings(false)} />}
         </>
     );
 };

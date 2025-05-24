@@ -63,9 +63,9 @@ When you query the same URL multiple times, the app caches the results to speed 
 
 You can adjust the app settings to bypass the cache and always fetch fresh results.
 
-### Skip previously downloaded files
+### Resume/skip previously downloaded files
 
-When downloading files to the same directory, the app will automatically skip files that have already been downloaded.
+When downloading files to the same directory, the app will automatically resume the files that were partially downloaded and skip those have already been fully downloaded.
 
 This feature helps to avoid duplicate downloads, ensuring only new or previously failed files are downloaded.
 
@@ -87,11 +87,11 @@ To bypass this, open the Terminal and run the command below, replacing `<path-to
 $ xattr -d com.apple.quarantine <path-to-app>
 ```
 
-### Download is taking too long
+### Download is not working or taking too long
 
-Some websites, like Coomer/Kemono, use techniques to block tools from scraping their content. **UMD**, however, includes countermeasures to bypass these restrictions. This process can make the downloads take longer than usual.
+Some websites, like Coomer/Kemono, use techniques to block tools from scraping their content. This includes slowing down the download speed or **even blocking the IP address of the user.**
 
-Unfortunately, there’s no way to speed up this process, so please be patient and allow the app to complete its work.
+Unfortunately, there’s nothing **UMD** can do to improve this, so please be patient and allow the app to complete its work.
 
 ## 🛠️ Build
 

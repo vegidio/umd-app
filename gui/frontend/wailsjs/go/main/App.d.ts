@@ -23,3 +23,5 @@ export function OpenDirectory(arg1:string):Promise<string>;
 export function QueryMedia(arg1:string,arg2:string,arg3:number,arg4:boolean,arg5:boolean):Promise<Array<model.Media>>;
 
 export function StartDownload(arg1:Array<model.Media>,arg2:string,arg3:number):Promise<Array<shared.Download>>;
+
+export function StopQuery():Promise<void>;

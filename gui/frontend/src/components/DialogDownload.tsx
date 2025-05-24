@@ -26,12 +26,12 @@ import { StartDownload } from '../../wailsjs/go/main/App';
 import { useAppStore } from '../stores/app';
 import { TypeCell } from './MediaList';
 
-type DownloadProps = {
+type DownloadDialogProps = {
     open: boolean;
     onClose: () => void;
 };
 
-export const Download = ({ open, onClose }: DownloadProps) => {
+export const DialogDownload = ({ open, onClose }: DownloadDialogProps) => {
     const store = useAppStore();
     const [isDownloading, setIsDownloading] = useState(true);
 

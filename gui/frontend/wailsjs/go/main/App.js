@@ -41,3 +41,7 @@ export function QueryMedia(arg1, arg2, arg3, arg4, arg5) {
 export function StartDownload(arg1, arg2, arg3) {
   return window['go']['main']['App']['StartDownload'](arg1, arg2, arg3);
 }
+
+export function StopQuery() {
+  return window['go']['main']['App']['StopQuery']();
+}

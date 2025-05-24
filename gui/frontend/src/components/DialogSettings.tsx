@@ -13,12 +13,12 @@ import {
 import { type ChangeEvent, useState } from 'react';
 import { useSettingsStore } from '../stores/settings';
 
-type SettingsProps = {
+type Props = {
     open: boolean;
     onClose: () => void;
 };
 
-export const Settings = ({ open, onClose }: SettingsProps) => {
+export const DialogSettings = ({ open, onClose }: Props) => {
     const store = useSettingsStore();
     const [deepSearch, setDeepSearch] = useState(store.deepSearch);
     const [ignoreCache, setIgnoreCache] = useState(store.ignoreCache);

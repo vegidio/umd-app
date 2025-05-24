@@ -17,6 +17,7 @@ import (
 var name string
 var extractorName string
 var mp *shared.MixPanel
+var stop func()
 
 func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noCache bool) ([]umd.Media, error) {
 	var resp *umd.Response
@@ -51,6 +52,9 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	// Load any existing cache
 	if !noCache {
 		resp, _ = shared.LoadCache(cachePath)
+		if resp != nil && len(resp.Media) == 0 {
+			resp = nil
+		}
 	}
 
 	fields["cache"] = resp != nil
@@ -58,7 +62,7 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 
 	// nil means that nothing was found in the cache
 	if resp == nil {
-		resp, _ = extractor.QueryMedia(limit, make([]string, 0), deep)
+		resp, stop = extractor.QueryMedia(limit, make([]string, 0), deep)
 		if err = a.queryTicker(resp); err != nil {
 			return nil, err
 		}
@@ -69,6 +73,13 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	a.OnQueryCompleted(len(resp.Media), fields["cache"].(bool))
 
 	return resp.Media, nil
+}
+
+func (a *App) StopQuery() {
+	if stop != nil {
+		stop()
+		stop = nil
+	}
 }
 
 func (a *App) StartDownload(media []umd.Media, directory string, parallel int) []shared.Download {
