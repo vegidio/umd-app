@@ -63,7 +63,12 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	// nil means that nothing was found in the cache
 	if resp == nil {
 		resp, stop = extractor.QueryMedia(limit, make([]string, 0), deep)
-		if err = a.queryTicker(resp); err != nil {
+
+		err = resp.Track(func(_, total int) {
+			a.OnMediaQueried(total)
+		})
+
+		if err != nil {
 			return nil, err
 		}
 
@@ -80,6 +85,10 @@ func (a *App) StopQuery() {
 		stop()
 		stop = nil
 	}
+}
+
+func (a *App) CancelDownloads() {
+	shared.CancelDownloads()
 }
 
 func (a *App) StartDownload(media []umd.Media, directory string, parallel int) []shared.Download {
@@ -180,19 +189,4 @@ func (a *App) OpenDirectory(currentDir string) string {
 	}
 
 	return directory
-}
-
-func (a *App) queryTicker(resp *umd.Response) error {
-	ticker := time.NewTicker(1 * time.Second)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-resp.Done:
-			return resp.Error()
-
-		case <-ticker.C:
-			a.OnMediaQueried(len(resp.Media))
-		}
-	}
 }

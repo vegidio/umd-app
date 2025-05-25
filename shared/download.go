@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+var cancelDownloads func()
+
 func DownloadAll(
 	media []umd.Media,
 	directory string,
@@ -22,7 +24,16 @@ func DownloadAll(
 		return request
 	})
 
-	return f.DownloadFiles(requests, parallel)
+	resp, cancel := f.DownloadFiles(requests, parallel)
+	cancelDownloads = cancel
+	return resp
+}
+
+func CancelDownloads() {
+	if cancelDownloads != nil {
+		cancelDownloads()
+		cancelDownloads = nil
+	}
 }
 
 func ResponseToDownload(response *fetch.Response) Download {
@@ -45,7 +56,7 @@ func CreateFilePath(directory string, media umd.Media) string {
 	n := media.Metadata["name"].(string)
 	suffix := CreateHashSuffix(media.Url)
 
-	// If array of Media is coming from the JS code, the values in the Metadata map are strings
+	// If the array of Media is coming from the JS code, the values in the Metadata map are strings
 	timeStr, ok := media.Metadata["created"].(string)
 	if ok {
 		t, err = time.Parse(time.RFC3339, timeStr)

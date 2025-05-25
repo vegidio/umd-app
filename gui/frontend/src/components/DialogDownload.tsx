@@ -17,21 +17,20 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Tooltip,
     Typography,
 } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
-import { StartDownload } from '../../wailsjs/go/main/App';
+import { CancelDownloads, StartDownload } from '../../wailsjs/go/main/App';
 import { useAppStore } from '../stores/app';
 import { TypeCell } from './MediaList';
 
-type DownloadDialogProps = {
+type Props = {
     open: boolean;
     onClose: () => void;
 };
 
-export const DialogDownload = ({ open, onClose }: DownloadDialogProps) => {
+export const DialogDownload = ({ open, onClose }: Props) => {
     const store = useAppStore();
     const [isDownloading, setIsDownloading] = useState(true);
 
@@ -53,6 +52,12 @@ export const DialogDownload = ({ open, onClose }: DownloadDialogProps) => {
         const percentage = (store.downloadedMedia * 100) / store.selectedMedia.length;
         store.setProgress(Number.isNaN(percentage) ? 0 : percentage);
     }, [store.downloadedMedia, store.selectedMedia, store.setProgress]);
+
+    const onCancelDownload = async () => {
+        await CancelDownloads();
+        setIsDownloading(false);
+        enqueueSnackbar('Download cancelled', { variant: 'warning' });
+    };
 
     return (
         <Dialog
@@ -131,13 +136,19 @@ export const DialogDownload = ({ open, onClose }: DownloadDialogProps) => {
             </DialogContent>
 
             <DialogActions>
-                <Tooltip title="Cancel feature coming soon...">
-                    <span>
-                        <Button color="error" onClick={onClose} disabled={isDownloading} sx={{ fontWeight: 'bold' }}>
-                            {isDownloading ? 'Cancel' : 'Close'}
-                        </Button>
-                    </span>
-                </Tooltip>
+                <Button
+                    color={isDownloading ? 'error' : 'primary'}
+                    onClick={() => {
+                        if (isDownloading) {
+                            onCancelDownload();
+                        } else {
+                            onClose();
+                        }
+                    }}
+                    sx={{ fontWeight: 'bold' }}
+                >
+                    {isDownloading ? 'Cancel' : 'Close'}
+                </Button>
             </DialogActions>
         </Dialog>
     );

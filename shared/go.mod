@@ -11,7 +11,7 @@ require (
 	github.com/mixpanel/mixpanel-go v1.2.1
 	github.com/samber/lo v1.50.0
 	github.com/spf13/afero v1.14.0
-	github.com/vegidio/umd-lib v0.0.0-20250506063157-7e68e367560d
+	github.com/vegidio/umd-lib v0.0.0-20250525165206-298cba04e2c9
 	github.com/zeebo/blake3 v0.2.4
 )
 

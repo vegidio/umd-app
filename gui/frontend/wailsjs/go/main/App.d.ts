@@ -4,6 +4,8 @@ import {fetch} from '../models';
 import {model} from '../models';
 import {shared} from '../models';
 
+export function CancelDownloads():Promise<void>;
+
 export function GetHomeDirectory():Promise<string>;
 
 export function IsOutdated():Promise<boolean>;
