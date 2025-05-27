@@ -17,7 +17,7 @@ It supports the following sites:
 
 ## 🖼️ Usage
 
-There are 2 ways to use this app: using the GUI or the CLI.
+There are two ways to use this app: using the GUI or the CLI.
 
 The GUI is the easiest way to use the app, with an intuitive interface that allows you to download media files with just a few clicks. The CLI is more advanced and allows you to download media files in a more automated way.
 
@@ -30,10 +30,9 @@ Both versions are available for Windows, macOS, and Linux. Download the [latest 
 </p>
 
 1. `Enter a URL` of the website where the media is hosted and then click on the `Query` button. If the URL belongs to a website supported by **UMD**, it will query the website and show the media files in the list below.
-    - Mark the checkbox `Deep` if you want to perform a deep search. This will expand the search in the unknown URLs in an attempt to find more media files.
     - You can limit the number of files that will be queried by entering a number in the `Limit` field.
 2. Select the media files that you want to download by clicking on the checkbox next to the file name, or click on the checkboxes to automatically select all images and/or videos.
-3. Click on the button `Browse` to select the directory where you want the files to be saved and then click on the `Download` button to start the download.
+3. Click on the directory field to select the directory where you want the files to be saved and then click on the `Download` button to start the download.
 
 ### CLI
 
@@ -75,7 +74,13 @@ This application will automatically delete all files that are identical.
 
 ## 💣 Troubleshooting
 
-### "App Is Damaged..." (Unidentified Developer)
+### Download is not working or taking too long
+
+Some websites, like Coomer/Kemono, use techniques to block tools from scraping their content. This includes slowing down the download speed or **even blocking the IP address of the user.**
+
+Unfortunately, there’s nothing **UMD** can do to improve this, so please be patient and allow the app to complete its work.
+
+### "App Is Damaged..." (Unidentified Developer — macOS only)
 
 For a couple of years now, Apple has required developers to join their "Developer Program" to gain the pretentious status of an _identified developer_ 😛.
 
@@ -86,12 +91,6 @@ To bypass this, open the Terminal and run the command below, replacing `<path-to
 ```bash
 $ xattr -d com.apple.quarantine <path-to-app>
 ```
-
-### Download is not working or taking too long
-
-Some websites, like Coomer/Kemono, use techniques to block tools from scraping their content. This includes slowing down the download speed or **even blocking the IP address of the user.**
-
-Unfortunately, there’s nothing **UMD** can do to improve this, so please be patient and allow the app to complete its work.
 
 ## 🛠️ Build
 
