@@ -23,13 +23,15 @@ type downloadMsg struct {
 	resp *fetch.Response
 }
 
+type downloadDone struct{}
+
 func downloadCmd(ch <-chan *fetch.Response) tea.Cmd {
 	return func() tea.Msg {
 		if resp, ok := <-ch; ok {
 			return downloadMsg{resp}
 		}
 
-		return nil
+		return downloadDone{}
 	}
 }
 
@@ -81,6 +83,9 @@ func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		m.responses = append(m.responses, msgValue.resp)
 		return m, downloadCmd(m.result)
+
+	case downloadDone:
+		return m, tea.Quit
 
 	case progress.FrameMsg:
 		updated, cmd := m.progress.Update(msg)
