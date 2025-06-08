@@ -58,7 +58,6 @@ func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msgValue := msg.(type) {
 	case tickMsg:
 		if m.progress.Percent() >= 1 && !m.progress.IsAnimating() && m.queue.Incompleted() == 0 {
-			m.eta = time.Duration(0)
 			return m, tea.Quit
 		}
 
@@ -74,7 +73,7 @@ func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.queue.Add(msgValue.resp)
 
 		go func() {
-			msgValue.resp.Track(func(_, _ int64, progress float64) {
+			_ = msgValue.resp.Track(func(_, _ int64, progress float64) {
 				if progress >= 1 {
 					m.completed++
 				}
@@ -85,7 +84,9 @@ func (m *progressModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, downloadCmd(m.result)
 
 	case downloadDone:
-		return m, tea.Quit
+		barCmd := m.progress.SetPercent(1)
+		m.eta = time.Duration(0)
+		return m, barCmd
 
 	case progress.FrameMsg:
 		updated, cmd := m.progress.Update(msg)
