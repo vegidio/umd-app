@@ -43,7 +43,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: Install Wails
         run: |
@@ -83,7 +83,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: Install Wails
         run: |
@@ -123,7 +123,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: Install Wails
         run: |
@@ -141,7 +141,7 @@ jobs:
           name: binaries-macos
           path: build/*.zip
 
-  build-windows:
+  build-windows-amd64:
     runs-on: windows-latest
     needs: [version]
     env:
@@ -158,7 +158,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.24'
 
       - name: Install Wails
         run: |
@@ -176,12 +176,64 @@ jobs:
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: binaries-windows
+          name: binaries-windows-amd64
+          path: build/*.zip
+
+  build-windows-arm64:
+    runs-on: windows-11-arm
+    needs: [version]
+    env:
+      VITE_MUI_LICENSE: ${{ secrets.VITE_MUI_LICENSE }}
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Install MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANGARM64
+          update: true
+          install: |
+            mingw-w64-clang-aarch64-gcc-compat
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Install Wails
+        run: |
+          go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: Install dependencies
+        run: |
+          pnpm install -g @go-task/cli
+
+      - name: Build Windows binaries
+        shell: msys2 {0}
+        env:
+          MSYS2_PATH_TYPE: inherit
+          MSYSTEM: CLANGARM64
+          CC: aarch64-w64-mingw32-gcc
+          CXX: aarch64-w64-mingw32-g++
+        run: |
+          node scripts/replace.mjs shared/telemetry.go "<version>=>${{ needs.version.outputs.VERSION }}"
+          task package oses=windows archs=arm64
+
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries-windows-arm64
           path: build/*.zip
 
   release:
     runs-on: ubuntu-latest
-    needs: [build-linux-arm64, build-linux, build-macos, build-windows]
+    needs: [build-linux-arm64, build-linux, build-macos, build-windows-amd64, build-windows-arm64]
     permissions:
       contents: write
     steps:
