@@ -85,10 +85,7 @@ func main() {
 					split := strings.Split(s, ",")
 
 					split = lo.Map(split, func(ext string, _ int) string {
-						return "." + strings.ToLower(strings.TrimSpace(ext))
-					})
-					split = lo.Filter(split, func(ext string, _ int) bool {
-						return len(ext) > 1
+						return strings.ToLower(strings.TrimSpace(ext))
 					})
 
 					extensions = append(extensions, split...)
