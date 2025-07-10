@@ -19,7 +19,7 @@ var extractorName string
 var mp *shared.MixPanel
 var stop func()
 
-func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noCache bool) ([]umd.Media, error) {
+func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noCache bool, enableTelemetry bool) ([]umd.Media, error) {
 	var resp *umd.Response
 
 	mp = shared.NewMixPanel(uuid.New().String())
@@ -58,7 +58,10 @@ func (a *App) QueryMedia(url string, directory string, limit int, deep bool, noC
 	}
 
 	fields["cache"] = resp != nil
-	mp.Track("Start Download", fields)
+
+	if enableTelemetry {
+		mp.Track("Start Download", fields)
+	}
 
 	// nil means that nothing was found in the cache
 	if resp == nil {
@@ -91,7 +94,7 @@ func (a *App) CancelDownloads() {
 	shared.CancelDownloads()
 }
 
-func (a *App) StartDownload(media []umd.Media, directory string, parallel int) []shared.Download {
+func (a *App) StartDownload(media []umd.Media, directory string, parallel int, enableTelemetry bool) []shared.Download {
 	fields := make(map[string]any)
 	fields["parallel"] = parallel
 	fields["mediaFound"] = len(media)
@@ -123,7 +126,7 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	}()
 
 	opened := false
-	for response := range shared.DownloadAll(media, fullDir, parallel) {
+	for response := range shared.DownloadAll(media, fullDir, parallel, make([]fetch.Cookie, 0)) {
 		queue.Add(response)
 
 		if !opened {
@@ -153,7 +156,10 @@ func (a *App) StartDownload(media []umd.Media, directory string, parallel int) [
 	_, remaining := shared.RemoveDuplicates(downloads, nil)
 	shared.CreateReport(fullDir, remaining)
 
-	mp.Track("End Download", fields)
+	if enableTelemetry {
+		mp.Track("End Download", fields)
+	}
+
 	return downloads
 }
 

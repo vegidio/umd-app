@@ -22,10 +22,12 @@ export const DialogSettings = ({ open, onClose }: Props) => {
     const store = useSettingsStore();
     const [deepSearch, setDeepSearch] = useState(store.deepSearch);
     const [ignoreCache, setIgnoreCache] = useState(store.ignoreCache);
+    const [enableTelemetry, setEnableTelemetry] = useState(store.enableTelemetry);
 
     const onSave = () => {
         store.setDeepSearch(deepSearch);
         store.setIgnoreCache(ignoreCache);
+        store.setEnableTelemetry(enableTelemetry);
         onClose();
     };
 
@@ -87,6 +89,22 @@ export const DialogSettings = ({ open, onClose }: Props) => {
                             <>
                                 <strong>Ignore Cache:</strong> this option will bypass previously cached URLs and always
                                 fetch new ones.
+                            </>
+                        }
+                    />
+                    <FormControlLabel
+                        sx={{ alignItems: 'flex-start' }}
+                        control={
+                            <Checkbox
+                                sx={{ m: 0, mr: 1, p: 0 }}
+                                checked={enableTelemetry}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => setEnableTelemetry(e.target.checked)}
+                            />
+                        }
+                        label={
+                            <>
+                                <strong>Enable Telemetry:</strong> this option will send anonymous data to help improve
+                                the app.
                             </>
                         }
                     />

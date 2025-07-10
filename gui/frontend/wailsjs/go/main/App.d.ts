@@ -22,8 +22,8 @@ export function OnQueryCompleted(arg1:number,arg2:boolean):Promise<void>;
 
 export function OpenDirectory(arg1:string):Promise<string>;
 
-export function QueryMedia(arg1:string,arg2:string,arg3:number,arg4:boolean,arg5:boolean):Promise<Array<model.Media>>;
+export function QueryMedia(arg1:string,arg2:string,arg3:number,arg4:boolean,arg5:boolean,arg6:boolean):Promise<Array<model.Media>>;
 
-export function StartDownload(arg1:Array<model.Media>,arg2:string,arg3:number):Promise<Array<shared.Download>>;
+export function StartDownload(arg1:Array<model.Media>,arg2:string,arg3:number,arg4:boolean):Promise<Array<shared.Download>>;
 
 export function StopQuery():Promise<void>;

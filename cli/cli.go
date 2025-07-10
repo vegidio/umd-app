@@ -22,6 +22,7 @@ func main() {
 	var parallel int
 	var limit int
 	var noCache bool
+	var noTelemetry bool
 	var cookies []fetch.Cookie
 
 	currentPath, _ := os.Getwd()
@@ -102,6 +103,14 @@ func main() {
 				Category:    "Optional:",
 				EnvVars:     []string{"UMD_NO_CACHE"},
 			},
+			&cli.BoolFlag{
+				Name:        "no-telemetry",
+				Value:       false,
+				Usage:       "don't send anonymous usage data to help improve the app",
+				Destination: &noTelemetry,
+				Category:    "Optional:",
+				EnvVars:     []string{"UMD_NO_TELEMETRY"},
+			},
 			&cli.StringFlag{
 				Name:     "cookies",
 				Aliases:  []string{"c"},
@@ -149,6 +158,7 @@ func main() {
 				limit,
 				extensions,
 				noCache,
+				noTelemetry,
 				cookies,
 			)
 

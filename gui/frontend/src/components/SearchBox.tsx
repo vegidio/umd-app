@@ -11,6 +11,7 @@ export const SearchBox = () => {
     const appStore = useAppStore();
     const deep = useSettingsStore((state) => state.deepSearch);
     const noCache = useSettingsStore((state) => state.ignoreCache);
+    const enableTelemetry = useSettingsStore((state) => state.enableTelemetry);
 
     const [url, setUrl] = useState('');
     const [limit, setLimit] = useState(99_999);
@@ -34,7 +35,7 @@ export const SearchBox = () => {
         appStore.setIsQuerying(true);
 
         try {
-            const media = await QueryMedia(url, appStore.directory, limit, deep, noCache);
+            const media = await QueryMedia(url, appStore.directory, limit, deep, noCache, enableTelemetry);
             appStore.setMedia(media);
         } catch (e) {
             enqueueSnackbar('Error querying the media from this URL', { variant: 'error' });

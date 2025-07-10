@@ -38,12 +38,12 @@ export function OpenDirectory(arg1) {
   return window['go']['main']['App']['OpenDirectory'](arg1);
 }
 
-export function QueryMedia(arg1, arg2, arg3, arg4, arg5) {
-  return window['go']['main']['App']['QueryMedia'](arg1, arg2, arg3, arg4, arg5);
+export function QueryMedia(arg1, arg2, arg3, arg4, arg5, arg6) {
+  return window['go']['main']['App']['QueryMedia'](arg1, arg2, arg3, arg4, arg5, arg6);
 }
 
-export function StartDownload(arg1, arg2, arg3) {
-  return window['go']['main']['App']['StartDownload'](arg1, arg2, arg3);
+export function StartDownload(arg1, arg2, arg3, arg4) {
+  return window['go']['main']['App']['StartDownload'](arg1, arg2, arg3, arg4);
 }
 
 export function StopQuery() {

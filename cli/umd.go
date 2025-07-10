@@ -18,6 +18,7 @@ func startQuery(
 	limit int,
 	extensions []string,
 	noCache bool,
+	noTelemetry bool,
 	cookies []fetch.Cookie,
 ) error {
 	mp := shared.NewMixPanel(uuid.New().String())
@@ -58,7 +59,10 @@ func startQuery(
 	}
 
 	fields["cache"] = resp != nil
-	mp.Track("Start Download", fields)
+
+	if !noTelemetry {
+		mp.Track("Start Download", fields)
+	}
 
 	// nil means that nothing was found in the cache
 	if resp == nil {
@@ -99,7 +103,10 @@ func startQuery(
 		charm.PrintDeleted(fileName)
 	})
 
-	mp.Track("End Download", fields)
+	if !noTelemetry {
+		mp.Track("End Download", fields)
+	}
+
 	shared.CreateReport(fullDir, remaining)
 
 	charm.PrintDone("Done!")

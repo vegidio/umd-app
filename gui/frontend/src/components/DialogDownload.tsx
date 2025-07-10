@@ -23,6 +23,7 @@ import { enqueueSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { CancelDownloads, StartDownload } from '../../wailsjs/go/main/App';
 import { useAppStore } from '../stores/app';
+import { useSettingsStore } from '../stores/settings';
 import { TypeCell } from './MediaList';
 
 type Props = {
@@ -33,12 +34,13 @@ type Props = {
 export const DialogDownload = ({ open, onClose }: Props) => {
     const store = useAppStore();
     const [isDownloading, setIsDownloading] = useState(true);
+    const enableTelemetry = useSettingsStore((state) => state.enableTelemetry);
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: should fire only once
     useEffect(() => {
         let mounted = true;
         (async () => {
-            await StartDownload(store.selectedMedia, store.directory, 5);
+            await StartDownload(store.selectedMedia, store.directory, 5, enableTelemetry);
             setIsDownloading(false);
             enqueueSnackbar('Download completed', { variant: 'success' });
         })();
