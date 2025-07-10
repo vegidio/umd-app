@@ -18,6 +18,7 @@ func startQuery(
 	limit int,
 	extensions []string,
 	noCache bool,
+	cookies []fetch.Cookie,
 ) error {
 	mp := shared.NewMixPanel(uuid.New().String())
 	fields := make(map[string]any)
@@ -75,7 +76,7 @@ func startQuery(
 	fields["parallel"] = parallel
 	fields["mediaFound"] = len(resp.Media)
 
-	result := shared.DownloadAll(resp.Media, fullDir, parallel)
+	result := shared.DownloadAll(resp.Media, fullDir, parallel, cookies)
 	responses, err := charm.StartProgress(result, len(resp.Media))
 	if err != nil {
 		return err

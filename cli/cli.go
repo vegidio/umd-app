@@ -7,6 +7,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 	"github.com/vegidio/shared"
+	"github.com/vegidio/umd-lib/fetch"
 	"io"
 	"os"
 	"strings"
@@ -21,6 +22,7 @@ func main() {
 	var parallel int
 	var limit int
 	var noCache bool
+	var cookies []fetch.Cookie
 
 	currentPath, _ := os.Getwd()
 	extensions := make([]string, 0)
@@ -100,6 +102,27 @@ func main() {
 				Category:    "Optional:",
 				EnvVars:     []string{"UMD_NO_CACHE"},
 			},
+			&cli.StringFlag{
+				Name:     "cookies",
+				Aliases:  []string{"c"},
+				Usage:    "a file containing cookies used by website",
+				Category: "Optional:",
+				EnvVars:  []string{"UMD_COOKIES"},
+				Action: func(context *cli.Context, path string) error {
+					fullPath, err := expandPath(path)
+					if err != nil {
+						return fmt.Errorf("cookies path %s is invalid", path)
+					}
+
+					co, err := fetch.GetFileCookies(fullPath)
+					if err != nil {
+						return err
+					}
+
+					cookies = co
+					return nil
+				},
+			},
 		},
 		Action: func(ctx *cli.Context) error {
 			if ctx.NArg() > 0 {
@@ -126,6 +149,7 @@ func main() {
 				limit,
 				extensions,
 				noCache,
+				cookies,
 			)
 
 			return err

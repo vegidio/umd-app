@@ -2,7 +2,7 @@
   <configuration default="false" name="Run CLI" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="umd-app" />
     <working_directory value="$PROJECT_DIR$/cli" />
-    <parameters value="-d ~/Desktop/test https://fapello.com/caylinlive-33/" />
+    <parameters value="-d ~/Desktop/test -c ~/Desktop/cookies.txt https://coomer.su/onlyfans/user/whynicoleshy" />
     <kind value="PACKAGE" />
     <package value="cli" />
     <directory value="$PROJECT_DIR$" />

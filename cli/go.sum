@@ -80,8 +80,8 @@ github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOf
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 github.com/urfave/cli/v2 v2.27.7 h1:bH59vdhbjLv3LAvIu6gd0usJHgoTTPhCFib8qqOwXYU=
 github.com/urfave/cli/v2 v2.27.7/go.mod h1:CyNAG/xg+iAOg0N4MPGZqVmv2rCoP267496AOXUZjA4=
-github.com/vegidio/umd-lib v0.0.0-20250620050529-c105dea04caa h1:6Ff86QTfXTc1r4jyid9pVb5F6L5uherA5TuQKwdZAUI=
-github.com/vegidio/umd-lib v0.0.0-20250620050529-c105dea04caa/go.mod h1:XkPIxn0Sd8sNOTej5c0PT64WeXgsIpGey1HBG5tNvuI=
+github.com/vegidio/umd-lib v0.0.0-20250620200917-3f63cfc9500d h1:xOK6XN8M6Ra5hBIUnL08ECtWmyqcUHsXy514yQwetcw=
+github.com/vegidio/umd-lib v0.0.0-20250620200917-3f63cfc9500d/go.mod h1:D9Z7u6RR+lnCxJmGq4LDA8GIHuOsh6WJkl1BjO1G5Hg=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e h1:JVG44RsyaB9T2KIHavMF/ppJZNG9ZpyihvCd0w101no=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e/go.mod h1:RbqR21r5mrJuqunuUZ/Dhy/avygyECGrLceyNeo4LiM=
 github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 h1:gEOO8jv9F4OT7lGCjxCBTO/36wtF6j2nSip77qHd4x4=
