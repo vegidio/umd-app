@@ -80,17 +80,16 @@ Some websites, like Coomer/Kemono, use techniques to block tools from scraping t
 
 Unfortunately, there’s nothing **UMD** can do to improve this, so please be patient and allow the app to complete its work.
 
-### "App Is Damaged..." (Unidentified Developer — macOS only)
+### "App Is Damaged/Blocked..." (Windows & macOS only)
 
-For a couple of years now, Apple has required developers to join their "Developer Program" to gain the pretentious status of an _identified developer_ 😛.
+For a couple of years now, Microsoft and Apple have required developers to join their "Developer Program" to gain the pretentious status of an _identified developer_ 😛.
 
-Translating to non-BS language, this means that if you’re not registered with Apple (i.e., paying the fee), you can’t freely distribute macOS software. Apps from unidentified developers will display a message saying the app is damaged and can’t be opened.
+Translating to non-BS language, this means that if you’re not registered with them (i.e., paying the fee), you can’t freely distribute Windows or macOS software. Apps from unidentified developers will display a message saying the app is damaged or blocked and can’t be opened.
 
-To bypass this, open the Terminal and run the command below, replacing `<path-to-app>` with the correct path to where you’ve installed the app:
+To bypass this, open the Terminal and run one of the commands below (depending on your operating system), replacing `<path-to-app>` with the correct path to where you’ve installed the app:
 
-```bash
-$ xattr -d com.apple.quarantine <path-to-app>
-```
+- Windows: `Unblock-File -Path <path-to-app>`
+- macOS: `xattr -d com.apple.quarantine <path-to-app>`
 
 ## 🛠️ Build
 
